@@ -1,0 +1,33 @@
+{
+  "name": "veteran-road",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --webpack",
+    "build": "next build",
+    "start": "next start",
+    "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
+    "generate:types": "payload generate:types"
+  },
+  "dependencies": {
+    "@payloadcms/db-sqlite": "^3.82.1",
+    "@payloadcms/next": "^3.82.1",
+    "@payloadcms/richtext-lexical": "^3.82.1",
+    "@payloadcms/ui": "^3.82.1",
+    "cross-env": "^10.1.0",
+    "graphql": "^16.13.2",
+    "next": "^15.4.11",
+    "payload": "^3.82.1",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "sass": "^1.77.4",
+    "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^6.0.2"
+  }
+}

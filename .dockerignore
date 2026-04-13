@@ -1,0 +1,7 @@
+node_modules
+.next
+.git
+*.db
+database.db
+.env
+.claude

@@ -12,6 +12,8 @@ import { News } from './collections/News'
 import { Partners } from './collections/Partners'
 import { JoinOptions } from './collections/JoinOptions'
 import { ContactSubmissions } from './collections/ContactSubmissions'
+import { VeteranProfiles } from './collections/VeteranProfiles'
+import { Consultations } from './collections/Consultations'
 import { SiteSettings } from './globals/SiteSettings'
 
 const filename = fileURLToPath(import.meta.url)
@@ -34,6 +36,8 @@ export default buildConfig({
     Partners,
     JoinOptions,
     ContactSubmissions,
+    VeteranProfiles,
+    Consultations,
   ],
   globals: [
     SiteSettings,

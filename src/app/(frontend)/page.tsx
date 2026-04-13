@@ -6,7 +6,9 @@ import SectionFade from '@/components/SectionFade'
 import HeroSection from '@/components/landing/HeroSection'
 import AboutSection from '@/components/landing/AboutSection'
 import ActivitiesSection from '@/components/landing/ActivitiesSection'
+import HowWeWorkSection from '@/components/landing/HowWeWorkSection'
 import NewsSection from '@/components/landing/NewsSection'
+import TestimonialsSection from '@/components/landing/TestimonialsSection'
 import PartnersSection from '@/components/landing/PartnersSection'
 import JoinSection from '@/components/landing/JoinSection'
 import ContactsSection from '@/components/landing/ContactsSection'
@@ -23,7 +25,13 @@ export default function HomePage() {
         <ActivitiesSection />
       </SectionFade>
       <SectionFade>
+        <HowWeWorkSection />
+      </SectionFade>
+      <SectionFade>
         <NewsSection />
+      </SectionFade>
+      <SectionFade>
+        <TestimonialsSection />
       </SectionFade>
       <SectionFade>
         <PartnersSection />

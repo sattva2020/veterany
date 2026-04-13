@@ -1,5 +1,6 @@
 import React from 'react'
 import ScrollReveal from '@/components/ScrollReveal'
+import { ArrowRightIcon } from '@/components/icons'
 
 export default function PartnersSection() {
   return (
@@ -13,7 +14,18 @@ export default function PartnersSection() {
           </p>
         </ScrollReveal>
 
-        <ScrollReveal delay={1}>
+        {/* CTA Banner */}
+        <ScrollReveal>
+          <div className="partners-cta">
+            <p>Ми щиро дякуємо усім за вагомий внесок<br />у підтримку ветеранів з перших днів</p>
+            <a href="#contacts" className="btn-primary" style={{ flexShrink: 0 }}>
+              Стати партнером
+              <ArrowRightIcon size={16} />
+            </a>
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal>
           <div className="partners-logos">
             <div className="partner-logo">Партнер 1</div>
             <div className="partner-logo">Партнер 2</div>

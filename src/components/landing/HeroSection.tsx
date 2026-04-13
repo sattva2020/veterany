@@ -71,6 +71,17 @@ export default function HeroSection() {
             </a>
           </div>
 
+          {/* Progress bar */}
+          <div className="hero-progress">
+            <div className="hero-progress-label">
+              <span>Допомогли ветеранам: <strong>500+</strong></span>
+              <span>Мета: <strong>1 000</strong></span>
+            </div>
+            <div className="hero-progress-bar">
+              <div className="hero-progress-fill" style={{ width: '50%' }} />
+            </div>
+          </div>
+
           {isMobile && (
             <div className="hero-social" style={{ display: 'flex', position: 'static', transform: 'none', flexDirection: 'row', marginTop: '40px' }}>
               {socialLinks(18)}

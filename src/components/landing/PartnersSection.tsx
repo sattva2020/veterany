@@ -1,6 +1,23 @@
 import React from 'react'
+import Image from 'next/image'
 import ScrollReveal from '@/components/ScrollReveal'
 import { ArrowRightIcon } from '@/components/icons'
+
+const partners = [
+  { name: 'Bosch', logo: '/media/partners/bosch.webp' },
+  { name: 'Acumen International', logo: '/media/partners/acumen-international.webp' },
+  { name: 'Укрсиббанк', logo: '/media/partners/ukrsibbank.webp' },
+  { name: 'ABInBev Efes', logo: '/media/partners/abinbev-efes.webp' },
+  { name: 'Work.ua', logo: '/media/partners/work-ua.webp' },
+  { name: 'Accemedin', logo: '/media/partners/accemedin.webp' },
+  { name: 'Dragomed', logo: '/media/partners/dragomed.webp' },
+  { name: 'Arterium', logo: '/media/partners/arterium.webp' },
+  { name: 'Omnifarma', logo: '/media/partners/omnifarma.webp' },
+  { name: 'Лекхім', logo: '/media/partners/lekhim.webp' },
+  { name: 'БіоМедІнвест', logo: '/media/partners/biomedinvest.webp' },
+  { name: 'Україно! Я за тебе!', logo: '/media/partners/ukraino-ya-za-tebe.webp' },
+  { name: 'Стрийська Єпархія УГКЦ', logo: '/media/partners/stryyska-eparkhia.webp' },
+]
 
 export default function PartnersSection() {
   return (
@@ -14,7 +31,6 @@ export default function PartnersSection() {
           </p>
         </ScrollReveal>
 
-        {/* CTA Banner */}
         <ScrollReveal>
           <div className="partners-cta">
             <p>Ми щиро дякуємо усім за вагомий внесок<br />у підтримку ветеранів з перших днів</p>
@@ -27,12 +43,17 @@ export default function PartnersSection() {
 
         <ScrollReveal>
           <div className="partners-logos">
-            <div className="partner-logo">Партнер 1</div>
-            <div className="partner-logo">Партнер 2</div>
-            <div className="partner-logo">Партнер 3</div>
-            <div className="partner-logo">Партнер 4</div>
-            <div className="partner-logo">Партнер 5</div>
-            <div className="partner-logo">Партнер 6</div>
+            {partners.map((partner) => (
+              <div key={partner.name} className="partner-logo">
+                <Image
+                  src={partner.logo}
+                  alt={partner.name}
+                  width={140}
+                  height={60}
+                  style={{ objectFit: 'contain', maxHeight: '50px', width: 'auto' }}
+                />
+              </div>
+            ))}
           </div>
         </ScrollReveal>
       </div>

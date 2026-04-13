@@ -11,18 +11,23 @@ interface ScrollRevealProps {
 
 export default function ScrollReveal({ children, className = '', delay, style }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null)
+  const [hydrated, setHydrated] = useState(false)
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     const el = ref.current
     if (!el) return
 
-    // If already in viewport, reveal immediately
     const rect = el.getBoundingClientRect()
-    if (rect.top < window.innerHeight + 100) {
+    const isBelowFold = rect.top > window.innerHeight * 0.9
+
+    if (!isBelowFold) {
       setVisible(true)
+      setHydrated(true)
       return
     }
+
+    setHydrated(true)
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -40,8 +45,13 @@ export default function ScrollReveal({ children, className = '', delay, style }:
 
   const delayClass = delay ? ` reveal-delay-${delay}` : ''
 
+  // SSR: no animation classes. After hydration: animate below-fold elements
+  const revealClass = !hydrated
+    ? className
+    : `reveal${delayClass}${visible ? ' visible' : ''} ${className}`
+
   return (
-    <div ref={ref} className={`reveal${delayClass}${visible ? ' visible' : ''} ${className}`} style={style}>
+    <div ref={ref} className={revealClass} style={style}>
       {children}
     </div>
   )

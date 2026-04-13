@@ -64,6 +64,15 @@ export default function Footer() {
             <a href="#">Реквізити</a>
           </div>
         </div>
+
+        <div style={{ textAlign: 'center', paddingBottom: '16px', marginTop: '-8px' }}>
+          <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.25)', letterSpacing: '0.5px' }}>
+            Розроблено{' '}
+            <a href="https://griban.dev" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.4)', transition: 'color 0.3s' }}>
+              griban.dev
+            </a>
+          </p>
+        </div>
       </div>
     </footer>
   )

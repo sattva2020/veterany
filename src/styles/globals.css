@@ -17,7 +17,7 @@
   --c-text-muted: #5a5a5a;
   --c-text-light: #8a8a8a;
   --c-border: #e0dbd3;
-  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-heading: 'Oswald', 'Arial Narrow', sans-serif;
   --font-body: 'Montserrat', 'Segoe UI', sans-serif;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
@@ -410,11 +410,12 @@ ul { list-style: none; }
 
 .hero h1 {
   font-family: var(--font-heading);
-  font-size: clamp(40px, 6vw, 72px);
+  font-size: clamp(44px, 7vw, 80px);
   font-weight: 700;
   color: var(--c-white);
-  line-height: 1.1;
+  line-height: 1.05;
   margin-bottom: 8px;
+  text-transform: uppercase;
   opacity: 0;
   transform: translateY(30px);
   animation: fadeUp 0.8s var(--ease-out) 0.5s forwards;
@@ -657,11 +658,12 @@ ul { list-style: none; }
 
 .section-title {
   font-family: var(--font-heading);
-  font-size: clamp(32px, 4vw, 48px);
+  font-size: clamp(32px, 4.5vw, 52px);
   font-weight: 700;
   color: var(--c-navy);
-  line-height: 1.15;
+  line-height: 1.1;
   margin-bottom: 16px;
+  text-transform: uppercase;
 }
 
 .section-desc {

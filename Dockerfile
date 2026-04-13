@@ -1,44 +1,29 @@
 FROM node:22-alpine AS base
 RUN apk add --no-cache libc6-compat
 
-# Install dependencies
-FROM base AS deps
 WORKDIR /app
+
+# Install dependencies
 COPY package.json package-lock.json ./
 RUN npm ci
 
-# Build
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+# Copy source
 COPY . .
-
 RUN mkdir -p public
 
+# Build
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PAYLOAD_SECRET=build-time-secret-placeholder
-ENV DATABASE_URI=file:./build.db
+ENV DATABASE_URI=file:/app/database.db
 RUN npm run build
 
 # Production
-FROM base AS runner
-WORKDIR /app
 ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
-
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-COPY --from=builder /app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-RUN mkdir -p public/media && chown -R nextjs:nodejs /app
-
-USER nextjs
-
-EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-CMD ["node", "server.js"]
+RUN mkdir -p public/media
+
+EXPOSE 3000
+
+CMD ["npm", "start"]

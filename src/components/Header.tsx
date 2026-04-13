@@ -68,6 +68,7 @@ export default function Header({ isLanding = false, cabinetLink }: HeaderProps) 
             {cabinetLink && (
               <Link href={cabinetLink} style={{ color: 'var(--c-gold)' }}>Кабінет</Link>
             )}
+            <Link href="/en" className="lang-switch">EN</Link>
             <button className="btn-header" onClick={() => setHelpOpen(true)}>
               Потребую допомоги
             </button>
@@ -92,6 +93,10 @@ export default function Header({ isLanding = false, cabinetLink }: HeaderProps) 
         {cabinetLink && (
           <Link href={cabinetLink} onClick={closeMobile} style={{ color: 'var(--c-gold)' }}>Кабінет</Link>
         )}
+        <Link href="/en" onClick={closeMobile} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+          <span className="lang-switch" style={{ position: 'static', padding: '4px 10px', fontSize: '12px' }}>EN</span>
+          English version
+        </Link>
         <div style={{ marginTop: '32px' }}>
           <button
             className="btn-primary"

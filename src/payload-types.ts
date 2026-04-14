@@ -64,6 +64,7 @@ export type SupportedTimezones =
 export interface Config {
   auth: {
     users: UserAuthOperations;
+    'veteran-profiles': VeteranProfileAuthOperations;
   };
   blocks: {};
   collections: {
@@ -74,6 +75,8 @@ export interface Config {
     partners: Partner;
     'join-options': JoinOption;
     'contact-submissions': ContactSubmission;
+    'veteran-profiles': VeteranProfile;
+    consultations: Consultation;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -88,6 +91,8 @@ export interface Config {
     partners: PartnersSelect<false> | PartnersSelect<true>;
     'join-options': JoinOptionsSelect<false> | JoinOptionsSelect<true>;
     'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
+    'veteran-profiles': VeteranProfilesSelect<false> | VeteranProfilesSelect<true>;
+    consultations: ConsultationsSelect<false> | ConsultationsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -107,13 +112,31 @@ export interface Config {
   widgets: {
     collections: CollectionsWidget;
   };
-  user: User;
+  user: User | VeteranProfile;
   jobs: {
     tasks: unknown;
     workflows: unknown;
   };
 }
 export interface UserAuthOperations {
+  forgotPassword: {
+    email: string;
+    password: string;
+  };
+  login: {
+    email: string;
+    password: string;
+  };
+  registerFirstUser: {
+    email: string;
+    password: string;
+  };
+  unlock: {
+    email: string;
+    password: string;
+  };
+}
+export interface VeteranProfileAuthOperations {
   forgotPassword: {
     email: string;
     password: string;
@@ -356,6 +379,58 @@ export interface ContactSubmission {
   createdAt: string;
 }
 /**
+ * Акаунти ветеранів для особистого кабінету
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "veteran-profiles".
+ */
+export interface VeteranProfile {
+  id: number;
+  name: string;
+  phone?: string | null;
+  status?: ('combat' | 'service' | 'family' | 'other') | null;
+  needs?: ('psychological' | 'rehabilitation' | 'legal' | 'employment' | 'housing' | 'family' | 'education')[] | null;
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
+  password?: string | null;
+  collection: 'veteran-profiles';
+}
+/**
+ * Онлайн-записи на консультацію
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "consultations".
+ */
+export interface Consultation {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  type: 'psychological' | 'legal' | 'rehabilitation' | 'employment' | 'social' | 'other';
+  date: string;
+  time: string;
+  message?: string | null;
+  status?: ('pending' | 'confirmed' | 'cancelled' | 'completed') | null;
+  veteran?: (number | null) | VeteranProfile;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -406,12 +481,25 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'contact-submissions';
         value: number | ContactSubmission;
+      } | null)
+    | ({
+        relationTo: 'veteran-profiles';
+        value: number | VeteranProfile;
+      } | null)
+    | ({
+        relationTo: 'consultations';
+        value: number | Consultation;
       } | null);
   globalSlug?: string | null;
-  user: {
-    relationTo: 'users';
-    value: number | User;
-  };
+  user:
+    | {
+        relationTo: 'users';
+        value: number | User;
+      }
+    | {
+        relationTo: 'veteran-profiles';
+        value: number | VeteranProfile;
+      };
   updatedAt: string;
   createdAt: string;
 }
@@ -421,10 +509,15 @@ export interface PayloadLockedDocument {
  */
 export interface PayloadPreference {
   id: number;
-  user: {
-    relationTo: 'users';
-    value: number | User;
-  };
+  user:
+    | {
+        relationTo: 'users';
+        value: number | User;
+      }
+    | {
+        relationTo: 'veteran-profiles';
+        value: number | VeteranProfile;
+      };
   key?: string | null;
   value?:
     | {
@@ -599,6 +692,50 @@ export interface ContactSubmissionsSelect<T extends boolean = true> {
   message?: T;
   isRead?: T;
   notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "veteran-profiles_select".
+ */
+export interface VeteranProfilesSelect<T extends boolean = true> {
+  name?: T;
+  phone?: T;
+  status?: T;
+  needs?: T;
+  notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "consultations_select".
+ */
+export interface ConsultationsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  phone?: T;
+  type?: T;
+  date?: T;
+  time?: T;
+  message?: T;
+  status?: T;
+  veteran?: T;
   updatedAt?: T;
   createdAt?: T;
 }

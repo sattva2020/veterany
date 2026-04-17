@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="uk"><head><meta charset="utf-8"><title>Veteran.Road — Website Kit</title>
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font-body);color:var(--c-text);background:var(--c-cream);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* Header */
+.header{position:sticky;top:0;z-index:100;background:rgba(10,22,40,0.97);padding:14px 0;backdrop-filter:blur(12px);box-shadow:0 2px 40px rgba(0,0,0,.3)}
+.header .container{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.logo{display:flex;align-items:center;gap:14px}
+.logo-icon{width:44px;height:44px;background:var(--c-red);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-weight:800;color:#fff;font-size:18px}
+.logo-text{font-family:var(--font-heading);font-size:15px;font-weight:700;color:#fff;line-height:1.2}
+.logo-text span{display:block;font-family:var(--font-body);font-size:10px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:var(--c-gold);margin-top:2px}
+.nav{display:flex;align-items:center;gap:22px}
+.nav a{font-size:13px;font-weight:500;color:rgba(255,255,255,.8);letter-spacing:.3px;position:relative;padding:4px 0;cursor:pointer}
+.nav a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:var(--c-red);transition:width .3s var(--ease-out)}
+.nav a:hover{color:#fff}
+.nav a:hover::after{width:100%}
+.lang-switch{padding:5px 12px;border:1px solid rgba(255,255,255,.25);border-radius:4px;font-size:12px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.7)!important;cursor:pointer}
+.lang-switch:hover{border-color:var(--c-gold);color:var(--c-gold)!important;background:rgba(212,168,67,.08)}
+.lang-switch::after{display:none!important}
+.btn-header{background:var(--c-red);color:#fff;padding:10px 20px;border-radius:6px;font-size:13px;font-weight:600;border:none;cursor:pointer;transition:all .3s ease}
+.btn-header:hover{background:var(--c-red-hover);transform:translateY(-1px);box-shadow:0 4px 20px rgba(200,16,46,.4)}
+
+/* Hero */
+.hero{position:relative;min-height:640px;display:flex;align-items:center;background:var(--c-navy);overflow:hidden;padding:80px 0}
+.hero-pattern{position:absolute;inset:0;opacity:.04;background-image:repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(255,255,255,.5) 60px,rgba(255,255,255,.5) 61px),repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(255,255,255,.5) 60px,rgba(255,255,255,.5) 61px)}
+.hero-deco{position:absolute;top:-200px;right:-100px;width:600px;height:600px;border:1px solid rgba(212,168,67,.12);transform:rotate(45deg);border-radius:40px}
+.hero-deco::after{content:'';position:absolute;inset:40px;border:1px solid rgba(212,168,67,.08);border-radius:30px}
+.hero-glow{position:absolute;bottom:-30%;left:-10%;width:50%;height:80%;background:radial-gradient(ellipse,rgba(200,16,46,.08) 0%,transparent 70%);pointer-events:none}
+.hero .container{position:relative;z-index:2}
+.hero-content{max-width:700px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(200,16,46,.15);border:1px solid rgba(200,16,46,.3);padding:8px 20px;border-radius:100px;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--c-gold-light);margin-bottom:28px}
+.hero-badge::before{content:'';width:8px;height:8px;background:var(--c-red);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.hero h1{font-family:var(--font-heading);font-size:clamp(44px,6vw,72px);font-weight:700;color:#fff;line-height:1.05;margin-bottom:8px;text-transform:uppercase}
+.hero h1 em{font-style:italic;color:var(--c-gold)}
+.hero-subtitle{font-family:var(--font-heading);font-size:22px;font-weight:400;color:var(--c-gold);letter-spacing:1px;margin-bottom:20px}
+.hero-desc{font-size:16px;color:rgba(255,255,255,.65);line-height:1.8;max-width:520px;margin-bottom:36px}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap}
+.btn-primary{display:inline-flex;align-items:center;gap:10px;background:var(--c-red);color:#fff;padding:16px 32px;border-radius:8px;font-size:15px;font-weight:600;border:none;cursor:pointer;transition:all .3s ease}
+.btn-primary:hover{background:var(--c-red-hover);transform:translateY(-2px);box-shadow:0 8px 32px rgba(200,16,46,.4)}
+.btn-secondary{display:inline-flex;align-items:center;gap:10px;color:rgba(255,255,255,.7);font-size:14px;font-weight:500;padding:16px 24px;border:1px solid rgba(255,255,255,.2);border-radius:8px;cursor:pointer;background:transparent}
+.btn-secondary:hover{color:#fff;border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.05)}
+.hero-progress{margin-top:40px;max-width:500px}
+.hero-progress-label{display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;color:rgba(255,255,255,.5)}
+.hero-progress-label strong{color:var(--c-gold);font-weight:700}
+.hero-progress-bar{width:100%;height:7px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden}
+.hero-progress-fill{height:100%;width:50%;background:linear-gradient(90deg,var(--c-red),var(--c-gold));border-radius:4px}
+
+/* Sections */
+.section{padding:96px 0;position:relative}
+.section-label{display:inline-flex;align-items:center;gap:12px;font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--c-red);margin-bottom:14px}
+.section-label::before{content:'';width:40px;height:2px;background:var(--c-red)}
+.section-title{font-family:var(--font-heading);font-size:clamp(30px,4vw,46px);font-weight:700;color:var(--c-navy);line-height:1.1;margin-bottom:16px;text-transform:uppercase}
+.section-desc{font-size:16px;color:var(--c-text-muted);max-width:560px;line-height:1.7}
+
+/* About */
+.about{background:#fff}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-top:40px}
+.about-image{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:4/3;background:linear-gradient(135deg,var(--c-navy) 0%,var(--c-blue) 100%);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.2);font-size:14px;letter-spacing:2px;text-transform:uppercase}
+.about-image-wrap{position:relative}
+.about-image-wrap::after{content:'';position:absolute;bottom:-12px;right:-12px;width:55%;height:55%;border:2px solid var(--c-gold);border-radius:16px;z-index:-1}
+.about-text p{font-size:15px;color:var(--c-text-muted);line-height:1.8;margin-bottom:20px}
+.about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:32px;padding-top:32px;border-top:1px solid var(--c-border)}
+.stat-card{background:var(--c-cream);border:1px solid var(--c-border);border-radius:12px;padding:18px 14px;text-align:center;transition:all .3s ease}
+.stat-card:hover{border-color:rgba(200,16,46,.25);transform:translateY(-2px);box-shadow:0 4px 16px rgba(10,22,40,.06)}
+.stat-number{font-family:var(--font-heading);font-size:30px;font-weight:700;color:var(--c-red);line-height:1;margin-bottom:6px;font-variant-numeric:tabular-nums}
+.stat-number-gold{color:var(--c-gold)}
+.stat-label{font-size:11px;color:var(--c-text-light);letter-spacing:.5px;line-height:1.4}
+
+/* Activities */
+.activities{background:var(--c-cream)}
+.activities-header{text-align:center;margin-bottom:56px}
+.activities-header .section-desc{margin:0 auto}
+.activities-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.activity-card{background:#fff;border-radius:16px;padding:34px 28px;position:relative;overflow:hidden;border:1px solid var(--c-border);transition:all .4s var(--ease-out);cursor:default}
+.activity-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px;background:var(--c-red);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease-out)}
+.activity-card:hover{transform:translateY(-6px);box-shadow:0 20px 56px rgba(10,22,40,.12);border-color:transparent}
+.activity-card:hover::before{transform:scaleX(1)}
+.activity-icon{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px;background:rgba(200,16,46,.1);color:var(--c-red);transition:all .3s ease}
+.activity-card:hover .activity-icon{background:var(--c-red);color:#fff;transform:scale(1.08)}
+.activity-card h3{font-family:var(--font-heading);font-size:20px;font-weight:700;color:var(--c-navy);margin-bottom:10px}
+.activity-card p{font-size:14px;color:var(--c-text-muted);line-height:1.7}
+.activity-card .card-number{position:absolute;top:18px;right:22px;font-family:var(--font-heading);font-size:42px;font-weight:800;color:var(--c-cream-dark);line-height:1}
+
+/* Steps */
+.how-we-work{background:#fff}
+.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;position:relative;margin-top:48px}
+.steps-grid::before{content:'';position:absolute;top:36px;left:12.5%;right:12.5%;height:2px;background:linear-gradient(90deg,var(--c-red),var(--c-gold));z-index:0}
+.step-card{text-align:center;position:relative;z-index:1}
+.step-number{width:72px;height:72px;border-radius:50%;background:#fff;border:3px solid var(--c-red);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-family:var(--font-heading);font-size:24px;font-weight:700;color:var(--c-red);transition:all .3s ease}
+.step-card:hover .step-number{background:var(--c-red);color:#fff;transform:scale(1.08)}
+.step-card h3{font-family:var(--font-heading);font-size:17px;font-weight:700;color:var(--c-navy);margin-bottom:8px}
+.step-card p{font-size:13px;color:var(--c-text-muted);line-height:1.6;max-width:220px;margin:0 auto}
+
+/* Join */
+.join{background:var(--c-navy);position:relative;overflow:hidden}
+.join::before{content:'';position:absolute;top:-200px;right:-200px;width:500px;height:500px;border:1px solid rgba(212,168,67,.06);border-radius:50%}
+.join .section-label{color:var(--c-gold)}
+.join .section-label::before{background:var(--c-gold)}
+.join .section-title{color:#fff}
+.join .section-desc{color:rgba(255,255,255,.6)}
+.join-header{text-align:center;margin-bottom:48px}
+.join-header .section-desc{margin:0 auto}
+.join-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;position:relative;z-index:1}
+.join-card{background:rgba(255,255,255,.06);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:30px 24px;text-align:center;transition:all .4s var(--ease-out)}
+.join-card:hover{background:rgba(255,255,255,.12);border-color:rgba(212,168,67,.35);transform:translateY(-6px)}
+.join-card-icon{width:58px;height:58px;margin:0 auto 20px;border-radius:50%;background:rgba(200,16,46,.12);display:flex;align-items:center;justify-content:center;font-size:24px}
+.join-card h3{font-family:var(--font-heading);font-size:18px;font-weight:700;color:#fff;margin-bottom:10px}
+.join-card p{font-size:13px;color:rgba(255,255,255,.5);line-height:1.6}
+.join-cta{text-align:center;margin-top:48px}
+.btn-gold{display:inline-flex;align-items:center;gap:10px;background:var(--c-gold);color:var(--c-navy);padding:16px 40px;border-radius:8px;font-size:15px;font-weight:700;border:none;cursor:pointer;transition:all .3s ease}
+.btn-gold:hover{background:var(--c-gold-light);transform:translateY(-2px);box-shadow:0 8px 32px rgba(212,168,67,.3)}
+
+/* Footer */
+.footer{background:var(--c-navy);padding:56px 0 0;position:relative}
+.footer::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--c-red),var(--c-gold),var(--c-red))}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.08)}
+.footer-brand .logo{margin-bottom:16px}
+.footer-brand p{font-size:13px;color:rgba(255,255,255,.5);line-height:1.7;max-width:280px;margin-bottom:18px}
+.footer-social{display:flex;gap:10px}
+.footer-social a{width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.5);cursor:pointer}
+.footer-social a:hover{border-color:var(--c-gold);color:var(--c-gold);background:rgba(212,168,67,.08)}
+.footer-col h4{font-size:13px;font-weight:700;color:#fff;letter-spacing:1px;text-transform:uppercase;margin-bottom:20px}
+.footer-col ul li{margin-bottom:10px}
+.footer-col ul a{font-size:13px;color:rgba(255,255,255,.5);cursor:pointer}
+.footer-col ul a:hover{color:var(--c-gold)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding:20px 0}
+.footer-bottom p,.footer-bottom a{font-size:12px;color:rgba(255,255,255,.35)}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,22,40,.7);backdrop-filter:blur(6px);z-index:2000;display:none;align-items:center;justify-content:center;padding:24px}
+.modal-overlay.show{display:flex;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:#fff;border-radius:20px;width:100%;max-width:440px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.25)}
+.modal-accent{height:4px;background:linear-gradient(90deg,var(--c-red),var(--c-gold),var(--c-red))}
+.modal-header{text-align:center;padding:28px 36px 0}
+.modal-icon{width:52px;height:52px;border-radius:50%;background:rgba(200,16,46,.08);color:var(--c-red);display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.modal-header h3{font-family:var(--font-heading);font-size:22px;font-weight:700;color:var(--c-navy);margin-bottom:8px}
+.modal-header p{font-size:13px;color:var(--c-text-muted);line-height:1.6}
+.modal-form{padding:20px 36px}
+.form-group{margin-bottom:14px}
+.form-group label{font-size:12px;font-weight:600;color:var(--c-navy);margin-bottom:6px;display:block;letter-spacing:.3px}
+.form-group input,.form-group textarea{font-family:var(--font-body);font-size:14px;padding:11px 14px;border:1px solid var(--c-border);border-radius:10px;background:var(--c-cream);color:var(--c-text);outline:none;width:100%;resize:vertical}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--c-blue);box-shadow:0 0 0 3px rgba(30,58,95,.08);background:#fff}
+.modal-footer{text-align:center;padding:20px 36px 24px;border-top:1px solid var(--c-border);margin:0 36px;padding-top:18px}
+.modal-footer p{font-size:12px;color:var(--c-text-light);margin-bottom:6px}
+.modal-phone{font-size:15px;font-weight:600;color:var(--c-red)}
+</style></head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <a class="logo">
+      <div class="logo-icon">В</div>
+      <div class="logo-text">Ветеран<span>Дорога до нового життя</span></div>
+    </a>
+    <nav class="nav">
+      <a onclick="document.getElementById('about').scrollIntoView({behavior:'smooth',block:'start'})">Про нас</a>
+      <a onclick="document.getElementById('activities').scrollIntoView({behavior:'smooth',block:'start'})">Напрями</a>
+      <a onclick="document.getElementById('how').scrollIntoView({behavior:'smooth',block:'start'})">Як ми працюємо</a>
+      <a onclick="document.getElementById('join').scrollIntoView({behavior:'smooth',block:'start'})">Долучитися</a>
+      <a class="lang-switch">EN</a>
+      <button class="btn-header" onclick="openHelp()">Потребую допомоги</button>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-deco"></div>
+  <div class="hero-glow"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">Громадська організація</div>
+      <h1>Ветеран.<br><em>Дорога до нового життя</em></h1>
+      <p class="hero-subtitle">Підтримка. Відновлення. Нові можливості.</p>
+      <p class="hero-desc">Ми допомагаємо ветеранам та їхнім родинам відновити повноцінне життя через комплексну підтримку — від психологічної допомоги до працевлаштування.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="openHelp()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Потребую допомоги
+        </button>
+        <button class="btn-secondary" onclick="document.getElementById('activities').scrollIntoView({behavior:'smooth',block:'start'})">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          Напрями діяльності
+        </button>
+      </div>
+      <div class="hero-progress">
+        <div class="hero-progress-label"><span>Допомогли ветеранам: <strong>500+</strong></span><span>Мета: <strong>1 000</strong></span></div>
+        <div class="hero-progress-bar"><div class="hero-progress-fill"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="section about">
+  <div class="container">
+    <div class="section-label">Про організацію</div>
+    <div class="section-title">Ми поруч, коли це найбільш потрібно</div>
+    <div class="about-grid">
+      <div class="about-image-wrap">
+        <div class="about-image">Фото команди</div>
+      </div>
+      <div class="about-text">
+        <p>ГО «Ветеран. Дорога до нового життя» — громадська організація для комплексної підтримки ветеранів та їхніх родин у процесі повернення до мирного життя.</p>
+        <p>Наша місія — забезпечити кожному ветерану доступ до якісної психологічної, юридичної, медичної та соціальної допомоги. Повернення — це не кінець служби, а початок нового шляху.</p>
+        <div class="about-stats">
+          <div class="stat-card"><div class="stat-number">500+</div><div class="stat-label">Ветеранів отримали допомогу</div></div>
+          <div class="stat-card"><div class="stat-number">50+</div><div class="stat-label">Партнерів та волонтерів</div></div>
+          <div class="stat-card"><div class="stat-number stat-number-gold">24/7</div><div class="stat-label">Лінія підтримки</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="activities" class="section activities">
+  <div class="container">
+    <div class="activities-header">
+      <div class="section-label">Напрями діяльності</div>
+      <div class="section-title">Комплексна підтримка на кожному етапі</div>
+      <p class="section-desc">Сім ключових напрямів, які охоплюють усі потреби ветеранів — від першого звернення до повної інтеграції.</p>
+    </div>
+    <div class="activities-grid" id="acts"></div>
+  </div>
+</section>
+
+<section id="how" class="section how-we-work">
+  <div class="container">
+    <div class="activities-header">
+      <div class="section-label">Як ми працюємо</div>
+      <div class="section-title">Схема роботи</div>
+      <p class="section-desc">Від першого звернення до результату — простий та зрозумілий процес.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card"><div class="step-number">1</div><h3>Звернення</h3><p>Зателефонуйте, напишіть або заповніть форму.</p></div>
+      <div class="step-card"><div class="step-number">2</div><h3>Консультація</h3><p>Спеціаліст визначить ваші потреби.</p></div>
+      <div class="step-card"><div class="step-number">3</div><h3>План допомоги</h3><p>Складаємо індивідуальний план підтримки.</p></div>
+      <div class="step-card"><div class="step-number">4</div><h3>Супровід</h3><p>Комплексний супровід на кожному етапі.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="join" class="section join">
+  <div class="container">
+    <div class="join-header">
+      <div class="section-label">Долучитися</div>
+      <div class="section-title">Станьте частиною змін</div>
+      <p class="section-desc">Кожен може допомогти. Оберіть зручний для вас спосіб підтримки.</p>
+    </div>
+    <div class="join-grid">
+      <div class="join-card"><div class="join-card-icon">🤝</div><h3>Волонтерство</h3><p>Долучайтеся до команди волонтерів.</p></div>
+      <div class="join-card"><div class="join-card-icon">🏢</div><h3>Партнерство</h3><p>Масштабування допомоги разом.</p></div>
+      <div class="join-card"><div class="join-card-icon">💡</div><h3>Для бізнесу</h3><p>Корпоративна відповідальність.</p></div>
+      <div class="join-card"><div class="join-card-icon">⭐</div><h3>Членство в ГО</h3><p>Впливайте на розвиток спільноти.</p></div>
+    </div>
+    <div class="join-cta">
+      <button class="btn-gold" onclick="openHelp()">Приєднатися <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="logo"><div class="logo-icon">В</div><div class="logo-text">Ветеран<span>Дорога до нового життя</span></div></a>
+        <p>Комплексна підтримка ветеранів та їхніх родин на шляху до повноцінного мирного життя.</p>
+        <div class="footer-social">
+          <a><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+          <a><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+          <a><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Меню</h4><ul><li><a>Про нас</a></li><li><a>Напрями</a></li><li><a>Новини</a></li><li><a>Партнери</a></li></ul></div>
+      <div class="footer-col"><h4>Програми</h4><ul><li><a>Психологічна</a></li><li><a>Реабілітація</a></li><li><a>Юридична</a></li><li><a>Працевлаштування</a></li></ul></div>
+      <div class="footer-col"><h4>Контакти</h4><ul><li><a>+38 (044) 123-45-67</a></li><li><a>info@veteran-road.org.ua</a></li><li><a>м. Київ, Хрещатик, 1</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 ГО «Ветеран. Дорога до нового життя». Всі права захищені.</p>
+      <a>Політика конфіденційності</a>
+    </div>
+  </div>
+</footer>
+
+<div id="helpModal" class="modal-overlay" onclick="if(event.target===this)closeHelp()">
+  <div class="modal">
+    <div class="modal-accent"></div>
+    <div class="modal-header">
+      <div class="modal-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+      <h3>Потребуєте допомоги?</h3>
+      <p>Залиште контактні дані, і ми зв'яжемося з вами найближчим часом.</p>
+    </div>
+    <div class="modal-form">
+      <div class="form-group"><label>Ваше ім'я</label><input id="hn" placeholder="Олексій"></div>
+      <div class="form-group"><label>Номер телефону</label><input id="hp" placeholder="+380 ..."></div>
+      <div class="form-group"><label>Опишіть вашу ситуацію</label><textarea id="hm" rows="3"></textarea></div>
+      <button class="btn-primary" style="width:100%;justify-content:center" onclick="submitHelp()">Надіслати</button>
+    </div>
+    <div class="modal-footer">
+      <p>або зателефонуйте</p>
+      <a class="modal-phone">+38 (044) 123-45-67</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const activities = [
+  {n:'01',i:'🧠',t:'Психологічна підтримка',d:'Індивідуальні та групові сесії з кваліфікованими психологами.'},
+  {n:'02',i:'💪',t:'Реабілітація',d:'Фізична реабілітація, протезування, відновлювальна терапія.'},
+  {n:'03',i:'⚖️',t:'Юридична допомога',d:'Безкоштовні консультації щодо пільг та соціального захисту.'},
+  {n:'04',i:'💼',t:'Працевлаштування',d:'Допомога з резюме, підготовка до співбесід, база вакансій.'},
+  {n:'05',i:'🏠',t:'Доступне житло',d:'Консультації з житлових програм та допомога в оформленні.'},
+  {n:'06',i:'👨‍👩‍👧‍👦',t:'Робота з родинами',d:'Підтримка для сімей ветеранів: консультації та групи підтримки.'},
+  {n:'07',i:'📚',t:'Навчання та розвиток',d:'Освітні програми, тренінги та майстер-класи.'},
+];
+document.getElementById('acts').innerHTML = activities.map(a =>
+  `<div class="activity-card"><div class="card-number">${a.n}</div><div class="activity-icon">${a.i}</div><h3>${a.t}</h3><p>${a.d}</p></div>`
+).join('');
+function openHelp(){document.getElementById('helpModal').classList.add('show')}
+function closeHelp(){document.getElementById('helpModal').classList.remove('show')}
+function submitHelp(){
+  const n=document.getElementById('hn').value||'[anon]';
+  alert('Дякуємо, '+n+'! Ми зв\'яжемося з вами найближчим часом.');
+  closeHelp();
+}
+</script>
+</body></html>

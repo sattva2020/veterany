@@ -32,7 +32,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`CREATE UNIQUE INDEX \`users_email_idx\` ON \`users\` (\`email\`);`)
   await db.run(sql`CREATE TABLE \`media\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`alt\` text NOT NULL,
   	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	\`url\` text,
@@ -70,13 +69,19 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`CREATE INDEX \`media_sizes_thumbnail_sizes_thumbnail_filename_idx\` ON \`media\` (\`sizes_thumbnail_filename\`);`)
   await db.run(sql`CREATE INDEX \`media_sizes_card_sizes_card_filename_idx\` ON \`media\` (\`sizes_card_filename\`);`)
   await db.run(sql`CREATE INDEX \`media_sizes_hero_sizes_hero_filename_idx\` ON \`media\` (\`sizes_hero_filename\`);`)
+  await db.run(sql`CREATE TABLE \`media_locales\` (
+  	\`alt\` text NOT NULL,
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`_locale\` text NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE UNIQUE INDEX \`media_locales_locale_parent_id_unique\` ON \`media_locales\` (\`_locale\`,\`_parent_id\`);`)
   await db.run(sql`CREATE TABLE \`activities\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`title\` text NOT NULL,
   	\`slug\` text,
   	\`icon\` text NOT NULL,
-  	\`short_description\` text NOT NULL,
-  	\`full_description\` text,
   	\`image_id\` integer,
   	\`is_featured\` integer DEFAULT false,
   	\`order\` numeric DEFAULT 0 NOT NULL,
@@ -90,13 +95,21 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`CREATE INDEX \`activities_image_idx\` ON \`activities\` (\`image_id\`);`)
   await db.run(sql`CREATE INDEX \`activities_updated_at_idx\` ON \`activities\` (\`updated_at\`);`)
   await db.run(sql`CREATE INDEX \`activities_created_at_idx\` ON \`activities\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE \`activities_locales\` (
+  	\`title\` text NOT NULL,
+  	\`short_description\` text NOT NULL,
+  	\`full_description\` text,
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`_locale\` text NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`activities\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE UNIQUE INDEX \`activities_locales_locale_parent_id_unique\` ON \`activities_locales\` (\`_locale\`,\`_parent_id\`);`)
   await db.run(sql`CREATE TABLE \`news\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`title\` text NOT NULL,
   	\`slug\` text,
   	\`tag\` text NOT NULL,
-  	\`excerpt\` text NOT NULL,
-  	\`content\` text NOT NULL,
   	\`featured_image_id\` integer,
   	\`publish_date\` text NOT NULL,
   	\`status\` text DEFAULT 'draft',
@@ -109,13 +122,22 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`CREATE INDEX \`news_featured_image_idx\` ON \`news\` (\`featured_image_id\`);`)
   await db.run(sql`CREATE INDEX \`news_updated_at_idx\` ON \`news\` (\`updated_at\`);`)
   await db.run(sql`CREATE INDEX \`news_created_at_idx\` ON \`news\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE \`news_locales\` (
+  	\`title\` text NOT NULL,
+  	\`excerpt\` text NOT NULL,
+  	\`content\` text NOT NULL,
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`_locale\` text NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`news\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE UNIQUE INDEX \`news_locales_locale_parent_id_unique\` ON \`news_locales\` (\`_locale\`,\`_parent_id\`);`)
   await db.run(sql`CREATE TABLE \`partners\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`name\` text NOT NULL,
   	\`logo_id\` integer NOT NULL,
   	\`type\` text,
   	\`website\` text,
-  	\`description\` text,
   	\`order\` numeric DEFAULT 0,
   	\`is_active\` integer DEFAULT true,
   	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
@@ -126,12 +148,19 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`CREATE INDEX \`partners_logo_idx\` ON \`partners\` (\`logo_id\`);`)
   await db.run(sql`CREATE INDEX \`partners_updated_at_idx\` ON \`partners\` (\`updated_at\`);`)
   await db.run(sql`CREATE INDEX \`partners_created_at_idx\` ON \`partners\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE \`partners_locales\` (
+  	\`name\` text NOT NULL,
+  	\`description\` text,
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`_locale\` text NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`partners\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE UNIQUE INDEX \`partners_locales_locale_parent_id_unique\` ON \`partners_locales\` (\`_locale\`,\`_parent_id\`);`)
   await db.run(sql`CREATE TABLE \`join_options\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`title\` text NOT NULL,
   	\`icon\` text NOT NULL,
-  	\`description\` text NOT NULL,
-  	\`full_content\` text,
   	\`order\` numeric DEFAULT 0,
   	\`is_active\` integer DEFAULT true,
   	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
@@ -140,6 +169,17 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   `)
   await db.run(sql`CREATE INDEX \`join_options_updated_at_idx\` ON \`join_options\` (\`updated_at\`);`)
   await db.run(sql`CREATE INDEX \`join_options_created_at_idx\` ON \`join_options\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE \`join_options_locales\` (
+  	\`title\` text NOT NULL,
+  	\`description\` text NOT NULL,
+  	\`full_content\` text,
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`_locale\` text NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`join_options\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE UNIQUE INDEX \`join_options_locales_locale_parent_id_unique\` ON \`join_options_locales\` (\`_locale\`,\`_parent_id\`);`)
   await db.run(sql`CREATE TABLE \`contact_submissions\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`name\` text NOT NULL,
@@ -155,6 +195,66 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   `)
   await db.run(sql`CREATE INDEX \`contact_submissions_updated_at_idx\` ON \`contact_submissions\` (\`updated_at\`);`)
   await db.run(sql`CREATE INDEX \`contact_submissions_created_at_idx\` ON \`contact_submissions\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE \`veteran_profiles_needs\` (
+  	\`order\` integer NOT NULL,
+  	\`parent_id\` integer NOT NULL,
+  	\`value\` text,
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	FOREIGN KEY (\`parent_id\`) REFERENCES \`veteran_profiles\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`veteran_profiles_needs_order_idx\` ON \`veteran_profiles_needs\` (\`order\`);`)
+  await db.run(sql`CREATE INDEX \`veteran_profiles_needs_parent_idx\` ON \`veteran_profiles_needs\` (\`parent_id\`);`)
+  await db.run(sql`CREATE TABLE \`veteran_profiles_sessions\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`created_at\` text,
+  	\`expires_at\` text NOT NULL,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`veteran_profiles\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`veteran_profiles_sessions_order_idx\` ON \`veteran_profiles_sessions\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX \`veteran_profiles_sessions_parent_id_idx\` ON \`veteran_profiles_sessions\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE \`veteran_profiles\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`name\` text NOT NULL,
+  	\`phone\` text,
+  	\`status\` text,
+  	\`notes\` text,
+  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`email\` text NOT NULL,
+  	\`reset_password_token\` text,
+  	\`reset_password_expiration\` text,
+  	\`salt\` text,
+  	\`hash\` text,
+  	\`login_attempts\` numeric DEFAULT 0,
+  	\`lock_until\` text
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`veteran_profiles_updated_at_idx\` ON \`veteran_profiles\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX \`veteran_profiles_created_at_idx\` ON \`veteran_profiles\` (\`created_at\`);`)
+  await db.run(sql`CREATE UNIQUE INDEX \`veteran_profiles_email_idx\` ON \`veteran_profiles\` (\`email\`);`)
+  await db.run(sql`CREATE TABLE \`consultations\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`name\` text NOT NULL,
+  	\`email\` text NOT NULL,
+  	\`phone\` text NOT NULL,
+  	\`type\` text NOT NULL,
+  	\`date\` text NOT NULL,
+  	\`time\` text NOT NULL,
+  	\`message\` text,
+  	\`status\` text DEFAULT 'pending',
+  	\`veteran_id\` integer,
+  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	FOREIGN KEY (\`veteran_id\`) REFERENCES \`veteran_profiles\`(\`id\`) ON UPDATE no action ON DELETE set null
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`consultations_veteran_idx\` ON \`consultations\` (\`veteran_id\`);`)
+  await db.run(sql`CREATE INDEX \`consultations_updated_at_idx\` ON \`consultations\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX \`consultations_created_at_idx\` ON \`consultations\` (\`created_at\`);`)
   await db.run(sql`CREATE TABLE \`payload_kv\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`key\` text NOT NULL,
@@ -184,6 +284,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`partners_id\` integer,
   	\`join_options_id\` integer,
   	\`contact_submissions_id\` integer,
+  	\`veteran_profiles_id\` integer,
+  	\`consultations_id\` integer,
   	FOREIGN KEY (\`parent_id\`) REFERENCES \`payload_locked_documents\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`users_id\`) REFERENCES \`users\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`media_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE cascade,
@@ -191,7 +293,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`news_id\`) REFERENCES \`news\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`partners_id\`) REFERENCES \`partners\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`join_options_id\`) REFERENCES \`join_options\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`contact_submissions_id\`) REFERENCES \`contact_submissions\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  	FOREIGN KEY (\`contact_submissions_id\`) REFERENCES \`contact_submissions\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`veteran_profiles_id\`) REFERENCES \`veteran_profiles\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`consultations_id\`) REFERENCES \`consultations\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_order_idx\` ON \`payload_locked_documents_rels\` (\`order\`);`)
@@ -204,6 +308,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_partners_id_idx\` ON \`payload_locked_documents_rels\` (\`partners_id\`);`)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_join_options_id_idx\` ON \`payload_locked_documents_rels\` (\`join_options_id\`);`)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_contact_submissions_id_idx\` ON \`payload_locked_documents_rels\` (\`contact_submissions_id\`);`)
+  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_veteran_profiles_id_idx\` ON \`payload_locked_documents_rels\` (\`veteran_profiles_id\`);`)
+  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_consultations_id_idx\` ON \`payload_locked_documents_rels\` (\`consultations_id\`);`)
   await db.run(sql`CREATE TABLE \`payload_preferences\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`key\` text,
@@ -221,14 +327,17 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`parent_id\` integer NOT NULL,
   	\`path\` text NOT NULL,
   	\`users_id\` integer,
+  	\`veteran_profiles_id\` integer,
   	FOREIGN KEY (\`parent_id\`) REFERENCES \`payload_preferences\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`users_id\`) REFERENCES \`users\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  	FOREIGN KEY (\`users_id\`) REFERENCES \`users\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`veteran_profiles_id\`) REFERENCES \`veteran_profiles\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
   await db.run(sql`CREATE INDEX \`payload_preferences_rels_order_idx\` ON \`payload_preferences_rels\` (\`order\`);`)
   await db.run(sql`CREATE INDEX \`payload_preferences_rels_parent_idx\` ON \`payload_preferences_rels\` (\`parent_id\`);`)
   await db.run(sql`CREATE INDEX \`payload_preferences_rels_path_idx\` ON \`payload_preferences_rels\` (\`path\`);`)
   await db.run(sql`CREATE INDEX \`payload_preferences_rels_users_id_idx\` ON \`payload_preferences_rels\` (\`users_id\`);`)
+  await db.run(sql`CREATE INDEX \`payload_preferences_rels_veteran_profiles_id_idx\` ON \`payload_preferences_rels\` (\`veteran_profiles_id\`);`)
   await db.run(sql`CREATE TABLE \`payload_migrations\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`name\` text,
@@ -265,57 +374,113 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
-  	\`number\` text NOT NULL,
-  	\`label\` text NOT NULL,
+  	\`number\` text,
+  	\`label\` text,
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`site_settings\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
   await db.run(sql`CREATE INDEX \`site_settings_stats_order_idx\` ON \`site_settings_stats\` (\`_order\`);`)
   await db.run(sql`CREATE INDEX \`site_settings_stats_parent_id_idx\` ON \`site_settings_stats\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE \`site_settings_steps\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`title\` text,
+  	\`description\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`site_settings\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`site_settings_steps_order_idx\` ON \`site_settings_steps\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX \`site_settings_steps_parent_id_idx\` ON \`site_settings_steps\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE \`site_settings_testimonials\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`text\` text,
+  	\`name\` text,
+  	\`role\` text,
+  	\`initials\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`site_settings\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`site_settings_testimonials_order_idx\` ON \`site_settings_testimonials\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX \`site_settings_testimonials_parent_id_idx\` ON \`site_settings_testimonials\` (\`_parent_id\`);`)
   await db.run(sql`CREATE TABLE \`site_settings\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`organization_name\` text DEFAULT 'ГО «Ветеран. Дорога до нового життя»' NOT NULL,
   	\`logo_id\` integer,
-  	\`tagline\` text DEFAULT 'Підтримка. Відновлення. Нові можливості.',
-  	\`description\` text,
-  	\`hero_title\` text DEFAULT 'Ветеран. Дорога до нового життя',
-  	\`hero_subtitle\` text DEFAULT 'Підтримка. Відновлення. Нові можливості.',
-  	\`hero_description\` text,
   	\`hero_background_id\` integer,
-  	\`cta_button_text\` text DEFAULT 'Потребую допомоги',
   	\`cta_button_link\` text DEFAULT '#contacts',
-  	\`address\` text DEFAULT 'м. Київ, вул. Хрещатик, 1
-  Офіс 301',
+  	\`progress_current\` numeric DEFAULT 500,
+  	\`progress_goal\` numeric DEFAULT 1000,
+  	\`progress_label_done\` text DEFAULT 'Допомогли ветеранам',
+  	\`progress_label_goal\` text DEFAULT 'Мета',
   	\`email\` text DEFAULT 'info@veteran-road.org.ua',
-  	\`working_hours\` text DEFAULT 'Пн — Пт: 9:00 — 18:00
-  Сб: 10:00 — 14:00',
   	\`google_maps_embed\` text,
-  	\`about_text\` text,
   	\`about_image_id\` integer,
-  	\`legal_name\` text,
   	\`edrpou\` text,
-  	\`bank_details\` text,
+  	\`og_image_id\` integer,
+  	\`canonical_url\` text,
+  	\`google_verification\` text,
   	\`updated_at\` text,
   	\`created_at\` text,
   	FOREIGN KEY (\`logo_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null,
   	FOREIGN KEY (\`hero_background_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null,
-  	FOREIGN KEY (\`about_image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null
+  	FOREIGN KEY (\`about_image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null,
+  	FOREIGN KEY (\`og_image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
   await db.run(sql`CREATE INDEX \`site_settings_logo_idx\` ON \`site_settings\` (\`logo_id\`);`)
   await db.run(sql`CREATE INDEX \`site_settings_hero_background_idx\` ON \`site_settings\` (\`hero_background_id\`);`)
   await db.run(sql`CREATE INDEX \`site_settings_about_image_idx\` ON \`site_settings\` (\`about_image_id\`);`)
+  await db.run(sql`CREATE INDEX \`site_settings_og_image_idx\` ON \`site_settings\` (\`og_image_id\`);`)
+  await db.run(sql`CREATE TABLE \`site_settings_locales\` (
+  	\`organization_name\` text DEFAULT 'ГО «Ветеран. Дорога до нового життя»' NOT NULL,
+  	\`tagline\` text DEFAULT 'Підтримка. Відновлення. Нові можливості.',
+  	\`description\` text,
+  	\`hero_title\` text DEFAULT 'Ветеран. Дорога до нового життя',
+  	\`hero_subtitle\` text DEFAULT 'Підтримка. Відновлення. Нові можливості.',
+  	\`hero_description\` text,
+  	\`cta_button_text\` text DEFAULT 'Потребую допомоги',
+  	\`address\` text DEFAULT 'м. Київ, вул. Хрещатик, 1
+  Офіс 301',
+  	\`working_hours\` text DEFAULT 'Пн — Пт: 9:00 — 18:00
+  Сб: 10:00 — 14:00',
+  	\`about_text\` text,
+  	\`legal_name\` text,
+  	\`bank_details\` text,
+  	\`how_we_work_title\` text DEFAULT 'Схема роботи',
+  	\`how_we_work_subtitle\` text DEFAULT 'Від першого звернення до результату — простий та зрозумілий процес отримання допомоги.',
+  	\`testimonials_title\` text DEFAULT 'Що кажуть наші підопічні',
+  	\`seo_title\` text,
+  	\`seo_description\` text,
+  	\`seo_keywords\` text,
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`_locale\` text NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`site_settings\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE UNIQUE INDEX \`site_settings_locales_locale_parent_id_unique\` ON \`site_settings_locales\` (\`_locale\`,\`_parent_id\`);`)
 }
 
 export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
   await db.run(sql`DROP TABLE \`users_sessions\`;`)
   await db.run(sql`DROP TABLE \`users\`;`)
   await db.run(sql`DROP TABLE \`media\`;`)
+  await db.run(sql`DROP TABLE \`media_locales\`;`)
   await db.run(sql`DROP TABLE \`activities\`;`)
+  await db.run(sql`DROP TABLE \`activities_locales\`;`)
   await db.run(sql`DROP TABLE \`news\`;`)
+  await db.run(sql`DROP TABLE \`news_locales\`;`)
   await db.run(sql`DROP TABLE \`partners\`;`)
+  await db.run(sql`DROP TABLE \`partners_locales\`;`)
   await db.run(sql`DROP TABLE \`join_options\`;`)
+  await db.run(sql`DROP TABLE \`join_options_locales\`;`)
   await db.run(sql`DROP TABLE \`contact_submissions\`;`)
+  await db.run(sql`DROP TABLE \`veteran_profiles_needs\`;`)
+  await db.run(sql`DROP TABLE \`veteran_profiles_sessions\`;`)
+  await db.run(sql`DROP TABLE \`veteran_profiles\`;`)
+  await db.run(sql`DROP TABLE \`consultations\`;`)
   await db.run(sql`DROP TABLE \`payload_kv\`;`)
   await db.run(sql`DROP TABLE \`payload_locked_documents\`;`)
   await db.run(sql`DROP TABLE \`payload_locked_documents_rels\`;`)
@@ -325,5 +490,8 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   await db.run(sql`DROP TABLE \`site_settings_phones\`;`)
   await db.run(sql`DROP TABLE \`site_settings_social_links\`;`)
   await db.run(sql`DROP TABLE \`site_settings_stats\`;`)
+  await db.run(sql`DROP TABLE \`site_settings_steps\`;`)
+  await db.run(sql`DROP TABLE \`site_settings_testimonials\`;`)
   await db.run(sql`DROP TABLE \`site_settings\`;`)
+  await db.run(sql`DROP TABLE \`site_settings_locales\`;`)
 }

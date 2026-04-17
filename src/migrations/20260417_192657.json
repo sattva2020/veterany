@@ -2583,7 +2583,14 @@
           "name": "number",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "label": {
+          "name": "label",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
           "autoincrement": false
         }
       },
@@ -2622,67 +2629,6 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "site_settings_stats_locales": {
-      "name": "site_settings_stats_locales",
-      "columns": {
-        "label": {
-          "name": "label",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "_locale": {
-          "name": "_locale",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "_parent_id": {
-          "name": "_parent_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "site_settings_stats_locales_locale_parent_id_unique": {
-          "name": "site_settings_stats_locales_locale_parent_id_unique",
-          "columns": [
-            "_locale",
-            "_parent_id"
-          ],
-          "isUnique": true
-        }
-      },
-      "foreignKeys": {
-        "site_settings_stats_locales_parent_id_fk": {
-          "name": "site_settings_stats_locales_parent_id_fk",
-          "tableFrom": "site_settings_stats_locales",
-          "tableTo": "site_settings_stats",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
     "site_settings_steps": {
       "name": "site_settings_steps",
       "columns": {
@@ -2705,6 +2651,20 @@
           "type": "text",
           "primaryKey": true,
           "notNull": true,
+          "autoincrement": false
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
           "autoincrement": false
         }
       },
@@ -2743,74 +2703,6 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "site_settings_steps_locales": {
-      "name": "site_settings_steps_locales",
-      "columns": {
-        "title": {
-          "name": "title",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "_locale": {
-          "name": "_locale",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "_parent_id": {
-          "name": "_parent_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "site_settings_steps_locales_locale_parent_id_unique": {
-          "name": "site_settings_steps_locales_locale_parent_id_unique",
-          "columns": [
-            "_locale",
-            "_parent_id"
-          ],
-          "isUnique": true
-        }
-      },
-      "foreignKeys": {
-        "site_settings_steps_locales_parent_id_fk": {
-          "name": "site_settings_steps_locales_parent_id_fk",
-          "tableFrom": "site_settings_steps_locales",
-          "tableTo": "site_settings_steps",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
     "site_settings_testimonials": {
       "name": "site_settings_testimonials",
       "columns": {
@@ -2833,6 +2725,27 @@
           "type": "text",
           "primaryKey": true,
           "notNull": true,
+          "autoincrement": false
+        },
+        "text": {
+          "name": "text",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "role": {
+          "name": "role",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
           "autoincrement": false
         },
         "initials": {
@@ -2864,81 +2777,6 @@
           "name": "site_settings_testimonials_parent_id_fk",
           "tableFrom": "site_settings_testimonials",
           "tableTo": "site_settings",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
-    "site_settings_testimonials_locales": {
-      "name": "site_settings_testimonials_locales",
-      "columns": {
-        "text": {
-          "name": "text",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "role": {
-          "name": "role",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "_locale": {
-          "name": "_locale",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "_parent_id": {
-          "name": "_parent_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "site_settings_testimonials_locales_locale_parent_id_unique": {
-          "name": "site_settings_testimonials_locales_locale_parent_id_unique",
-          "columns": [
-            "_locale",
-            "_parent_id"
-          ],
-          "isUnique": true
-        }
-      },
-      "foreignKeys": {
-        "site_settings_testimonials_locales_parent_id_fk": {
-          "name": "site_settings_testimonials_locales_parent_id_fk",
-          "tableFrom": "site_settings_testimonials_locales",
-          "tableTo": "site_settings_testimonials",
           "columnsFrom": [
             "_parent_id"
           ],
@@ -2985,6 +2823,38 @@
           "autoincrement": false,
           "default": "'#contacts'"
         },
+        "progress_current": {
+          "name": "progress_current",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": 500
+        },
+        "progress_goal": {
+          "name": "progress_goal",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": 1000
+        },
+        "progress_label_done": {
+          "name": "progress_label_done",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "'Допомогли ветеранам'"
+        },
+        "progress_label_goal": {
+          "name": "progress_label_goal",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "'Мета'"
+        },
         "email": {
           "name": "email",
           "type": "text",
@@ -3009,6 +2879,27 @@
         },
         "edrpou": {
           "name": "edrpou",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "og_image_id": {
+          "name": "og_image_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "canonical_url": {
+          "name": "canonical_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "google_verification": {
+          "name": "google_verification",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -3050,6 +2941,13 @@
             "about_image_id"
           ],
           "isUnique": false
+        },
+        "site_settings_og_image_idx": {
+          "name": "site_settings_og_image_idx",
+          "columns": [
+            "og_image_id"
+          ],
+          "isUnique": false
         }
       },
       "foreignKeys": {
@@ -3085,6 +2983,19 @@
           "tableTo": "media",
           "columnsFrom": [
             "about_image_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "site_settings_og_image_id_media_id_fk": {
+          "name": "site_settings_og_image_id_media_id_fk",
+          "tableFrom": "site_settings",
+          "tableTo": "media",
+          "columnsFrom": [
+            "og_image_id"
           ],
           "columnsTo": [
             "id"
@@ -3215,6 +3126,27 @@
           "autoincrement": false,
           "default": "'Що кажуть наші підопічні'"
         },
+        "seo_title": {
+          "name": "seo_title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "seo_description": {
+          "name": "seo_description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "seo_keywords": {
+          "name": "seo_keywords",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "id": {
           "name": "id",
           "type": "integer",
@@ -3276,6 +3208,6 @@
   "internal": {
     "indexes": {}
   },
-  "id": "0030366a-3857-4bbb-ae86-e2a964c59d22",
+  "id": "a72f88a0-f4d4-4ae9-9eb3-3f7f6bdd5e63",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }

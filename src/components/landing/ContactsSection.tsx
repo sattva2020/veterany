@@ -12,6 +12,7 @@ export default function ContactsSection({ locale = 'uk', dict }: { locale?: stri
     formSubmit: 'Надіслати повідомлення', formSuccess: 'Дякуємо! Ваше повідомлення надіслано.',
     formError: 'Помилка. Спробуйте ще раз.',
   }
+  const isUk = locale === 'uk'
   const [formState, setFormState] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [formData, setFormData] = useState({
     name: '',
@@ -53,9 +54,13 @@ export default function ContactsSection({ locale = 'uk', dict }: { locale?: stri
     <section className="section contacts" id="contacts">
       <div className="container">
         <ScrollReveal>
-          <div className="section-label">Контакти</div>
-          <div className="section-title">Зв&apos;яжіться з нами</div>
-          <p className="section-desc">Маєте питання або потребуєте допомоги? Ми на зв&apos;язку та готові допомогти.</p>
+          <div className="section-label">{d.label}</div>
+          <div className="section-title">{d.title}</div>
+          <p className="section-desc">
+            {isUk
+              ? "Маєте питання або потребуєте допомоги? Ми на зв'язку та готові допомогти."
+              : 'Have questions or need help? We are in touch and ready to assist.'}
+          </p>
         </ScrollReveal>
 
         <div className="contacts-grid">
@@ -64,15 +69,15 @@ export default function ContactsSection({ locale = 'uk', dict }: { locale?: stri
               <div className="contact-item">
                 <div className="contact-item-icon">📍</div>
                 <div className="contact-item-text">
-                  <h4>Адреса</h4>
-                  <p>м. Київ, вул. Хрещатик, 1<br />Офіс 301</p>
+                  <h4>{d.addressLabel}</h4>
+                  <p>{isUk ? 'м. Київ, вул. Хрещатик, 1' : 'Kyiv, Khreshchatyk St., 1'}<br />{isUk ? 'Офіс 301' : 'Office 301'}</p>
                 </div>
               </div>
 
               <div className="contact-item">
                 <div className="contact-item-icon">📞</div>
                 <div className="contact-item-text">
-                  <h4>Телефон</h4>
+                  <h4>{d.phoneLabel}</h4>
                   <a href="tel:+380441234567">+38 (044) 123-45-67</a><br />
                   <a href="tel:+380501234567">+38 (050) 123-45-67</a>
                 </div>
@@ -81,7 +86,7 @@ export default function ContactsSection({ locale = 'uk', dict }: { locale?: stri
               <div className="contact-item">
                 <div className="contact-item-icon">✉️</div>
                 <div className="contact-item-text">
-                  <h4>Email</h4>
+                  <h4>{d.emailLabel}</h4>
                   <a href="mailto:info@veteran-road.org.ua">info@veteran-road.org.ua</a>
                 </div>
               </div>
@@ -89,8 +94,8 @@ export default function ContactsSection({ locale = 'uk', dict }: { locale?: stri
               <div className="contact-item">
                 <div className="contact-item-icon">🕐</div>
                 <div className="contact-item-text">
-                  <h4>Графік роботи</h4>
-                  <p>Пн — Пт: 9:00 — 18:00<br />Сб: 10:00 — 14:00</p>
+                  <h4>{d.hoursLabel}</h4>
+                  <p>{isUk ? 'Пн — Пт: 9:00 — 18:00' : 'Mon — Fri: 9:00 — 18:00'}<br />{isUk ? 'Сб: 10:00 — 14:00' : 'Sat: 10:00 — 14:00'}</p>
                 </div>
               </div>
             </div>
@@ -98,31 +103,30 @@ export default function ContactsSection({ locale = 'uk', dict }: { locale?: stri
 
           <ScrollReveal delay={2}>
             <div className="contact-map">
-              Google Maps — Карта розташування офісу
+              {isUk ? 'Google Maps — Карта розташування офісу' : 'Google Maps — Office Location'}
             </div>
           </ScrollReveal>
         </div>
 
-        {/* Contact Form */}
         <ScrollReveal>
           <div className="contact-form">
-            <h3>Форма зворотного зв&apos;язку</h3>
+            <h3>{isUk ? 'Форма зворотного зв\'язку' : 'Contact Form'}</h3>
             <form onSubmit={handleSubmit}>
               <div className="form-grid">
                 <div className="form-group">
-                  <label htmlFor="cf-name">Ім&apos;я *</label>
+                  <label htmlFor="cf-name">{d.formName} *</label>
                   <input
                     type="text"
                     id="cf-name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    placeholder="Ваше ім'я"
+                    placeholder={isUk ? "Ваше ім'я" : 'Your name'}
                     required
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="cf-phone">Телефон</label>
+                  <label htmlFor="cf-phone">{d.formPhone}</label>
                   <input
                     type="tel"
                     id="cf-phone"
@@ -133,7 +137,7 @@ export default function ContactsSection({ locale = 'uk', dict }: { locale?: stri
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="cf-email">Email *</label>
+                  <label htmlFor="cf-email">{d.formEmail} *</label>
                   <input
                     type="email"
                     id="cf-email"
@@ -145,43 +149,47 @@ export default function ContactsSection({ locale = 'uk', dict }: { locale?: stri
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="cf-subject">Тема</label>
+                  <label htmlFor="cf-subject">{isUk ? 'Тема' : 'Subject'}</label>
                   <input
                     type="text"
                     id="cf-subject"
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    placeholder="Тема звернення"
+                    placeholder={isUk ? 'Тема звернення' : 'Subject of your inquiry'}
                   />
                 </div>
                 <div className="form-group full-width">
-                  <label htmlFor="cf-message">Повідомлення *</label>
+                  <label htmlFor="cf-message">{d.formMessage} *</label>
                   <textarea
                     id="cf-message"
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    placeholder="Опишіть ваше питання або запит..."
+                    placeholder={isUk ? 'Опишіть ваше питання або запит...' : 'Describe your question or request...'}
                     required
                   />
                 </div>
               </div>
               <div className="form-actions">
                 <button type="submit" className="btn-primary" disabled={formState === 'sending'}>
-                  {formState === 'sending' ? 'Надсилання...' : 'Надіслати повідомлення'}
+                  {formState === 'sending'
+                    ? (isUk ? 'Надсилання...' : 'Sending...')
+                    : d.formSubmit}
                   <SendIcon size={16} />
                 </button>
-                <span className="form-note">Ми відповімо протягом 24 годин</span>
+                <span className="form-note">
+                  {isUk ? 'Ми відповімо протягом 24 годин' : 'We will respond within 24 hours'}
+                </span>
               </div>
               {formState === 'success' && (
                 <div className="form-message success" style={{ marginTop: '16px' }}>
-                  Дякуємо! Ваше повідомлення надіслано. Ми зв&apos;яжемося з вами найближчим часом.
+                  {d.formSuccess}
                 </div>
               )}
               {formState === 'error' && (
                 <div className="form-message error" style={{ marginTop: '16px' }}>
-                  Виникла помилка. Будь ласка, спробуйте ще раз або зателефонуйте нам.
+                  {d.formError}
                 </div>
               )}
             </form>

@@ -40,7 +40,7 @@ export default function NewsSection({ locale = 'uk', dict }: { locale?: string; 
           </ScrollReveal>
           <ScrollReveal>
             <button className="btn-outline">
-              Усі новини
+              {d.viewAll}
               <ChevronRightIcon size={14} />
             </button>
           </ScrollReveal>

@@ -1,6 +1,7 @@
 import { buildConfig } from 'payload'
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { uk } from '@payloadcms/translations/languages/uk'
 import sharp from 'sharp'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -27,6 +28,10 @@ export default buildConfig({
     ],
     defaultLocale: 'uk',
     fallback: true,
+  },
+  i18n: {
+    supportedLanguages: { uk },
+    fallbackLanguage: 'uk',
   },
   admin: {
     user: Users.slug,

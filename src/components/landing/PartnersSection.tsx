@@ -19,23 +19,22 @@ const partners = [
   { name: 'Стрийська Єпархія УГКЦ', logo: '/media/partners/stryyska-eparkhia.webp' },
 ]
 
-export default function PartnersSection() {
+export default function PartnersSection({ locale = 'uk', dict }: { locale?: string; dict?: Record<string, string> }) {
+  const d = dict || { label: 'Партнери', title: 'Разом ми сильніші', description: 'Ми вдячні організаціям та компаніям, що підтримують нашу місію та допомагають ветеранам.', cta: 'Стати партнером', ctaText: 'Ми щиро дякуємо усім за вагомий внесок у підтримку ветеранів з перших днів' }
   return (
     <section className="section partners" id="partners">
       <div className="container">
         <ScrollReveal>
-          <div className="section-label" style={{ justifyContent: 'center' }}>Наші партнери</div>
-          <div className="section-title">Разом ми сильніші</div>
-          <p className="section-desc" style={{ margin: '0 auto' }}>
-            Ми вдячні організаціям та компаніям, що підтримують нашу місію та допомагають ветеранам.
-          </p>
+          <div className="section-label" style={{ justifyContent: 'center' }}>{d.label}</div>
+          <div className="section-title">{d.title}</div>
+          <p className="section-desc" style={{ margin: '0 auto' }}>{d.description}</p>
         </ScrollReveal>
 
         <ScrollReveal>
           <div className="partners-cta">
-            <p>Ми щиро дякуємо усім за вагомий внесок<br />у підтримку ветеранів з перших днів</p>
+            <p>{d.ctaText}</p>
             <a href="#contacts" className="btn-primary" style={{ flexShrink: 0 }}>
-              Стати партнером
+              {d.cta}
               <ArrowRightIcon size={16} />
             </a>
           </div>

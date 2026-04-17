@@ -24,15 +24,16 @@ const steps = [
   },
 ]
 
-export default function HowWeWorkSection() {
+export default function HowWeWorkSection({ locale = 'uk', dict }: { locale?: string; dict?: Record<string, string> }) {
+  const d = dict || { label: 'Як ми працюємо', title: 'Схема роботи', description: 'Від першого звернення до результату — простий та зрозумілий процес отримання допомоги.' }
   return (
     <section className="section how-we-work" id="how-we-work">
       <div className="container">
         <div className="how-we-work-header">
           <ScrollReveal>
-            <div className="section-label">Як ми працюємо</div>
-            <div className="section-title">Схема роботи</div>
-            <p className="section-desc">Від першого звернення до результату — простий та зрозумілий процес отримання допомоги.</p>
+            <div className="section-label">{d.label}</div>
+            <div className="section-title">{d.title}</div>
+            <p className="section-desc">{d.description}</p>
           </ScrollReveal>
         </div>
 

@@ -28,15 +28,16 @@ const testimonials = [
   },
 ]
 
-export default function TestimonialsSection() {
+export default function TestimonialsSection({ locale = 'uk', dict }: { locale?: string; dict?: Record<string, string> }) {
+  const d = dict || { label: 'Відгуки', title: 'Що кажуть наші підопічні', subtitle: 'Реальні історії людей, яким ми допомогли на шляху до нового життя.' }
   return (
     <section className="section testimonials" id="testimonials">
       <div className="container">
         <div className="testimonials-header">
           <ScrollReveal>
-            <div className="section-label">Відгуки</div>
-            <div className="section-title">Що кажуть наші підопічні</div>
-            <p className="section-desc">Реальні історії людей, яким ми допомогли на шляху до нового життя.</p>
+            <div className="section-label">{d.label}</div>
+            <div className="section-title">{d.title}</div>
+            <p className="section-desc">{d.subtitle}</p>
           </ScrollReveal>
         </div>
 

@@ -4,15 +4,35 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import HelpModal from '@/components/HelpModal'
 
+interface HeaderDict {
+  about: string
+  activities: string
+  news: string
+  partners: string
+  join: string
+  contacts: string
+  cabinet: string
+  cta: string
+  langSwitch: string
+}
+
 interface HeaderProps {
   isLanding?: boolean
   cabinetLink?: string
+  locale?: string
+  dict?: HeaderDict
 }
 
-export default function Header({ isLanding = false, cabinetLink }: HeaderProps) {
+export default function Header({ isLanding = false, cabinetLink, locale = 'uk', dict }: HeaderProps) {
   const [scrolled, setScrolled] = useState(!isLanding)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [helpOpen, setHelpOpen] = useState(false)
+
+  const d = dict || {
+    about: 'Про нас', activities: 'Напрями', news: 'Новини',
+    partners: 'Партнери', join: 'Долучитися', contacts: 'Контакти',
+    cabinet: 'Кабінет', cta: 'Потребую допомоги', langSwitch: 'EN',
+  }
 
   useEffect(() => {
     if (!isLanding) return
@@ -21,22 +41,22 @@ export default function Header({ isLanding = false, cabinetLink }: HeaderProps) 
     return () => window.removeEventListener('scroll', handleScroll)
   }, [isLanding])
 
-  // Listen for global open-help-modal event (from Hero CTA)
   useEffect(() => {
     const handler = () => setHelpOpen(true)
     window.addEventListener('open-help-modal', handler)
     return () => window.removeEventListener('open-help-modal', handler)
   }, [])
 
-  const prefix = isLanding ? '' : '/'
+  const prefix = isLanding ? '' : `/${locale}`
+  const altLocale = locale === 'uk' ? 'en' : 'uk'
 
   const navLinks = [
-    { href: `${prefix}#about`, label: 'Про нас' },
-    { href: `${prefix}#activities`, label: 'Напрями' },
-    { href: `${prefix}#news`, label: 'Новини' },
-    { href: `${prefix}#partners`, label: 'Партнери' },
-    { href: `${prefix}#join`, label: 'Долучитися' },
-    { href: `${prefix}#contacts`, label: 'Контакти' },
+    { href: `${prefix}#about`, label: d.about },
+    { href: `${prefix}#activities`, label: d.activities },
+    { href: `${prefix}#news`, label: d.news },
+    { href: `${prefix}#partners`, label: d.partners },
+    { href: `${prefix}#join`, label: d.join },
+    { href: `${prefix}#contacts`, label: d.contacts },
   ]
 
   const toggleMobile = () => {
@@ -49,15 +69,19 @@ export default function Header({ isLanding = false, cabinetLink }: HeaderProps) 
     document.body.style.overflow = ''
   }
 
+  const handleLangSwitch = () => {
+    document.cookie = `NEXT_LOCALE=${altLocale};path=/;max-age=31536000`
+  }
+
   return (
     <>
       <header className={`header${scrolled ? ' scrolled' : ''}`}>
         <div className="container">
-          <Link href="/" className="logo">
-            <div className="logo-icon">В</div>
+          <Link href={`/${locale}`} className="logo">
+            <div className="logo-icon">{locale === 'uk' ? 'В' : 'V'}</div>
             <div className="logo-text">
-              Ветеран
-              <span>Дорога до нового життя</span>
+              {locale === 'uk' ? 'Ветеран' : 'Veteran'}
+              <span>{locale === 'uk' ? 'Дорога до нового життя' : 'Road to a New Life'}</span>
             </div>
           </Link>
 
@@ -66,11 +90,13 @@ export default function Header({ isLanding = false, cabinetLink }: HeaderProps) 
               <a key={link.href} href={link.href}>{link.label}</a>
             ))}
             {cabinetLink && (
-              <Link href={cabinetLink} style={{ color: 'var(--c-gold)' }}>Кабінет</Link>
+              <Link href={cabinetLink} style={{ color: 'var(--c-gold)' }}>{d.cabinet}</Link>
             )}
-            <Link href="/en" className="lang-switch">EN</Link>
+            <Link href={`/${altLocale}`} className="lang-switch" onClick={handleLangSwitch}>
+              {d.langSwitch}
+            </Link>
             <button className="btn-header" onClick={() => setHelpOpen(true)}>
-              Потребую допомоги
+              {d.cta}
             </button>
           </nav>
 
@@ -80,7 +106,6 @@ export default function Header({ isLanding = false, cabinetLink }: HeaderProps) 
         </div>
       </header>
 
-      {/* Mobile nav */}
       <div
         className={`nav-overlay${mobileOpen ? ' visible' : ''}`}
         style={{ display: mobileOpen ? 'block' : 'none' }}
@@ -91,11 +116,11 @@ export default function Header({ isLanding = false, cabinetLink }: HeaderProps) 
           <a key={link.href} href={link.href} onClick={closeMobile}>{link.label}</a>
         ))}
         {cabinetLink && (
-          <Link href={cabinetLink} onClick={closeMobile} style={{ color: 'var(--c-gold)' }}>Кабінет</Link>
+          <Link href={cabinetLink} onClick={closeMobile} style={{ color: 'var(--c-gold)' }}>{d.cabinet}</Link>
         )}
-        <Link href="/en" onClick={closeMobile} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-          <span className="lang-switch" style={{ position: 'static', padding: '4px 10px', fontSize: '12px' }}>EN</span>
-          English version
+        <Link href={`/${altLocale}`} onClick={() => { closeMobile(); handleLangSwitch() }} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+          <span className="lang-switch" style={{ position: 'static', padding: '4px 10px', fontSize: '12px' }}>{d.langSwitch}</span>
+          {locale === 'uk' ? 'English version' : 'Українська версія'}
         </Link>
         <div style={{ marginTop: '32px' }}>
           <button
@@ -103,12 +128,11 @@ export default function Header({ isLanding = false, cabinetLink }: HeaderProps) 
             style={{ width: '100%', justifyContent: 'center' }}
             onClick={() => { closeMobile(); setHelpOpen(true) }}
           >
-            Потребую допомоги
+            {d.cta}
           </button>
         </div>
       </nav>
 
-      {/* Help popup */}
       <HelpModal isOpen={helpOpen} onClose={() => setHelpOpen(false)} />
     </>
   )

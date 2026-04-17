@@ -4,7 +4,14 @@ import React, { useState } from 'react'
 import ScrollReveal from '@/components/ScrollReveal'
 import { SendIcon } from '@/components/icons'
 
-export default function ContactsSection() {
+export default function ContactsSection({ locale = 'uk', dict }: { locale?: string; dict?: Record<string, string> }) {
+  const d = dict || {
+    label: 'Контакти', title: "Зв'яжіться з нами",
+    addressLabel: 'Адреса', phoneLabel: 'Телефон', emailLabel: 'Email', hoursLabel: 'Графік роботи',
+    formName: "Ім'я", formEmail: 'Email', formPhone: 'Телефон', formMessage: 'Повідомлення',
+    formSubmit: 'Надіслати повідомлення', formSuccess: 'Дякуємо! Ваше повідомлення надіслано.',
+    formError: 'Помилка. Спробуйте ще раз.',
+  }
   const [formState, setFormState] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [formData, setFormData] = useState({
     name: '',

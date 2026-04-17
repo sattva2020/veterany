@@ -1,0 +1,108 @@
+{
+  "header": {
+    "about": "About",
+    "activities": "Programs",
+    "news": "News",
+    "partners": "Partners",
+    "join": "Get Involved",
+    "contacts": "Contact",
+    "cabinet": "Dashboard",
+    "cta": "I Need Help",
+    "langSwitch": "UA"
+  },
+  "hero": {
+    "badge": "Non-Governmental Organization",
+    "title1": "Veteran.",
+    "title2": "Road to a New Life",
+    "subtitle": "Support. Recovery. New Opportunities.",
+    "description": "We help veterans and their families rebuild a fulfilling life through comprehensive support — from psychological assistance to employment programs.",
+    "ctaPrimary": "I Need Help",
+    "ctaSecondary": "Our Programs",
+    "progressHelped": "Veterans helped:",
+    "progressGoal": "Goal:",
+    "scrollDown": "More"
+  },
+  "about": {
+    "label": "About Us",
+    "title": "We're here when it matters most",
+    "text1": "NGO \"Veteran. Road to a New Life\" is a non-governmental organization created to provide comprehensive support for veterans and their families in the process of returning to civilian life.",
+    "text2": "Our mission is to ensure that every veteran has access to quality psychological, legal, medical and social assistance. We believe that returning home is not the end of service, but the beginning of a new path.",
+    "text3": "We work every day so that no defender is left alone with their challenges.",
+    "photoAlt": "Team photo"
+  },
+  "activities": {
+    "label": "Our Programs",
+    "title": "Comprehensive support at every stage",
+    "description": "Seven key programs covering all veteran needs — from first contact to full integration into civilian life."
+  },
+  "howWeWork": {
+    "label": "How We Work",
+    "title": "Our Process",
+    "description": "From the first inquiry to results — a simple and clear process for receiving support."
+  },
+  "news": {
+    "label": "Latest News",
+    "title": "What's Happening",
+    "viewAll": "All News",
+    "readMore": "Read more"
+  },
+  "testimonials": {
+    "label": "Testimonials",
+    "title": "What our clients say",
+    "subtitle": "Real stories from people we've helped find their road to a new life."
+  },
+  "partners": {
+    "label": "Partners",
+    "title": "Together we are stronger",
+    "description": "We are grateful to everyone who joins in supporting veterans and their families.",
+    "cta": "Become a Partner",
+    "ctaText": "We are open to new partnerships and collaborations. Together we can do more."
+  },
+  "join": {
+    "label": "Get Involved",
+    "title": "Be Part of the Change",
+    "description": "Everyone can help. Choose a way to support that suits you — together we can do more.",
+    "cta": "Join Us"
+  },
+  "contacts": {
+    "label": "Contact",
+    "title": "Get in Touch",
+    "addressLabel": "Address",
+    "phoneLabel": "Phone",
+    "emailLabel": "Email",
+    "hoursLabel": "Working Hours",
+    "formName": "Name",
+    "formEmail": "Email",
+    "formPhone": "Phone",
+    "formMessage": "Message",
+    "formSubmit": "Send Message",
+    "formSuccess": "Thank you! Your message has been sent.",
+    "formError": "Error. Please try again."
+  },
+  "footer": {
+    "description": "Comprehensive support for veterans and their families — from psychological assistance to employment programs.",
+    "quickLinks": "Quick Links",
+    "contactInfo": "Contact Info",
+    "copyright": "© 2024 NGO \"Veteran. Road to a New Life\". All rights reserved.",
+    "privacy": "Privacy Policy"
+  },
+  "chat": {
+    "greeting": "Hello! I'm the virtual assistant of NGO \"Veteran\". How can I help you?",
+    "placeholder": "Type a message...",
+    "title": "Online Assistant"
+  },
+  "helpModal": {
+    "title": "Need Help?",
+    "description": "Leave your contact details and we'll get back to you as soon as possible.",
+    "name": "Your name",
+    "phone": "Phone number",
+    "message": "Describe your situation",
+    "submit": "Submit",
+    "hotline": "Hotline",
+    "or": "or call us"
+  },
+  "meta": {
+    "title": "Veteran — Road to a New Life",
+    "description": "NGO \"Veteran. Road to a New Life\" — comprehensive support for veterans and their families"
+  }
+}

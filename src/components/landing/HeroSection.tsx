@@ -3,7 +3,19 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { PhoneIcon, ChevronRightIcon, FacebookIcon, InstagramIcon, YouTubeIcon, TelegramIcon, TikTokIcon, ViberIcon } from '@/components/icons'
 
-export default function HeroSection() {
+interface HeroProps {
+  locale?: string
+  dict?: Record<string, string>
+}
+
+export default function HeroSection({ locale = 'uk', dict }: HeroProps) {
+  const d = dict || {
+    badge: 'Громадська організація', title1: 'Ветеран.', title2: 'Дорога до нового життя',
+    subtitle: 'Підтримка. Відновлення. Нові можливості.',
+    description: 'Ми допомагаємо ветеранам та їхнім родинам відновити повноцінне життя через комплексну підтримку — від психологічної допомоги до працевлаштування.',
+    ctaPrimary: 'Потребую допомоги', ctaSecondary: 'Напрями діяльності',
+    progressHelped: 'Допомогли ветеранам:', progressGoal: 'Мета:', scrollDown: 'Далі',
+  }
   const [isMobile, setIsMobile] = useState(false)
   const bgRef = useRef<HTMLDivElement>(null)
   const decoRef = useRef<HTMLDivElement>(null)
@@ -53,29 +65,26 @@ export default function HeroSection() {
 
       <div className="container">
         <div className="hero-content">
-          <div className="hero-badge">Громадська організація</div>
-          <h1>Ветеран.<br /><em>Дорога до нового життя</em></h1>
-          <p className="hero-subtitle">Підтримка. Відновлення. Нові можливості.</p>
-          <p className="hero-desc">
-            Ми допомагаємо ветеранам та їхнім родинам відновити повноцінне життя через
-            комплексну підтримку — від психологічної допомоги до працевлаштування.
-          </p>
+          <div className="hero-badge">{d.badge}</div>
+          <h1>{d.title1}<br /><em>{d.title2}</em></h1>
+          <p className="hero-subtitle">{d.subtitle}</p>
+          <p className="hero-desc">{d.description}</p>
           <div className="hero-actions">
             <button className="btn-primary" onClick={() => window.dispatchEvent(new CustomEvent('open-help-modal'))}>
               <PhoneIcon size={18} />
-              Потребую допомоги
+              {d.ctaPrimary}
             </button>
             <a href="#activities" className="btn-secondary">
               <ChevronRightIcon size={16} />
-              Напрями діяльності
+              {d.ctaSecondary}
             </a>
           </div>
 
           {/* Progress bar */}
           <div className="hero-progress">
             <div className="hero-progress-label">
-              <span>Допомогли ветеранам: <strong>500+</strong></span>
-              <span>Мета: <strong>1 000</strong></span>
+              <span>{d.progressHelped} <strong>500+</strong></span>
+              <span>{d.progressGoal} <strong>1 000</strong></span>
             </div>
             <div className="hero-progress-bar">
               <div className="hero-progress-fill" style={{ width: '50%' }} />
@@ -97,7 +106,7 @@ export default function HeroSection() {
       )}
 
       <div className="scroll-indicator">
-        <span>Далі</span>
+        <span>{d.scrollDown}</span>
         <div className="scroll-line" />
       </div>
     </section>

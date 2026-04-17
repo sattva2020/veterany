@@ -47,15 +47,24 @@ const activities = [
   },
 ]
 
-export default function ActivitiesSection() {
+interface ActivitiesProps {
+  locale?: string
+  dict?: Record<string, string>
+}
+
+export default function ActivitiesSection({ locale = 'uk', dict }: ActivitiesProps) {
+  const d = dict || {
+    label: 'Напрями діяльності', title: 'Комплексна підтримка на кожному етапі',
+    description: 'Сім ключових напрямів, які охоплюють усі потреби ветеранів — від першого звернення до повної інтеграції в мирне життя.',
+  }
   return (
     <section className="section activities" id="activities">
       <div className="container">
         <div className="activities-header">
           <ScrollReveal>
-            <div className="section-label">Напрями діяльності</div>
-            <div className="section-title">Комплексна підтримка<br />на кожному етапі</div>
-            <p className="section-desc">Сім ключових напрямів, які охоплюють усі потреби ветеранів — від першого звернення до повної інтеграції в мирне життя.</p>
+            <div className="section-label">{d.label}</div>
+            <div className="section-title">{d.title}</div>
+            <p className="section-desc">{d.description}</p>
           </ScrollReveal>
         </div>
 

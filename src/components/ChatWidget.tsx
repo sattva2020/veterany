@@ -8,10 +8,11 @@ interface Message {
   sender: 'bot' | 'user'
 }
 
-export default function ChatWidget() {
+export default function ChatWidget({ locale = 'uk', dict }: { locale?: string; dict?: Record<string, string> }) {
+  const d = dict || { greeting: 'Вітаємо! 👋 Як ми можемо вам допомогти?', placeholder: 'Напишіть повідомлення...', title: 'Онлайн-помічник' }
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
-    { text: 'Вітаємо! 👋 Як ми можемо вам допомогти? Напишіть ваше питання, і наш спеціаліст відповість якнайшвидше.', sender: 'bot' }
+    { text: d.greeting, sender: 'bot' }
   ])
   const [input, setInput] = useState('')
   const messagesEnd = useRef<HTMLDivElement>(null)

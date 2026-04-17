@@ -26,15 +26,16 @@ const news = [
   },
 ]
 
-export default function NewsSection() {
+export default function NewsSection({ locale = 'uk', dict }: { locale?: string; dict?: Record<string, string> }) {
+  const d = dict || { label: 'Останні новини', title: 'Що відбувається', viewAll: 'Усі новини', readMore: 'Читати далі' }
   return (
     <section className="section news" id="news">
       <div className="container">
         <div className="news-header">
           <ScrollReveal>
             <div>
-              <div className="section-label">Останні новини</div>
-              <div className="section-title">Що відбувається</div>
+              <div className="section-label">{d.label}</div>
+              <div className="section-title">{d.title}</div>
             </div>
           </ScrollReveal>
           <ScrollReveal>

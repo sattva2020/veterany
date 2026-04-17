@@ -4,6 +4,32 @@ import React, { useState } from 'react'
 import ScrollReveal from '@/components/ScrollReveal'
 import { SendIcon } from '@/components/icons'
 
+/**
+ * Accepts any Google Maps input from user:
+ * - Full <iframe> tag → extracts src URL
+ * - Short link (maps.app.goo.gl/..., goo.gl/maps/...) → converts to embed
+ * - Regular Google Maps URL (google.com/maps/place/...) → converts to embed
+ * - Already embed URL (google.com/maps/embed?pb=...) → returns as-is
+ */
+function parseMapUrl(input: string): string {
+  const trimmed = input.trim()
+
+  // 1. Extract src from <iframe> tag
+  const srcMatch = trimmed.match(/src=["']([^"']+)["']/i)
+  if (srcMatch) return srcMatch[1]
+
+  // 2. Already an embed URL
+  if (trimmed.includes('/maps/embed')) return trimmed
+
+  // 3. Regular Google Maps URL or short link → wrap in embed
+  if (trimmed.includes('google.com/maps') || trimmed.includes('maps.app.goo.gl') || trimmed.includes('goo.gl/maps')) {
+    return `https://maps.google.com/maps?q=${encodeURIComponent(trimmed)}&output=embed`
+  }
+
+  // 4. Just an address or unknown → treat as search query
+  return `https://maps.google.com/maps?q=${encodeURIComponent(trimmed)}&output=embed`
+}
+
 interface CmsContacts {
   address?: string
   phones?: Array<{ number: string; label?: string }>
@@ -117,7 +143,7 @@ export default function ContactsSection({ locale = 'uk', dict, cmsContacts }: { 
             <div className="contact-map">
               {c.googleMapsEmbed ? (
                 <iframe
-                  src={c.googleMapsEmbed}
+                  src={parseMapUrl(c.googleMapsEmbed)}
                   width="100%"
                   height="100%"
                   style={{ border: 0, borderRadius: 'var(--radius-xl)' }}

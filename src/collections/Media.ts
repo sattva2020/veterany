@@ -24,6 +24,7 @@ export const Media: CollectionConfig = {
       type: 'text',
       label: { uk: 'Альтернативний текст', en: 'Alt Text' },
       required: true,
+      localized: true,
     },
   ],
 }

@@ -20,6 +20,7 @@ export const Partners: CollectionConfig = {
       type: 'text',
       label: { uk: 'Назва', en: 'Name' },
       required: true,
+      localized: true,
     },
     {
       name: 'logo',
@@ -52,6 +53,7 @@ export const Partners: CollectionConfig = {
       name: 'description',
       type: 'textarea',
       label: { uk: 'Опис', en: 'Description' },
+      localized: true,
     },
     {
       name: 'order',

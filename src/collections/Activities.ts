@@ -20,6 +20,7 @@ export const Activities: CollectionConfig = {
       type: 'text',
       label: { uk: 'Назва', en: 'Title' },
       required: true,
+      localized: true,
     },
     {
       name: 'slug',
@@ -44,6 +45,7 @@ export const Activities: CollectionConfig = {
       type: 'textarea',
       label: { uk: 'Короткий опис', en: 'Short Description' },
       required: true,
+      localized: true,
       admin: {
         description: 'Текст для картки на головній сторінці (2-3 речення)',
       },
@@ -52,6 +54,7 @@ export const Activities: CollectionConfig = {
       name: 'fullDescription',
       type: 'richText',
       label: { uk: 'Повний опис', en: 'Full Description' },
+      localized: true,
     },
     {
       name: 'image',

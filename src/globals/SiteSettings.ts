@@ -22,6 +22,7 @@ export const SiteSettings: GlobalConfig = {
               label: { uk: 'Назва організації', en: 'Organization Name' },
               defaultValue: 'ГО «Ветеран. Дорога до нового життя»',
               required: true,
+              localized: true,
             },
             {
               name: 'logo',
@@ -34,11 +35,13 @@ export const SiteSettings: GlobalConfig = {
               type: 'text',
               label: { uk: 'Слоган', en: 'Tagline' },
               defaultValue: 'Підтримка. Відновлення. Нові можливості.',
+              localized: true,
             },
             {
               name: 'description',
               type: 'textarea',
               label: { uk: 'Опис', en: 'Description' },
+              localized: true,
               admin: {
                 description: 'Для SEO мета-опису',
               },
@@ -53,17 +56,20 @@ export const SiteSettings: GlobalConfig = {
               type: 'text',
               label: { uk: 'Заголовок', en: 'Hero Title' },
               defaultValue: 'Ветеран. Дорога до нового життя',
+              localized: true,
             },
             {
               name: 'heroSubtitle',
               type: 'text',
               label: { uk: 'Підзаголовок', en: 'Hero Subtitle' },
               defaultValue: 'Підтримка. Відновлення. Нові можливості.',
+              localized: true,
             },
             {
               name: 'heroDescription',
               type: 'textarea',
               label: { uk: 'Опис на героі', en: 'Hero Description' },
+              localized: true,
             },
             {
               name: 'heroBackground',
@@ -76,6 +82,7 @@ export const SiteSettings: GlobalConfig = {
               type: 'text',
               label: { uk: 'Текст кнопки CTA', en: 'CTA Button Text' },
               defaultValue: 'Потребую допомоги',
+              localized: true,
             },
             {
               name: 'ctaButtonLink',
@@ -93,6 +100,7 @@ export const SiteSettings: GlobalConfig = {
               type: 'textarea',
               label: { uk: 'Адреса', en: 'Address' },
               defaultValue: 'м. Київ, вул. Хрещатик, 1\nОфіс 301',
+              localized: true,
             },
             {
               name: 'phones',
@@ -124,6 +132,7 @@ export const SiteSettings: GlobalConfig = {
               type: 'textarea',
               label: { uk: 'Графік роботи', en: 'Working Hours' },
               defaultValue: 'Пн — Пт: 9:00 — 18:00\nСб: 10:00 — 14:00',
+              localized: true,
             },
             {
               name: 'googleMapsEmbed',
@@ -175,6 +184,7 @@ export const SiteSettings: GlobalConfig = {
               name: 'aboutText',
               type: 'richText',
               label: { uk: 'Текст «Про нас»', en: 'About Text' },
+              localized: true,
             },
             {
               name: 'aboutImage',
@@ -186,7 +196,7 @@ export const SiteSettings: GlobalConfig = {
               name: 'stats',
               type: 'array',
               label: { uk: 'Статистика', en: 'Stats' },
-              maxRows: 4,
+              maxRows: 6,
               fields: [
                 {
                   name: 'number',
@@ -200,6 +210,7 @@ export const SiteSettings: GlobalConfig = {
                   type: 'text',
                   label: { uk: 'Підпис', en: 'Label' },
                   required: true,
+                  localized: true,
                 },
               ],
             },
@@ -212,6 +223,7 @@ export const SiteSettings: GlobalConfig = {
               name: 'legalName',
               type: 'text',
               label: { uk: 'Юридична назва', en: 'Legal Name' },
+              localized: true,
             },
             {
               name: 'edrpou',
@@ -222,6 +234,94 @@ export const SiteSettings: GlobalConfig = {
               name: 'bankDetails',
               type: 'richText',
               label: { uk: 'Банківські реквізити', en: 'Bank Details' },
+              localized: true,
+            },
+          ],
+        },
+        {
+          label: { uk: 'Схема роботи', en: 'How We Work' },
+          fields: [
+            {
+              name: 'howWeWorkTitle',
+              type: 'text',
+              label: { uk: 'Заголовок секції', en: 'Section Title' },
+              defaultValue: 'Схема роботи',
+              localized: true,
+            },
+            {
+              name: 'howWeWorkSubtitle',
+              type: 'textarea',
+              label: { uk: 'Підзаголовок', en: 'Subtitle' },
+              defaultValue: 'Від першого звернення до результату — простий та зрозумілий процес отримання допомоги.',
+              localized: true,
+            },
+            {
+              name: 'steps',
+              type: 'array',
+              label: { uk: 'Кроки', en: 'Steps' },
+              maxRows: 6,
+              fields: [
+                {
+                  name: 'title',
+                  type: 'text',
+                  label: { uk: 'Назва кроку', en: 'Step Title' },
+                  required: true,
+                  localized: true,
+                },
+                {
+                  name: 'description',
+                  type: 'textarea',
+                  label: { uk: 'Опис', en: 'Description' },
+                  required: true,
+                  localized: true,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: { uk: 'Відгуки', en: 'Testimonials' },
+          fields: [
+            {
+              name: 'testimonialsTitle',
+              type: 'text',
+              label: { uk: 'Заголовок секції', en: 'Section Title' },
+              defaultValue: 'Що кажуть наші підопічні',
+              localized: true,
+            },
+            {
+              name: 'testimonials',
+              type: 'array',
+              label: { uk: 'Відгуки', en: 'Testimonials' },
+              maxRows: 10,
+              fields: [
+                {
+                  name: 'text',
+                  type: 'textarea',
+                  label: { uk: 'Текст відгуку', en: 'Testimonial Text' },
+                  required: true,
+                  localized: true,
+                },
+                {
+                  name: 'name',
+                  type: 'text',
+                  label: { uk: "Ім'я", en: 'Name' },
+                  required: true,
+                  localized: true,
+                },
+                {
+                  name: 'role',
+                  type: 'text',
+                  label: { uk: 'Роль / статус', en: 'Role / Status' },
+                  localized: true,
+                },
+                {
+                  name: 'initials',
+                  type: 'text',
+                  label: { uk: 'Ініціали', en: 'Initials' },
+                  admin: { description: 'Наприклад: ОК, ІП' },
+                },
+              ],
             },
           ],
         },

@@ -20,6 +20,7 @@ export const JoinOptions: CollectionConfig = {
       type: 'text',
       label: { uk: 'Назва', en: 'Title' },
       required: true,
+      localized: true,
     },
     {
       name: 'icon',
@@ -32,11 +33,13 @@ export const JoinOptions: CollectionConfig = {
       type: 'textarea',
       label: { uk: 'Опис', en: 'Description' },
       required: true,
+      localized: true,
     },
     {
       name: 'fullContent',
       type: 'richText',
       label: { uk: 'Детальний опис', en: 'Full Content' },
+      localized: true,
     },
     {
       name: 'order',

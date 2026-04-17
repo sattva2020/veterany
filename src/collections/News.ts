@@ -20,6 +20,7 @@ export const News: CollectionConfig = {
       type: 'text',
       label: { uk: 'Заголовок', en: 'Title' },
       required: true,
+      localized: true,
     },
     {
       name: 'slug',
@@ -48,6 +49,7 @@ export const News: CollectionConfig = {
       type: 'textarea',
       label: { uk: 'Короткий опис', en: 'Excerpt' },
       required: true,
+      localized: true,
       admin: {
         description: 'Текст для картки на головній (1-2 речення)',
       },
@@ -57,6 +59,7 @@ export const News: CollectionConfig = {
       type: 'richText',
       label: { uk: 'Зміст', en: 'Content' },
       required: true,
+      localized: true,
     },
     {
       name: 'featuredImage',

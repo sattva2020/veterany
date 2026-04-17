@@ -41,40 +41,21 @@ export default function AboutSection({ locale = 'uk', dict, cmsStats }: AboutPro
               <p>{d.text3}</p>
 
               <div className="about-stats">
-                <div className="stat-item stat-card">
-                  <div className="stat-number">
-                    <AnimatedCounter end={500} suffix="+" duration={2200} />
+                {(cmsStats && cmsStats.length > 0 ? cmsStats : [
+                  { number: '500+', label: 'Ветеранів отримали допомогу' },
+                  { number: '50+', label: 'Партнерів та волонтерів' },
+                  { number: '3', label: 'Роки активної діяльності' },
+                  { number: '12+', label: 'Напрямів підтримки' },
+                  { number: '100+', label: 'Проведених заходів' },
+                  { number: '24/7', label: 'Лінія підтримки' },
+                ]).map((stat, i) => (
+                  <div key={i} className="stat-item stat-card">
+                    <div className={`stat-number${stat.number === '24/7' ? ' stat-number-gold' : ''}`}>
+                      {stat.number}
+                    </div>
+                    <div className="stat-label">{stat.label}</div>
                   </div>
-                  <div className="stat-label">Ветеранів отримали допомогу</div>
-                </div>
-                <div className="stat-item stat-card">
-                  <div className="stat-number">
-                    <AnimatedCounter end={50} suffix="+" duration={1800} />
-                  </div>
-                  <div className="stat-label">Партнерів та волонтерів</div>
-                </div>
-                <div className="stat-item stat-card">
-                  <div className="stat-number">
-                    <AnimatedCounter end={3} duration={1200} />
-                  </div>
-                  <div className="stat-label">Роки активної діяльності</div>
-                </div>
-                <div className="stat-item stat-card">
-                  <div className="stat-number">
-                    <AnimatedCounter end={12} suffix="+" duration={1500} />
-                  </div>
-                  <div className="stat-label">Напрямів підтримки</div>
-                </div>
-                <div className="stat-item stat-card">
-                  <div className="stat-number">
-                    <AnimatedCounter end={100} suffix="+" duration={1800} />
-                  </div>
-                  <div className="stat-label">Проведених заходів</div>
-                </div>
-                <div className="stat-item stat-card">
-                  <div className="stat-number stat-number-gold">24/7</div>
-                  <div className="stat-label">Лінія підтримки</div>
-                </div>
+                ))}
               </div>
             </div>
           </ScrollReveal>

@@ -28,23 +28,39 @@ export default function AboutSection() {
               <p>Працюємо щоденно, щоб жоден захисник не залишився наодинці зі своїми труднощами.</p>
 
               <div className="about-stats">
-                <div className="stat-item">
+                <div className="stat-item stat-card">
                   <div className="stat-number">
                     <AnimatedCounter end={500} suffix="+" duration={2200} />
                   </div>
                   <div className="stat-label">Ветеранів отримали допомогу</div>
                 </div>
-                <div className="stat-item">
-                  <div className="stat-number">
-                    <AnimatedCounter end={7} duration={1500} />
-                  </div>
-                  <div className="stat-label">Напрямів підтримки</div>
-                </div>
-                <div className="stat-item">
+                <div className="stat-item stat-card">
                   <div className="stat-number">
                     <AnimatedCounter end={50} suffix="+" duration={1800} />
                   </div>
                   <div className="stat-label">Партнерів та волонтерів</div>
+                </div>
+                <div className="stat-item stat-card">
+                  <div className="stat-number">
+                    <AnimatedCounter end={3} duration={1200} />
+                  </div>
+                  <div className="stat-label">Роки активної діяльності</div>
+                </div>
+                <div className="stat-item stat-card">
+                  <div className="stat-number">
+                    <AnimatedCounter end={12} suffix="+" duration={1500} />
+                  </div>
+                  <div className="stat-label">Напрямів підтримки</div>
+                </div>
+                <div className="stat-item stat-card">
+                  <div className="stat-number">
+                    <AnimatedCounter end={100} suffix="+" duration={1800} />
+                  </div>
+                  <div className="stat-label">Проведених заходів</div>
+                </div>
+                <div className="stat-item stat-card">
+                  <div className="stat-number stat-number-gold">24/7</div>
+                  <div className="stat-label">Лінія підтримки</div>
                 </div>
               </div>
             </div>

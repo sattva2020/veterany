@@ -4,7 +4,15 @@ import React, { useState } from 'react'
 import ScrollReveal from '@/components/ScrollReveal'
 import { SendIcon } from '@/components/icons'
 
-export default function ContactsSection({ locale = 'uk', dict }: { locale?: string; dict?: Record<string, string> }) {
+interface CmsContacts {
+  address?: string
+  phones?: Array<{ number: string; label?: string }>
+  email?: string
+  workingHours?: string
+  googleMapsEmbed?: string
+}
+
+export default function ContactsSection({ locale = 'uk', dict, cmsContacts }: { locale?: string; dict?: Record<string, string>; cmsContacts?: CmsContacts }) {
   const d = dict || {
     label: 'Контакти', title: "Зв'яжіться з нами",
     addressLabel: 'Адреса', phoneLabel: 'Телефон', emailLabel: 'Email', hoursLabel: 'Графік роботи',
@@ -13,6 +21,7 @@ export default function ContactsSection({ locale = 'uk', dict }: { locale?: stri
     formError: 'Помилка. Спробуйте ще раз.',
   }
   const isUk = locale === 'uk'
+  const c = cmsContacts || {}
   const [formState, setFormState] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [formData, setFormData] = useState({
     name: '',
@@ -70,7 +79,7 @@ export default function ContactsSection({ locale = 'uk', dict }: { locale?: stri
                 <div className="contact-item-icon">📍</div>
                 <div className="contact-item-text">
                   <h4>{d.addressLabel}</h4>
-                  <p>{isUk ? 'м. Київ, вул. Хрещатик, 1' : 'Kyiv, Khreshchatyk St., 1'}<br />{isUk ? 'Офіс 301' : 'Office 301'}</p>
+                  <p>{(c.address || (isUk ? 'м. Київ, вул. Хрещатик, 1\nОфіс 301' : 'Kyiv, Khreshchatyk St., 1\nOffice 301')).split('\n').map((line, i) => <span key={i}>{line}<br /></span>)}</p>
                 </div>
               </div>
 
@@ -78,8 +87,11 @@ export default function ContactsSection({ locale = 'uk', dict }: { locale?: stri
                 <div className="contact-item-icon">📞</div>
                 <div className="contact-item-text">
                   <h4>{d.phoneLabel}</h4>
-                  <a href="tel:+380441234567">+38 (044) 123-45-67</a><br />
-                  <a href="tel:+380501234567">+38 (050) 123-45-67</a>
+                  {(c.phones && c.phones.length > 0) ? c.phones.map((phone, i) => (
+                    <span key={i}><a href={`tel:${phone.number.replace(/[\s()-]/g, '')}`}>{phone.number}</a><br /></span>
+                  )) : (
+                    <><a href="tel:+380441234567">+38 (044) 123-45-67</a><br /><a href="tel:+380501234567">+38 (050) 123-45-67</a></>
+                  )}
                 </div>
               </div>
 
@@ -87,7 +99,7 @@ export default function ContactsSection({ locale = 'uk', dict }: { locale?: stri
                 <div className="contact-item-icon">✉️</div>
                 <div className="contact-item-text">
                   <h4>{d.emailLabel}</h4>
-                  <a href="mailto:info@veteran-road.org.ua">info@veteran-road.org.ua</a>
+                  <a href={`mailto:${c.email || 'info@veteran-road.org.ua'}`}>{c.email || 'info@veteran-road.org.ua'}</a>
                 </div>
               </div>
 
@@ -95,7 +107,7 @@ export default function ContactsSection({ locale = 'uk', dict }: { locale?: stri
                 <div className="contact-item-icon">🕐</div>
                 <div className="contact-item-text">
                   <h4>{d.hoursLabel}</h4>
-                  <p>{isUk ? 'Пн — Пт: 9:00 — 18:00' : 'Mon — Fri: 9:00 — 18:00'}<br />{isUk ? 'Сб: 10:00 — 14:00' : 'Sat: 10:00 — 14:00'}</p>
+                  <p>{(c.workingHours || (isUk ? 'Пн — Пт: 9:00 — 18:00\nСб: 10:00 — 14:00' : 'Mon — Fri: 9:00 — 18:00\nSat: 10:00 — 14:00')).split('\n').map((line, i) => <span key={i}>{line}<br /></span>)}</p>
                 </div>
               </div>
             </div>
@@ -103,7 +115,20 @@ export default function ContactsSection({ locale = 'uk', dict }: { locale?: stri
 
           <ScrollReveal delay={2}>
             <div className="contact-map">
-              {isUk ? 'Google Maps — Карта розташування офісу' : 'Google Maps — Office Location'}
+              {c.googleMapsEmbed ? (
+                <iframe
+                  src={c.googleMapsEmbed}
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0, borderRadius: 'var(--radius-xl)' }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title={isUk ? 'Карта розташування офісу' : 'Office Location Map'}
+                />
+              ) : (
+                <span>{isUk ? 'Google Maps — Карта розташування офісу' : 'Google Maps — Office Location'}</span>
+              )}
             </div>
           </ScrollReveal>
         </div>

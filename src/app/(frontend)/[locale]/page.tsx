@@ -110,7 +110,13 @@ export default async function HomePage({ params }: Props) {
         <JoinSection locale={locale} dict={dict.join} cmsData={cmsJoinOptions} />
       </SectionFade>
       <SectionFade>
-        <ContactsSection locale={locale} dict={dict.contacts} />
+        <ContactsSection locale={locale} dict={dict.contacts} cmsContacts={{
+          address: settings?.address || '',
+          phones: settings?.phones || [],
+          email: settings?.email || '',
+          workingHours: settings?.workingHours || '',
+          googleMapsEmbed: settings?.googleMapsEmbed || '',
+        }} />
       </SectionFade>
       <Footer locale={locale} dict={dict.footer} />
       <ChatWidget locale={locale} dict={dict.chat} />

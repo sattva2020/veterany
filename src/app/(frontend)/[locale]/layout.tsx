@@ -6,6 +6,7 @@ import { getDictionary } from '@/lib/dictionaries'
 import Analytics from '@/components/Analytics'
 import JsonLd from '@/components/JsonLd'
 import '@/styles/globals.css'
+import '@/styles/redesign.css'
 
 type Props = {
   params: Promise<{ locale: string }>

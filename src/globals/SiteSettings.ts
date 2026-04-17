@@ -91,6 +91,24 @@ export const SiteSettings: GlobalConfig = {
               defaultValue: '#contacts',
             },
             {
+              name: 'heroStories',
+              type: 'array',
+              label: { uk: 'Історії героя (Variant C)', en: 'Hero Stories (Variant C)' },
+              maxRows: 8,
+              admin: {
+                description: 'Ротація історій у hero. Якщо порожньо — показується дефолтний контент.',
+              },
+              fields: [
+                { name: 'chapter', type: 'text', label: { uk: 'Заголовок-розділ (напр. "Історія 01 · Олексій")', en: 'Chapter label' } },
+                { name: 'title1', type: 'text', label: { uk: 'Заголовок, рядок 1', en: 'Title line 1' } },
+                { name: 'title2', type: 'text', label: { uk: 'Заголовок, рядок 2 (золотий)', en: 'Title line 2 (gold)' } },
+                { name: 'body', type: 'textarea', label: { uk: 'Основний текст', en: 'Body' }, admin: { description: 'Перший символ автоматично стає drop-cap' } },
+                { name: 'photo', type: 'upload', relationTo: 'media', label: { uk: 'Портрет', en: 'Portrait' } },
+                { name: 'name', type: 'text', label: { uk: "Ім'я", en: 'Name' } },
+                { name: 'meta', type: 'text', label: { uk: 'Підпис (підрозділ · рік · місто)', en: 'Caption (unit · year · city)' } },
+              ],
+            },
+            {
               type: 'row',
               fields: [
                 {
@@ -295,17 +313,25 @@ export const SiteSettings: GlobalConfig = {
               type: 'array',
               label: { uk: 'Кроки', en: 'Steps' },
               maxRows: 6,
+              admin: {
+                description: 'Мови зберігаються одним значенням на рядок (SQLite масив без локалізації). Для двох мов — перекладіть тексти перед показом відповідної версії сайту.',
+              },
               fields: [
+                { name: 'eyebrow', type: 'text', label: { uk: 'Над-заголовок (напр. "Перший крок")', en: 'Eyebrow' } },
+                { name: 'title', type: 'text', label: { uk: 'Назва кроку', en: 'Step Title' } },
+                { name: 'short', type: 'text', label: { uk: 'Короткий опис (під цифрою)', en: 'Short description' } },
+                { name: 'long', type: 'textarea', label: { uk: 'Повний опис (у деталях)', en: 'Full description' } },
+                { name: 'meta', type: 'text', label: { uk: 'Мета-підпис (напр. "24 години")', en: 'Meta (e.g. "24 hours")' } },
                 {
-                  name: 'title',
-                  type: 'text',
-                  label: { uk: 'Назва кроку', en: 'Step Title' },
+                  name: 'tags',
+                  type: 'array',
+                  label: { uk: 'Теги', en: 'Tags' },
+                  maxRows: 5,
+                  fields: [
+                    { name: 'label', type: 'text', label: { uk: 'Текст тегу', en: 'Tag text' } },
+                  ],
                 },
-                {
-                  name: 'description',
-                  type: 'textarea',
-                  label: { uk: 'Опис', en: 'Description' },
-                },
+                { name: 'description', type: 'textarea', label: { uk: 'Опис (legacy)', en: 'Description (legacy)' }, admin: { description: 'Старе поле, використовується як fallback якщо short/long порожні.' } },
               ],
             },
           ],
@@ -325,28 +351,19 @@ export const SiteSettings: GlobalConfig = {
               type: 'array',
               label: { uk: 'Відгуки', en: 'Testimonials' },
               maxRows: 10,
+              admin: {
+                description: 'Мови зберігаються одним значенням на рядок. Для двох мов — перекладіть тексти перед показом відповідної версії сайту.',
+              },
               fields: [
-                {
-                  name: 'text',
-                  type: 'textarea',
-                  label: { uk: 'Текст відгуку', en: 'Testimonial Text' },
-                },
-                {
-                  name: 'name',
-                  type: 'text',
-                  label: { uk: "Ім'я", en: 'Name' },
-                },
-                {
-                  name: 'role',
-                  type: 'text',
-                  label: { uk: 'Роль / статус', en: 'Role / Status' },
-                },
-                {
-                  name: 'initials',
-                  type: 'text',
-                  label: { uk: 'Ініціали', en: 'Initials' },
-                  admin: { description: 'Наприклад: ОК, ІП' },
-                },
+                { name: 'name', type: 'text', label: { uk: "Ім'я", en: 'Name' } },
+                { name: 'role', type: 'text', label: { uk: 'Роль / підрозділ', en: 'Role / unit' } },
+                { name: 'date', type: 'text', label: { uk: 'Дата запису', en: 'Record date' }, admin: { description: 'Напр.: "Листопад 2024"' } },
+                { name: 'quote', type: 'textarea', label: { uk: 'Цитата', en: 'Quote' } },
+                { name: 'photo', type: 'upload', relationTo: 'media', label: { uk: 'Фото', en: 'Photo' } },
+                { name: 'hasAudio', type: 'checkbox', label: { uk: 'Є аудіозапис', en: 'Has audio' }, defaultValue: false },
+                { name: 'audioDuration', type: 'text', label: { uk: 'Тривалість (м:сс)', en: 'Duration (m:ss)' }, admin: { description: 'Напр.: "2:14"' } },
+                { name: 'text', type: 'textarea', label: { uk: 'Текст (legacy)', en: 'Text (legacy)' }, admin: { description: 'Старе поле — fallback для quote.' } },
+                { name: 'initials', type: 'text', label: { uk: 'Ініціали (legacy)', en: 'Initials (legacy)' } },
               ],
             },
           ],

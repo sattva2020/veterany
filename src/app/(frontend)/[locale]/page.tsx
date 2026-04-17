@@ -67,17 +67,34 @@ export default async function HomePage({ params }: Props) {
   }))
 
   const cmsSteps = settings?.steps?.map((s: any, i: number) => ({
-    number: i + 1,
+    n: String(i + 1).padStart(2, '0'),
+    eyebrow: s.eyebrow || '',
     title: s.title || '',
-    description: s.description || '',
+    short: s.short || s.description || '',
+    long: s.long || s.description || '',
+    tags: Array.isArray(s.tags) ? s.tags.map((t: any) => t.label || '').filter(Boolean) : [],
+    meta: s.meta || '',
   })) || []
 
   const cmsTestimonials = settings?.testimonials?.map((t: any) => ({
-    text: t.text || '',
     name: t.name || '',
     role: t.role || '',
-    initials: t.initials || '',
+    date: t.date || '',
+    quote: t.quote || t.text || '',
+    photo: t.photo?.url || null,
+    hasAudio: Boolean(t.hasAudio),
+    duration: t.audioDuration || null,
   })) || []
+
+  const cmsHeroStories = (settings?.heroStories || []).map((s: any) => ({
+    chapter: s.chapter || '',
+    title1: s.title1 || '',
+    title2: s.title2 || '',
+    body: s.body || '',
+    name: s.name || '',
+    meta: s.meta || '',
+    photo: s.photo?.url || null,
+  }))
 
   const cmsStats = settings?.stats?.map((s: any) => ({
     number: s.number || '0',
@@ -87,12 +104,7 @@ export default async function HomePage({ params }: Props) {
   return (
     <>
       <Header isLanding cabinetLink={`/${locale}/cabinet`} locale={locale} dict={dict.header} />
-      <HeroSection locale={locale} dict={dict.hero} progress={{
-        current: settings?.progressCurrent || 500,
-        goal: settings?.progressGoal || 1000,
-        labelDone: settings?.progressLabelDone || dict.hero.progressHelped || 'Допомогли ветеранам',
-        labelGoal: settings?.progressLabelGoal || dict.hero.progressGoal || 'Мета',
-      }} />
+      <HeroSection locale={locale} dict={dict.hero} stories={cmsHeroStories} />
       <SectionFade>
         <AboutSection locale={locale} dict={dict.about} cmsStats={cmsStats} />
       </SectionFade>
@@ -100,13 +112,13 @@ export default async function HomePage({ params }: Props) {
         <ActivitiesSection locale={locale} dict={dict.activities} cmsData={cmsActivities} />
       </SectionFade>
       <SectionFade>
-        <HowWeWorkSection locale={locale} dict={dict.howWeWork} cmsSteps={cmsSteps} />
+        <HowWeWorkSection locale={locale} dict={dict.howWeWork as any} cmsSteps={cmsSteps} />
       </SectionFade>
       <SectionFade>
         <NewsSection locale={locale} dict={dict.news} cmsData={cmsNews} />
       </SectionFade>
       <SectionFade>
-        <TestimonialsSection locale={locale} dict={dict.testimonials} cmsData={cmsTestimonials} />
+        <TestimonialsSection locale={locale} dict={dict.testimonials as any} cmsData={cmsTestimonials} />
       </SectionFade>
       <SectionFade>
         <PartnersSection locale={locale} dict={dict.partners} cmsData={cmsPartners} />

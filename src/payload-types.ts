@@ -800,6 +800,34 @@ export interface SiteSetting {
   heroBackground?: (number | null) | Media;
   ctaButtonText?: string | null;
   ctaButtonLink?: string | null;
+  /**
+   * Ротація історій у hero. Якщо порожньо — показується дефолтний контент.
+   */
+  heroStories?:
+    | {
+        chapter?: string | null;
+        title1?: string | null;
+        title2?: string | null;
+        /**
+         * Перший символ автоматично стає drop-cap
+         */
+        body?: string | null;
+        photo?: (number | null) | Media;
+        name?: string | null;
+        meta?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Скільки вже допомогли
+   */
+  progressCurrent?: number | null;
+  /**
+   * Цільове число
+   */
+  progressGoal?: number | null;
+  progressLabelDone?: string | null;
+  progressLabelGoal?: string | null;
   address?: string | null;
   phones?:
     | {
@@ -814,7 +842,7 @@ export interface SiteSetting {
   email?: string | null;
   workingHours?: string | null;
   /**
-   * URL для вбудованої карти Google Maps
+   * Вставте будь-що: посилання з Google Maps, або повний <iframe> код з вкладки "Встраивание карт". Система розбереться автоматично.
    */
   googleMapsEmbed?: string | null;
   socialLinks?:
@@ -845,8 +873,8 @@ export interface SiteSetting {
         /**
          * Наприклад: 500+, 7, 50+
          */
-        number: string;
-        label: string;
+        number?: string | null;
+        label?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -869,22 +897,52 @@ export interface SiteSetting {
   } | null;
   howWeWorkTitle?: string | null;
   howWeWorkSubtitle?: string | null;
+  /**
+   * Мови зберігаються одним значенням на рядок (SQLite масив без локалізації). Для двох мов — перекладіть тексти перед показом відповідної версії сайту.
+   */
   steps?:
     | {
-        title: string;
-        description: string;
+        eyebrow?: string | null;
+        title?: string | null;
+        short?: string | null;
+        long?: string | null;
+        meta?: string | null;
+        tags?:
+          | {
+              label?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * Старе поле, використовується як fallback якщо short/long порожні.
+         */
+        description?: string | null;
         id?: string | null;
       }[]
     | null;
   testimonialsTitle?: string | null;
+  /**
+   * Мови зберігаються одним значенням на рядок. Для двох мов — перекладіть тексти перед показом відповідної версії сайту.
+   */
   testimonials?:
     | {
-        text: string;
-        name: string;
+        name?: string | null;
         role?: string | null;
         /**
-         * Наприклад: ОК, ІП
+         * Напр.: "Листопад 2024"
          */
+        date?: string | null;
+        quote?: string | null;
+        photo?: (number | null) | Media;
+        hasAudio?: boolean | null;
+        /**
+         * Напр.: "2:14"
+         */
+        audioDuration?: string | null;
+        /**
+         * Старе поле — fallback для quote.
+         */
+        text?: string | null;
         initials?: string | null;
         id?: string | null;
       }[]
@@ -931,6 +989,22 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   heroBackground?: T;
   ctaButtonText?: T;
   ctaButtonLink?: T;
+  heroStories?:
+    | T
+    | {
+        chapter?: T;
+        title1?: T;
+        title2?: T;
+        body?: T;
+        photo?: T;
+        name?: T;
+        meta?: T;
+        id?: T;
+      };
+  progressCurrent?: T;
+  progressGoal?: T;
+  progressLabelDone?: T;
+  progressLabelGoal?: T;
   address?: T;
   phones?:
     | T
@@ -966,7 +1040,17 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   steps?:
     | T
     | {
+        eyebrow?: T;
         title?: T;
+        short?: T;
+        long?: T;
+        meta?: T;
+        tags?:
+          | T
+          | {
+              label?: T;
+              id?: T;
+            };
         description?: T;
         id?: T;
       };
@@ -974,9 +1058,14 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   testimonials?:
     | T
     | {
-        text?: T;
         name?: T;
         role?: T;
+        date?: T;
+        quote?: T;
+        photo?: T;
+        hasAudio?: T;
+        audioDuration?: T;
+        text?: T;
         initials?: T;
         id?: T;
       };

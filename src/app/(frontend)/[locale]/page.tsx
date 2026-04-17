@@ -87,7 +87,12 @@ export default async function HomePage({ params }: Props) {
   return (
     <>
       <Header isLanding cabinetLink={`/${locale}/cabinet`} locale={locale} dict={dict.header} />
-      <HeroSection locale={locale} dict={dict.hero} />
+      <HeroSection locale={locale} dict={dict.hero} progress={{
+        current: settings?.progressCurrent || 500,
+        goal: settings?.progressGoal || 1000,
+        labelDone: settings?.progressLabelDone || dict.hero.progressHelped || 'Допомогли ветеранам',
+        labelGoal: settings?.progressLabelGoal || dict.hero.progressGoal || 'Мета',
+      }} />
       <SectionFade>
         <AboutSection locale={locale} dict={dict.about} cmsStats={cmsStats} />
       </SectionFade>

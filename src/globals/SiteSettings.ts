@@ -90,6 +90,46 @@ export const SiteSettings: GlobalConfig = {
               label: { uk: 'Посилання кнопки CTA', en: 'CTA Button Link' },
               defaultValue: '#contacts',
             },
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'progressCurrent',
+                  type: 'number',
+                  label: { uk: 'Прогрес: поточне число', en: 'Progress: Current' },
+                  defaultValue: 500,
+                  admin: { width: '25%', description: 'Скільки вже допомогли' },
+                },
+                {
+                  name: 'progressGoal',
+                  type: 'number',
+                  label: { uk: 'Прогрес: мета', en: 'Progress: Goal' },
+                  defaultValue: 1000,
+                  admin: { width: '25%', description: 'Цільове число' },
+                },
+              ],
+            },
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'progressLabelDone',
+                  type: 'text',
+                  label: { uk: 'Лейбл "Допомогли"', en: 'Label "Helped"' },
+                  defaultValue: 'Допомогли ветеранам',
+                  localized: true,
+                  admin: { width: '50%' },
+                },
+                {
+                  name: 'progressLabelGoal',
+                  type: 'text',
+                  label: { uk: 'Лейбл "Мета"', en: 'Label "Goal"' },
+                  defaultValue: 'Мета',
+                  localized: true,
+                  admin: { width: '50%' },
+                },
+              ],
+            },
           ],
         },
         {

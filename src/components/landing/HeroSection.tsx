@@ -3,12 +3,20 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { PhoneIcon, ChevronRightIcon, FacebookIcon, InstagramIcon, YouTubeIcon, TelegramIcon, TikTokIcon, ViberIcon } from '@/components/icons'
 
+interface HeroProgress {
+  current: number
+  goal: number
+  labelDone: string
+  labelGoal: string
+}
+
 interface HeroProps {
   locale?: string
   dict?: Record<string, string>
+  progress?: HeroProgress
 }
 
-export default function HeroSection({ locale = 'uk', dict }: HeroProps) {
+export default function HeroSection({ locale = 'uk', dict, progress }: HeroProps) {
   const d = dict || {
     badge: 'Громадська організація', title1: 'Ветеран.', title2: 'Дорога до нового життя',
     subtitle: 'Підтримка. Відновлення. Нові можливості.',
@@ -80,16 +88,27 @@ export default function HeroSection({ locale = 'uk', dict }: HeroProps) {
             </a>
           </div>
 
-          {/* Progress bar */}
-          <div className="hero-progress">
-            <div className="hero-progress-label">
-              <span>{d.progressHelped} <strong>500+</strong></span>
-              <span>{d.progressGoal} <strong>1 000</strong></span>
-            </div>
-            <div className="hero-progress-bar">
-              <div className="hero-progress-fill" style={{ width: '50%' }} />
-            </div>
-          </div>
+          {/* Progress bar — savethelimb style */}
+          {(() => {
+            const cur = progress?.current || 500
+            const goal = progress?.goal || 1000
+            const pct = Math.min((cur / goal) * 100, 100)
+            const lDone = progress?.labelDone || d.progressHelped || 'Допомогли ветеранам'
+            const lGoal = progress?.labelGoal || d.progressGoal || 'Мета'
+            return (
+              <div className="hero-progress">
+                <div className="hero-progress-title">{lDone.replace(':', '')}</div>
+                <div className="hero-progress-bar">
+                  <div className="hero-progress-fill" style={{ width: `${pct}%` }} />
+                  <div className="hero-progress-dot" style={{ left: `${pct}%` }} />
+                </div>
+                <div className="hero-progress-label">
+                  <span>{lDone}: <strong>{cur.toLocaleString(locale === 'uk' ? 'uk-UA' : 'en-US')}</strong></span>
+                  <span>{lGoal}: <strong>{goal.toLocaleString(locale === 'uk' ? 'uk-UA' : 'en-US')}</strong></span>
+                </div>
+              </div>
+            )
+          })()}
 
           {isMobile && (
             <div className="hero-social" style={{ display: 'flex', position: 'static', transform: 'none', flexDirection: 'row', marginTop: '40px' }}>

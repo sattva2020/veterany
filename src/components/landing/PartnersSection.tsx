@@ -3,7 +3,7 @@ import Image from 'next/image'
 import ScrollReveal from '@/components/ScrollReveal'
 import { ArrowRightIcon } from '@/components/icons'
 
-const partners = [
+const defaultPartners = [
   { name: 'Bosch', logo: '/media/partners/bosch.webp' },
   { name: 'Acumen International', logo: '/media/partners/acumen-international.webp' },
   { name: 'Укрсиббанк', logo: '/media/partners/ukrsibbank.webp' },
@@ -19,7 +19,10 @@ const partners = [
   { name: 'Стрийська Єпархія УГКЦ', logo: '/media/partners/stryyska-eparkhia.webp' },
 ]
 
-export default function PartnersSection({ locale = 'uk', dict }: { locale?: string; dict?: Record<string, string> }) {
+export default function PartnersSection({ locale = 'uk', dict, cmsData }: { locale?: string; dict?: Record<string, string>; cmsData?: Array<{ name: string; logo: string | null; type: string; website: string }> }) {
+  const partners = (cmsData && cmsData.length > 0)
+    ? cmsData.map(p => ({ name: p.name, logo: p.logo || '/media/partners/placeholder.webp' }))
+    : defaultPartners
   const d = dict || { label: 'Партнери', title: 'Разом ми сильніші', description: 'Ми вдячні організаціям та компаніям, що підтримують нашу місію та допомагають ветеранам.', cta: 'Стати партнером', ctaText: 'Ми щиро дякуємо усім за вагомий внесок у підтримку ветеранів з перших днів' }
   return (
     <section className="section partners" id="partners">

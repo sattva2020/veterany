@@ -2,31 +2,16 @@ import React from 'react'
 import ScrollReveal from '@/components/ScrollReveal'
 import { ChevronRightIcon } from '@/components/icons'
 
-const news = [
-  {
-    id: 1,
-    date: '12 Квітня 2026',
-    tag: 'Подія',
-    title: 'Відкриття нового центру підтримки ветеранів у Києві',
-    description: 'Новий простір для консультацій, навчання та зустрічей ветеранської спільноти розпочав роботу на лівому березі.',
-  },
-  {
-    id: 2,
-    date: '5 Квітня 2026',
-    tag: 'Програма',
-    title: 'Запуск програми «Нова професія» для ветеранів',
-    description: 'Спільно з IT-компаніями розпочинаємо безкоштовне навчання digital-професіям для учасників бойових дій.',
-  },
-  {
-    id: 3,
-    date: '28 Березня 2026',
-    tag: 'Партнерство',
-    title: 'Підписання меморандуму з міжнародними організаціями',
-    description: 'Нові партнерства розширюють можливості реабілітації та підтримки ветеранів на міжнародному рівні.',
-  },
+const defaultNews = [
+  { id: 1, date: '12 Квітня 2026', tag: 'Подія', title: 'Відкриття нового центру підтримки ветеранів у Києві', description: 'Новий простір для консультацій та зустрічей ветеранської спільноти.' },
+  { id: 2, date: '5 Квітня 2026', tag: 'Програма', title: 'Запуск програми «Нова професія»', description: 'Безкоштовне навчання digital-професіям для ветеранів.' },
+  { id: 3, date: '28 Березня 2026', tag: 'Партнерство', title: 'Меморандум з міжнародними організаціями', description: 'Нові партнерства для розширення можливостей реабілітації.' },
 ]
 
-export default function NewsSection({ locale = 'uk', dict }: { locale?: string; dict?: Record<string, string> }) {
+export default function NewsSection({ locale = 'uk', dict, cmsData }: { locale?: string; dict?: Record<string, string>; cmsData?: Array<{ title: string; tag: string; excerpt: string; date: string; image?: string | null }> }) {
+  const news = (cmsData && cmsData.length > 0)
+    ? cmsData.map((n, i) => ({ id: i + 1, date: n.date ? new Date(n.date).toLocaleDateString(locale === 'uk' ? 'uk-UA' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' }) : '', tag: n.tag, title: n.title, description: n.excerpt }))
+    : defaultNews
   const d = dict || { label: 'Останні новини', title: 'Що відбувається', viewAll: 'Усі новини', readMore: 'Читати далі' }
   return (
     <section className="section news" id="news">

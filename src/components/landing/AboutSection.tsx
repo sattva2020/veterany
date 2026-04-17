@@ -5,9 +5,10 @@ import AnimatedCounter from '@/components/AnimatedCounter'
 interface AboutProps {
   locale?: string
   dict?: Record<string, string>
+  cmsStats?: Array<{ number: string; label: string }>
 }
 
-export default function AboutSection({ locale = 'uk', dict }: AboutProps) {
+export default function AboutSection({ locale = 'uk', dict, cmsStats }: AboutProps) {
   const d = dict || {
     label: 'Про організацію', title: 'Ми поруч, коли це найбільш потрібно',
     text1: 'ГО «Ветеран. Дорога до нового життя» — це громадська організація, що створена для комплексної підтримки ветеранів та їхніх родин у процесі повернення до мирного життя.',

@@ -101,14 +101,14 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  fallbackLocale: null;
+  fallbackLocale: ('false' | 'none' | 'null') | false | null | ('uk' | 'en') | ('uk' | 'en')[];
   globals: {
     'site-settings': SiteSetting;
   };
   globalsSelect: {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
   };
-  locale: null;
+  locale: 'uk' | 'en';
   widgets: {
     collections: CollectionsWidget;
   };
@@ -867,6 +867,52 @@ export interface SiteSetting {
     };
     [k: string]: unknown;
   } | null;
+  howWeWorkTitle?: string | null;
+  howWeWorkSubtitle?: string | null;
+  steps?:
+    | {
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  testimonialsTitle?: string | null;
+  testimonials?:
+    | {
+        text: string;
+        name: string;
+        role?: string | null;
+        /**
+         * Наприклад: ОК, ІП
+         */
+        initials?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Заголовок для пошукових систем (50-60 символів)
+   */
+  seoTitle?: string | null;
+  /**
+   * Мета-опис для пошукових систем (150-160 символів)
+   */
+  seoDescription?: string | null;
+  /**
+   * Через кому: ветеран, допомога, підтримка
+   */
+  seoKeywords?: string | null;
+  /**
+   * Зображення для соц. мереж (1200×630)
+   */
+  ogImage?: (number | null) | Media;
+  /**
+   * https://veteran-road.org.ua
+   */
+  canonicalUrl?: string | null;
+  /**
+   * Google Search Console verification code
+   */
+  googleVerification?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -915,6 +961,31 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   legalName?: T;
   edrpou?: T;
   bankDetails?: T;
+  howWeWorkTitle?: T;
+  howWeWorkSubtitle?: T;
+  steps?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  testimonialsTitle?: T;
+  testimonials?:
+    | T
+    | {
+        text?: T;
+        name?: T;
+        role?: T;
+        initials?: T;
+        id?: T;
+      };
+  seoTitle?: T;
+  seoDescription?: T;
+  seoKeywords?: T;
+  ogImage?: T;
+  canonicalUrl?: T;
+  googleVerification?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

@@ -2,30 +2,15 @@ import React from 'react'
 import ScrollReveal from '@/components/ScrollReveal'
 import { ArrowRightIcon } from '@/components/icons'
 
-const joinCards = [
-  {
-    icon: '🤝',
-    title: 'Волонтерство',
-    description: 'Долучайтеся до нашої команди волонтерів. Ваш час та досвід — безцінні для тих, хто потребує підтримки.',
-  },
-  {
-    icon: '🏢',
-    title: 'Партнерство',
-    description: 'Станьте нашим партнером — разом ми можемо масштабувати допомогу та охопити більше ветеранів.',
-  },
-  {
-    icon: '💡',
-    title: 'Для бізнесу',
-    description: 'Корпоративна соціальна відповідальність через реальну допомогу. Працевлаштування ветеранів, спонсорство програм.',
-  },
-  {
-    icon: '⭐',
-    title: 'Членство в ГО',
-    description: 'Станьте членом громадської організації «Ветеран. Дорога до нового життя» та впливайте на розвиток спільноти.',
-  },
+const defaultJoinCards = [
+  { icon: '🤝', title: 'Волонтерство', description: 'Долучайтеся до нашої команди волонтерів.' },
+  { icon: '🏢', title: 'Партнерство', description: 'Станьте нашим партнером для масштабування допомоги.' },
+  { icon: '💡', title: 'Для бізнесу', description: 'Корпоративна соціальна відповідальність через реальну допомогу.' },
+  { icon: '⭐', title: 'Членство в ГО', description: 'Станьте членом організації та впливайте на розвиток спільноти.' },
 ]
 
-export default function JoinSection({ locale = 'uk', dict }: { locale?: string; dict?: Record<string, string> }) {
+export default function JoinSection({ locale = 'uk', dict, cmsData }: { locale?: string; dict?: Record<string, string>; cmsData?: Array<{ icon: string; title: string; description: string }> }) {
+  const joinCards = (cmsData && cmsData.length > 0) ? cmsData : defaultJoinCards
   const d = dict || { label: 'Долучитися', title: 'Станьте частиною змін', description: 'Кожен може допомогти. Оберіть зручний для вас спосіб підтримки — разом ми зможемо більше.', cta: 'Приєднатися' }
   return (
     <section className="section join" id="join">

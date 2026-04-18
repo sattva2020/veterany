@@ -24,4 +24,4 @@ ENV HOSTNAME="0.0.0.0"
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "(npx payload migrate 2>&1 | tee /tmp/migrate.log) || echo 'migrate non-fatal, continuing'; npm start"]
+CMD ["sh", "-c", "npx payload migrate 2>&1 | tee /tmp/migrate.log; status=${PIPESTATUS:-$?}; if [ \"$status\" != \"0\" ]; then echo '=== migrate failed (non-fatal), full log below ==='; cat /tmp/migrate.log; echo '=== end migrate log, starting server ==='; fi; npm start"]

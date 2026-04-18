@@ -24,4 +24,4 @@ ENV HOSTNAME="0.0.0.0"
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "npx payload migrate && npm start"]
+CMD ["sh", "-c", "(npx payload migrate 2>&1 | tee /tmp/migrate.log) || echo 'migrate non-fatal, continuing'; npm start"]

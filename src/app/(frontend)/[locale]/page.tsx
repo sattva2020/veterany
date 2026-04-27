@@ -86,14 +86,21 @@ export default async function HomePage({ params }: Props) {
     duration: t.audioDuration || null,
   })) || []
 
-  const cmsHeroStories = (settings?.heroStories || []).map((s: any) => ({
+  const heroStoryPhotos = [
+    settings?.heroStory1Photo?.url || null,
+    settings?.heroStory2Photo?.url || null,
+    settings?.heroStory3Photo?.url || null,
+    settings?.heroStory4Photo?.url || null,
+  ]
+
+  const cmsHeroStories = (settings?.heroStories || []).map((s: any, i: number) => ({
     chapter: s.chapter || '',
     title1: s.title1 || '',
     title2: s.title2 || '',
     body: s.body || '',
     name: s.name || '',
     meta: s.meta || '',
-    photo: s.photo?.url || null,
+    photo: heroStoryPhotos[i] || s.photo?.url || null,
   }))
 
   const cmsHeroPortrait = settings?.heroPortrait?.url || null

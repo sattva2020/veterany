@@ -83,8 +83,42 @@ export const SiteSettings: GlobalConfig = {
               relationTo: 'media',
               label: { uk: 'Портрет героя (за замовчуванням)', en: 'Hero Portrait (default)' },
               admin: {
-                description: 'Показується у Hero справа, якщо в конкретної історії немає свого фото. Замінити: Site Settings → Hero → Hero Portrait.',
+                description: 'Показується у Hero справа, якщо в конкретної історії немає свого фото.',
               },
+            },
+            {
+              type: 'collapsible',
+              label: { uk: 'Портрети історій (за позицією)', en: 'Story portraits (by position)' },
+              admin: {
+                description: 'Підвантажується по позиції історії в каруселі. Story 1 → Story 1 Photo, і т.д. Залиште порожнім — підставиться загальний Hero Portrait.',
+                initCollapsed: true,
+              },
+              fields: [
+                {
+                  name: 'heroStory1Photo',
+                  type: 'upload',
+                  relationTo: 'media',
+                  label: { uk: 'Story 1 — Портрет', en: 'Story 1 — Portrait' },
+                },
+                {
+                  name: 'heroStory2Photo',
+                  type: 'upload',
+                  relationTo: 'media',
+                  label: { uk: 'Story 2 — Портрет', en: 'Story 2 — Portrait' },
+                },
+                {
+                  name: 'heroStory3Photo',
+                  type: 'upload',
+                  relationTo: 'media',
+                  label: { uk: 'Story 3 — Портрет', en: 'Story 3 — Portrait' },
+                },
+                {
+                  name: 'heroStory4Photo',
+                  type: 'upload',
+                  relationTo: 'media',
+                  label: { uk: 'Story 4 — Портрет', en: 'Story 4 — Portrait' },
+                },
+              ],
             },
             {
               name: 'ctaButtonText',
@@ -112,7 +146,6 @@ export const SiteSettings: GlobalConfig = {
                 { name: 'title1', type: 'text', label: { uk: 'Заголовок, рядок 1', en: 'Title line 1' } },
                 { name: 'title2', type: 'text', label: { uk: 'Заголовок, рядок 2 (золотий)', en: 'Title line 2 (gold)' } },
                 { name: 'body', type: 'textarea', label: { uk: 'Основний текст', en: 'Body' }, admin: { description: 'Перший символ автоматично стає drop-cap' } },
-                { name: 'photo', type: 'upload', relationTo: 'media', label: { uk: 'Портрет', en: 'Portrait' } },
                 { name: 'name', type: 'text', label: { uk: "Ім'я", en: 'Name' } },
                 { name: 'meta', type: 'text', label: { uk: 'Підпис (підрозділ · рік · місто)', en: 'Caption (unit · year · city)' } },
               ],

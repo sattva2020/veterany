@@ -15,7 +15,8 @@ RUN cp node_modules/@payloadcms/next/dist/prod/styles.css "src/app/(payload)/pay
 
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PAYLOAD_SECRET=build-time-secret-placeholder
-ENV DATABASE_URI=file:/app/database.db
+# Build-time stub: build does not require a live DB (force-dynamic pages, no SSG of CMS routes).
+ENV DATABASE_URI=postgres://stub:stub@localhost:5432/stub
 RUN npm run build
 
 ENV NODE_ENV=production
@@ -24,4 +25,6 @@ ENV HOSTNAME="0.0.0.0"
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "npx payload migrate 2>&1 | tee /tmp/migrate.log; status=${PIPESTATUS:-$?}; if [ \"$status\" != \"0\" ]; then echo '=== migrate failed (non-fatal), full log below ==='; cat /tmp/migrate.log; echo '=== end migrate log, starting server ==='; fi; npm start"]
+# Schema is synchronized via postgresAdapter({ push: true }) on first init — no migrate step needed.
+# A short sleep gives the Postgres sidecar a moment to be reachable when both containers boot together.
+CMD ["sh", "-c", "sleep 4; npm start"]

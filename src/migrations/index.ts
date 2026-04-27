@@ -1,21 +1,13 @@
-import * as migration_20260417_192657 from './20260417_192657';
-import * as migration_20260427_161733 from './20260427_161733';
-import * as migration_20260427_171149 from './20260427_171149';
-
-export const migrations = [
-  {
-    up: migration_20260417_192657.up,
-    down: migration_20260417_192657.down,
-    name: '20260417_192657',
-  },
-  {
-    up: migration_20260427_161733.up,
-    down: migration_20260427_161733.down,
-    name: '20260427_161733',
-  },
-  {
-    up: migration_20260427_171149.up,
-    down: migration_20260427_171149.down,
-    name: '20260427_171149'
-  },
-];
+// Migrations cleared after switch from SQLite to Postgres adapter (2026-04-27).
+// The previous files (20260417_*, 20260427_*) were SQLite-specific (PRAGMA, ALTER TABLE
+// rebuild patterns) and are not portable to Postgres. Schema is now synchronized via
+// Drizzle push (postgresAdapter({ push: true })) on each container start.
+//
+// To switch to versioned migrations later: set push: false in payload.config.ts,
+// run `payload migrate:create` against a live Postgres, and import the generated
+// modules below.
+export const migrations: Array<{
+  up: (...args: any[]) => Promise<void>
+  down: (...args: any[]) => Promise<void>
+  name: string
+}> = []

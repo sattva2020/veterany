@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
       './node_modules/@payloadcms/ui/dist/scss',
     ],
   },
+  images: {
+    formats: ['image/avif', 'image/webp'],
+  },
 }
 
 export default withPayload(nextConfig)

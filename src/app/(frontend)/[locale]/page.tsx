@@ -96,6 +96,8 @@ export default async function HomePage({ params }: Props) {
     photo: s.photo?.url || null,
   }))
 
+  const cmsHeroPortrait = settings?.heroPortrait?.url || null
+
   const cmsStats = settings?.stats?.map((s: any) => ({
     number: s.number || '0',
     label: s.label || '',
@@ -104,7 +106,7 @@ export default async function HomePage({ params }: Props) {
   return (
     <>
       <Header isLanding cabinetLink={`/${locale}/cabinet`} locale={locale} dict={dict.header} />
-      <HeroSection locale={locale} dict={dict.hero} stories={cmsHeroStories} />
+      <HeroSection locale={locale} dict={dict.hero} stories={cmsHeroStories} defaultPhoto={cmsHeroPortrait} />
       <SectionFade>
         <AboutSection locale={locale} dict={dict.about} cmsStats={cmsStats} />
       </SectionFade>

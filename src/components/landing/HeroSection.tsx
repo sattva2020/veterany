@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import Image from 'next/image'
 import { ChevronRightIcon, PhoneIcon } from '@/components/icons'
 
 export interface HeroStory {
@@ -17,6 +18,7 @@ interface HeroProps {
   locale?: string
   dict?: Record<string, string>
   stories?: HeroStory[]
+  defaultPhoto?: string | null
 }
 
 const defaultStoriesByLocale: Record<string, HeroStory[]> = {
@@ -98,7 +100,7 @@ const defaultStoriesByLocale: Record<string, HeroStory[]> = {
   ],
 }
 
-export default function HeroSection({ locale = 'uk', dict, stories }: HeroProps) {
+export default function HeroSection({ locale = 'uk', dict, stories, defaultPhoto }: HeroProps) {
   const d = dict || {
     badge: 'Громадська організація · Київ',
     ctaPrimary: 'Потребую допомоги',
@@ -111,6 +113,7 @@ export default function HeroSection({ locale = 'uk', dict, stories }: HeroProps)
   const total = list.length
   const firstChar = (cur.body || '').charAt(0)
   const rest = (cur.body || '').slice(1)
+  const photoSrc = cur.photo || defaultPhoto || null
 
   return (
     <section className="hero-c-wrap" id="hero">
@@ -160,8 +163,15 @@ export default function HeroSection({ locale = 'uk', dict, stories }: HeroProps)
             <div className="hero-c-right">
               <div className="hero-c-frame-accent-2" />
               <div className="hero-c-photo">
-                {cur.photo ? (
-                  <img src={cur.photo} alt={cur.name} />
+                {photoSrc ? (
+                  <Image
+                    src={photoSrc}
+                    alt={cur.name}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 480px"
+                    priority
+                    style={{ objectFit: 'cover' }}
+                  />
                 ) : null}
                 <div className="hero-c-caption">
                   <div className="name">{cur.name}</div>

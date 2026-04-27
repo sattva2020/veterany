@@ -12,6 +12,10 @@ export const Media: CollectionConfig = {
   upload: {
     staticDir: 'public/media',
     mimeTypes: ['image/*', 'video/*', 'application/pdf'],
+    formatOptions: {
+      format: 'webp',
+      options: { quality: 82 },
+    },
     imageSizes: [
       { name: 'thumbnail', width: 400, height: 300, position: 'centre' },
       { name: 'card', width: 768, height: 480, position: 'centre' },

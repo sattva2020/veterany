@@ -78,6 +78,15 @@ export const SiteSettings: GlobalConfig = {
               label: { uk: 'Фонове зображення', en: 'Hero Background' },
             },
             {
+              name: 'heroPortrait',
+              type: 'upload',
+              relationTo: 'media',
+              label: { uk: 'Портрет героя (за замовчуванням)', en: 'Hero Portrait (default)' },
+              admin: {
+                description: 'Показується у Hero справа, якщо в конкретної історії немає свого фото. Замінити: Site Settings → Hero → Hero Portrait.',
+              },
+            },
+            {
               name: 'ctaButtonText',
               type: 'text',
               label: { uk: 'Текст кнопки CTA', en: 'CTA Button Text' },

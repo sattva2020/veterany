@@ -798,6 +798,10 @@ export interface SiteSetting {
   heroSubtitle?: string | null;
   heroDescription?: string | null;
   heroBackground?: (number | null) | Media;
+  /**
+   * Показується у Hero справа, якщо в конкретної історії немає свого фото. Замінити: Site Settings → Hero → Hero Portrait.
+   */
+  heroPortrait?: (number | null) | Media;
   ctaButtonText?: string | null;
   ctaButtonLink?: string | null;
   /**
@@ -987,6 +991,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   heroSubtitle?: T;
   heroDescription?: T;
   heroBackground?: T;
+  heroPortrait?: T;
   ctaButtonText?: T;
   ctaButtonLink?: T;
   heroStories?:

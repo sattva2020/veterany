@@ -25,6 +25,9 @@ ENV HOSTNAME="0.0.0.0"
 
 EXPOSE 3000
 
-# Schema is synchronized via postgresAdapter({ push: true }) on first init — no migrate step needed.
-# A short sleep gives the Postgres sidecar a moment to be reachable when both containers boot together.
-CMD ["sh", "-c", "sleep 4; npm start"]
+# Boot sequence:
+#  1. wait a moment for the Postgres sidecar
+#  2. one-shot init in DEV mode so postgresAdapter({push:true}) actually syncs schema
+#     (Payload disables push when NODE_ENV=production)
+#  3. then start the real server with the real NODE_ENV
+CMD ["sh", "-c", "sleep 4; npx tsx scripts/payload-init.ts || true; npm start"]

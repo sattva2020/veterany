@@ -64,7 +64,6 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI || 'postgres://postgres:postgres@localhost:5432/postgres',
     },
-    push: true,
   }),
   sharp,
 })

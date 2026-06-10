@@ -11,7 +11,7 @@
 - **Язык:** TypeScript 5.7 (ESM, `"type": "module"`)
 - **Фреймворк:** Next.js 15.4 App Router + React 19
 - **CMS:** Payload CMS 3.82 (`@payloadcms/next`, `@payloadcms/ui`, Lexical rich text)
-- **База данных:** SQLite (`@payloadcms/db-sqlite`, файл `database.db`)
+- **База данных:** PostgreSQL (`@payloadcms/db-postgres`, подключение через `DATABASE_URI`)
 - **Стили:** Sass + плоский `globals.css`
 - **Изображения:** Sharp 0.34
 - **GraphQL:** `graphql` 16 (для Payload)
@@ -59,7 +59,7 @@ veterany/
 ├── next.config.ts               # Next.js + withPayload
 ├── tsconfig.json                # TypeScript (strict, paths: @/* и @payload-config)
 ├── package.json                 # скрипты: dev, build, start, payload, generate:types
-└── database.db                  # SQLite БД (НЕ коммитить)
+└── docker-compose.yml           # Postgres + web для локального/прод запуска
 ```
 
 ## Ключевые точки входа
@@ -81,6 +81,12 @@ veterany/
 
 | Документ | Путь | Описание |
 |----------|------|----------|
+| README | `README.md` | Лендинг-страница проекта |
+| Getting Started | `docs/getting-started.md` | Установка, локальный запуск, первый логин |
+| Architecture | `docs/architecture.md` | Структура, модули, границы зависимостей |
+| Configuration | `docs/configuration.md` | Переменные окружения, конфиг-файлы, алиасы |
+| CMS | `docs/cms.md` | Коллекции Payload, локализация, генерация типов |
+| Deployment | `docs/deployment.md` | Docker-сборка, миграции, продакшен-чеклист |
 | Дизайн-референсы | `docs/dev/desing/` | Скриншоты текущего дизайна, эмблемы, референсы |
 | Исходное ТЗ | `Сайт ГО.docx` / `.docx.md` | Первичное описание сайта (украинский) |
 | llms.txt | `public/llms.txt` | Описание для AI-краулеров |
@@ -104,7 +110,7 @@ veterany/
 - **Алиасы импортов:** использовать `@/...` и `@payload-config`, не относительные пути `../../`.
 - **Локализация:** любое новое UI-сообщение — в `src/dictionaries/{uk,en}.json`; любое поле CMS, видимое пользователю — `localized: true` + label/options через `{ uk, en }`.
 - **Типы Payload (`src/payload-types.ts`)** генерируются командой `npm run generate:types` — не править вручную.
-- **MCP `postgres`** прописан в `.mcp.json`, но проект использует SQLite — не запускать миграции/SQL-операции через postgres MCP против рабочей БД.
+- **MCP `postgres`** прописан в `.mcp.json` — не запускать миграции/SQL-операции через postgres MCP против рабочей БД, схемой управляют миграции Payload.
 - **Базовая ветка git — `master`**; новые фичи в ветках `feature/...`. Не пушить и не делать force-push без явного запроса.
 - **Декомпозиция shell-команд:** разбивайте составные команды.
   - Неправильно: `git checkout master && git pull`

@@ -4,7 +4,8 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-RUN npm ci --production=false
+# Лок-файл сгенерирован npm 11; npm 10 из базового образа считает его рассинхронизированным.
+RUN npm install -g npm@11 && npm ci --production=false
 
 COPY . .
 RUN mkdir -p public public/media

@@ -5,14 +5,14 @@ lightrag_project: veterany
 
 ## What This Is
 Website for Ukrainian veterans NGO "Ветеран. Дорога до нового життя" (Veteran. Road to a New Life).
-Built with **Next.js 15 + Payload CMS 3 + SQLite + React 19**.
+Built with **Next.js 15 + Payload CMS 3 + PostgreSQL + React 19**.
 
 ## Current State (2026-04-17)
 - **Bilingual**: UK (default) + EN with middleware auto-detection
 - **CMS**: Payload with localization, all content manageable via admin
 - **SEO**: sitemap.xml, robots.txt, JSON-LD, llms.txt
 - **Design System**: `docs/dev/desing/Veteran.Road Design System (2)/` — from Claude Design
-- **Deployed**: Dokploy at `veterany-web-fqlm9g-1c6f06-37-53-91-144.traefik.me`
+- **Deployed**: Hetzner 159.69.186.215, Docker Compose в /opt/veterany (см. docker-compose.yml)
 - **Admin**: `/admin` — Ukrainian UI, all collections + Site Settings with 9 tabs
 
 ## Key Architecture
@@ -54,13 +54,12 @@ Files: index.html, sections.css, app.js, i18n.js, placeholder.js, testimonials.j
 --shadow-sm/md/lg/xl/red/gold, --radius-sm/md/lg/xl/2xl/pill, --s-1 through --s-30
 
 ## Admin Credentials
-Email: ruslan.griban@gmail.com
-Password: ***REMOVED***
+Никогда не хранить учётные данные в репозитории. Доступ к админке — у владельца проекта (менеджер паролей).
 
 ## Hosting
-- Dokploy (not Coolify) at dokploy.sattva-ai.top
-- Persistent volumes: /app/database.db + /app/public/media
-- After DB wipe: create user via API, then seed data via PowerShell (bash on Windows corrupts UTF-8 cyrillic)
+- Hetzner 159.69.186.215, Docker Compose в /opt/veterany (без Dokploy)
+- Persistent volumes: postgres-data (БД) + media-files (/app/public/media)
+- After DB wipe: миграции применяются на старте контейнера; первый админ создаётся через /admin; сид-данные — scripts/*.mjs с env SEED_* (запускать из PowerShell — bash на Windows портит UTF-8 кириллицу)
 
 ## Design System Colors
 Navy #0a1628, Red #c8102e, Gold #d4a843, Cream #faf7f2

@@ -15,12 +15,20 @@ export const VeteranProfiles: CollectionConfig = {
     description: 'Акаунти ветеранів для особистого кабінету',
   },
   access: {
-    read: () => true,
+    // Команда бачить усі профілі, ветеран — лише власний. Анонімам читання заборонено.
+    read: ({ req }) => {
+      if (!req.user) return false
+      if (req.user.collection === 'users') return true
+      return { id: { equals: req.user.id } }
+    },
+    // Самостійна реєстрація в кабінеті залишається відкритою.
     create: () => true,
     update: ({ req }) => {
-      if (req.user) return { id: { equals: req.user.id } }
-      return false
+      if (!req.user) return false
+      if (req.user.collection === 'users') return true
+      return { id: { equals: req.user.id } }
     },
+    delete: ({ req }) => req.user?.collection === 'users',
   },
   fields: [
     {

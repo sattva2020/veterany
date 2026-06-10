@@ -12,8 +12,15 @@ export const Consultations: CollectionConfig = {
     description: 'Онлайн-записи на консультацію',
   },
   access: {
-    read: () => true,
+    // PII: команда бачить усе, ветеран — лише свої записи (через relation veteran).
+    read: ({ req }) => {
+      if (!req.user) return false
+      if (req.user.collection === 'users') return true
+      return { veteran: { equals: req.user.id } }
+    },
     create: () => true,
+    update: ({ req }) => req.user?.collection === 'users',
+    delete: ({ req }) => req.user?.collection === 'users',
   },
   fields: [
     {

@@ -20,6 +20,22 @@ import { SiteSettings } from './globals/SiteSettings'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+// Fail-fast: у production секрет і строка підключення мають приходити з env.
+// Дефолти залишено лише для локальної розробки.
+const payloadSecret = process.env.PAYLOAD_SECRET
+const databaseUri = process.env.DATABASE_URI
+
+if (process.env.NODE_ENV === 'production') {
+  if (!payloadSecret) {
+    console.error('[FIX] PAYLOAD_SECRET is not set — refusing to start in production')
+    throw new Error('PAYLOAD_SECRET environment variable is required in production')
+  }
+  if (!databaseUri) {
+    console.error('[FIX] DATABASE_URI is not set — refusing to start in production')
+    throw new Error('DATABASE_URI environment variable is required in production')
+  }
+}
+
 export default buildConfig({
   localization: {
     locales: [
@@ -56,13 +72,13 @@ export default buildConfig({
     SiteSettings,
   ],
   editor: lexicalEditor(),
-  secret: process.env.PAYLOAD_SECRET || 'default-secret-change-me',
+  secret: payloadSecret || 'dev-only-secret',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URI || 'postgres://postgres:postgres@localhost:5432/postgres',
+      connectionString: databaseUri || 'postgres://postgres:postgres@localhost:5432/postgres',
     },
   }),
   sharp,

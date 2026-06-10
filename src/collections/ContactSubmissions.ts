@@ -12,8 +12,11 @@ export const ContactSubmissions: CollectionConfig = {
     description: 'Заявки з форми зворотного звʼязку',
   },
   access: {
-    read: () => true,
+    // PII (імена, email, телефони, нотатки) — читання лише для команди в адмінці.
+    read: ({ req }) => req.user?.collection === 'users',
     create: () => true,
+    update: ({ req }) => req.user?.collection === 'users',
+    delete: ({ req }) => req.user?.collection === 'users',
   },
   fields: [
     {

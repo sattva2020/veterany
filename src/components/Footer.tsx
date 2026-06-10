@@ -1,13 +1,29 @@
 import React from 'react'
 import Link from 'next/link'
-import { FacebookIcon, InstagramIcon, YouTubeIcon, TelegramIcon } from '@/components/icons'
+import { FacebookIcon, InstagramIcon, YouTubeIcon, TelegramIcon, TikTokIcon, ViberIcon, WhatsAppIcon } from '@/components/icons'
+
+export interface SocialLink {
+  platform: string
+  url: string
+}
 
 interface FooterProps {
   locale?: string
   dict?: Record<string, string>
+  socials?: SocialLink[]
 }
 
-export default function Footer({ locale = 'uk', dict }: FooterProps) {
+const socialIcons: Record<string, React.FC<{ size?: number }>> = {
+  facebook: FacebookIcon,
+  instagram: InstagramIcon,
+  youtube: YouTubeIcon,
+  telegram: TelegramIcon,
+  tiktok: TikTokIcon,
+  viber: ViberIcon,
+  whatsapp: WhatsAppIcon,
+}
+
+export default function Footer({ locale = 'uk', dict, socials }: FooterProps) {
   const d = dict || {
     description: 'Комплексна підтримка ветеранів та їхніх родин на шляху до повноцінного мирного життя.',
     quickLinks: 'Меню', contactInfo: 'Контакти',
@@ -30,12 +46,20 @@ export default function Footer({ locale = 'uk', dict }: FooterProps) {
               </div>
             </Link>
             <p>{d.description}</p>
-            <div className="footer-social">
-              <a href="#" aria-label="Facebook"><FacebookIcon size={16} /></a>
-              <a href="#" aria-label="Instagram"><InstagramIcon size={16} /></a>
-              <a href="#" aria-label="YouTube"><YouTubeIcon size={16} /></a>
-              <a href="#" aria-label="Telegram"><TelegramIcon size={16} /></a>
-            </div>
+            {/* Соцмережі — лише реальні посилання з SiteSettings (вкладка «Соцмережі»). */}
+            {socials && socials.length > 0 && (
+              <div className="footer-social">
+                {socials.map((s, i) => {
+                  const Icon = socialIcons[s.platform]
+                  if (!Icon || !s.url) return null
+                  return (
+                    <a key={i} href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.platform}>
+                      <Icon size={16} />
+                    </a>
+                  )
+                })}
+              </div>
+            )}
           </div>
 
           <div className="footer-col">

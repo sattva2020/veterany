@@ -144,7 +144,7 @@ export default async function HomePage({ params }: Props) {
           googleMapsEmbed: settings?.googleMapsEmbed || '',
         }} />
       </SectionFade>
-      <Footer locale={locale} dict={dict.footer} />
+      <Footer locale={locale} dict={dict.footer} socials={(settings?.socialLinks || []).map((s: any) => ({ platform: s.platform || '', url: s.url || '' }))} />
       <ChatWidget locale={locale} dict={dict.chat} phone={settings?.phones?.[0]?.number || ''} />
     </>
   )

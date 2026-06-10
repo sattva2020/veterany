@@ -11,6 +11,18 @@ export const Consultations: CollectionConfig = {
     defaultColumns: ['name', 'type', 'date', 'time', 'status', 'createdAt'],
     description: 'Онлайн-записи на консультацію',
   },
+  hooks: {
+    beforeChange: [
+      // Якщо запис створює залогінений ветеран — привʼязуємо консультацію до нього,
+      // щоб вона була видима в кабінеті («Мої консультації»).
+      ({ req, data, operation }) => {
+        if (operation === 'create' && req.user?.collection === 'veteran-profiles') {
+          return { ...data, veteran: req.user.id }
+        }
+        return data
+      },
+    ],
+  },
   access: {
     // PII: команда бачить усе, ветеран — лише свої записи (через relation veteran).
     read: ({ req }) => {

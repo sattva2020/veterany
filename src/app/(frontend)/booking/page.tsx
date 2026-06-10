@@ -90,7 +90,7 @@ export default function BookingPage() {
                   Запис підтверджено!
                 </h2>
                 <p style={{ color: 'var(--c-text-muted)', fontSize: '16px', lineHeight: '1.7', maxWidth: '400px', margin: '0 auto 24px' }}>
-                  Ми надіслали підтвердження на вашу email-адресу. Наш спеціаліст зв&apos;яжеться з вами для уточнення деталей.
+                  Ваш запит отримано. Наш спеціаліст зв&apos;яжеться з вами за вказаними контактами для підтвердження та уточнення деталей.
                 </p>
                 <a href="/" className="btn-primary" style={{ display: 'inline-flex' }}>На головну</a>
               </div>

@@ -1,14 +1,39 @@
 import React from 'react'
+import { getPayloadClient } from '@/lib/payload-client'
 
 interface JsonLdProps {
   locale: string
 }
 
-export default function JsonLd({ locale }: JsonLdProps) {
+// JSON-LD вставляється в <script>: екрануємо "<", щоб значення з CMS
+// (потенційно з "</script>") не могли розірвати тег (XSS-захист).
+const serializeJsonLd = (schema: Record<string, unknown>) =>
+  JSON.stringify(schema).replace(/</g, '\\u003c')
+
+// Серверний компонент: контактні дані та соцмережі беруться з SiteSettings,
+// щоб у розмітці schema.org не було вигаданих телефонів/адрес.
+// SearchAction прибрано — пошуку на сайті немає.
+export default async function JsonLd({ locale }: JsonLdProps) {
   const isUk = locale === 'uk'
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://veteran-road.org.ua'
 
-  const organizationSchema = {
+  let settings: Record<string, unknown> | null = null
+  try {
+    const payload = await getPayloadClient()
+    settings = (await payload.findGlobal({ slug: 'site-settings', locale: locale as 'uk' | 'en' })) as unknown as Record<string, unknown>
+  } catch (error) {
+    console.error('[FIX] JsonLd: failed to load site settings, emitting schema without contacts', error)
+  }
+
+  const phones = (settings?.phones as Array<{ number?: string }> | undefined) || []
+  const phone = phones[0]?.number || null
+  const email = (settings?.email as string | undefined) || null
+  const address = (settings?.address as string | undefined) || null
+  const socialLinks = ((settings?.socialLinks as Array<{ url?: string }> | undefined) || [])
+    .map((s) => s.url)
+    .filter(Boolean)
+
+  const organizationSchema: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'NGO',
     name: isUk ? 'ГО «Ветеран. Дорога до нового життя»' : 'NGO "Veteran. Road to a New Life"',
@@ -24,19 +49,29 @@ export default function JsonLd({ locale }: JsonLdProps) {
       name: 'Ukraine',
     },
     knowsLanguage: ['uk', 'en'],
-    address: {
+  }
+
+  if (address) {
+    organizationSchema.address = {
       '@type': 'PostalAddress',
-      streetAddress: isUk ? 'вул. Хрещатик, 1' : 'Khreshchatyk St., 1',
+      streetAddress: address.split('\n')[0],
       addressLocality: isUk ? 'Київ' : 'Kyiv',
       addressCountry: 'UA',
-    },
-    contactPoint: {
+    }
+  }
+
+  if (phone || email) {
+    organizationSchema.contactPoint = {
       '@type': 'ContactPoint',
-      telephone: '+380441234567',
+      ...(phone ? { telephone: phone } : {}),
+      ...(email ? { email } : {}),
       contactType: isUk ? 'Гаряча лінія' : 'Hotline',
       availableLanguage: ['Ukrainian', 'English'],
-    },
-    sameAs: [],
+    }
+  }
+
+  if (socialLinks.length > 0) {
+    organizationSchema.sameAs = socialLinks
   }
 
   const websiteSchema = {
@@ -45,22 +80,17 @@ export default function JsonLd({ locale }: JsonLdProps) {
     name: isUk ? 'Ветеран — Дорога до нового життя' : 'Veteran — Road to a New Life',
     url: baseUrl,
     inLanguage: locale,
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: `${baseUrl}/${locale}?q={search_term_string}`,
-      'query-input': 'required name=search_term_string',
-    },
   }
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(organizationSchema) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(websiteSchema) }}
       />
     </>
   )

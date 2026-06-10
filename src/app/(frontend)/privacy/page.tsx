@@ -242,13 +242,9 @@ export default function PrivacyPage() {
                       <MailIcon size={16} />
                       info@veteran-road.org.ua
                     </a>
-                    <a href="tel:+380441234567">
-                      <PhoneIcon size={16} />
-                      +38 (044) 123-45-67
-                    </a>
                     <a href="/#contacts">
                       <MapPinIcon size={16} />
-                      м. Київ, вул. Хрещатик, 1
+                      {'Контакти на головній сторінці'}
                     </a>
                   </div>
                 </div>

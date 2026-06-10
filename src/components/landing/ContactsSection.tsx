@@ -109,17 +109,18 @@ export default function ContactsSection({ locale = 'uk', dict, cmsContacts }: { 
                 </div>
               </div>
 
-              <div className="contact-item">
-                <div className="contact-item-icon">📞</div>
-                <div className="contact-item-text">
-                  <h4>{d.phoneLabel}</h4>
-                  {(c.phones && c.phones.length > 0) ? c.phones.map((phone, i) => (
-                    <span key={i}><a href={`tel:${phone.number.replace(/[\s()-]/g, '')}`}>{phone.number}</a><br /></span>
-                  )) : (
-                    <><a href="tel:+380441234567">+38 (044) 123-45-67</a><br /><a href="tel:+380501234567">+38 (050) 123-45-67</a></>
-                  )}
+              {/* Телефони — лише реальні зі SiteSettings; вигаданих fallback-номерів немає. */}
+              {(c.phones && c.phones.length > 0) && (
+                <div className="contact-item">
+                  <div className="contact-item-icon">📞</div>
+                  <div className="contact-item-text">
+                    <h4>{d.phoneLabel}</h4>
+                    {c.phones.map((phone, i) => (
+                      <span key={i}><a href={`tel:${phone.number.replace(/[\s()-]/g, '')}`}>{phone.number}</a><br /></span>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div className="contact-item">
                 <div className="contact-item-icon">✉️</div>

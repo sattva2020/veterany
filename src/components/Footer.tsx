@@ -7,10 +7,23 @@ export interface SocialLink {
   url: string
 }
 
+export interface FooterContacts {
+  phones?: { number?: string; label?: string }[]
+  email?: string
+  address?: string
+}
+
+export interface FooterRequisites {
+  legalName?: string
+  edrpou?: string
+}
+
 interface FooterProps {
   locale?: string
   dict?: Record<string, string>
   socials?: SocialLink[]
+  contacts?: FooterContacts
+  requisites?: FooterRequisites
 }
 
 const socialIcons: Record<string, React.FC<{ size?: number }>> = {
@@ -23,7 +36,7 @@ const socialIcons: Record<string, React.FC<{ size?: number }>> = {
   whatsapp: WhatsAppIcon,
 }
 
-export default function Footer({ locale = 'uk', dict, socials }: FooterProps) {
+export default function Footer({ locale = 'uk', dict, socials, contacts, requisites }: FooterProps) {
   const d = dict || {
     description: 'Комплексна підтримка ветеранів та їхніх родин на шляху до повноцінного мирного життя.',
     quickLinks: 'Меню', contactInfo: 'Контакти',
@@ -85,14 +98,27 @@ export default function Footer({ locale = 'uk', dict, socials }: FooterProps) {
             </ul>
           </div>
 
-          <div className="footer-col">
-            <h4>{d.contactInfo}</h4>
-            <ul>
-              <li><a href="tel:+380441234567">+38 (044) 123-45-67</a></li>
-              <li><a href="mailto:info@veteran-road.org.ua">info@veteran-road.org.ua</a></li>
-              <li><a href={`/${locale}#contacts`}>{isUk ? 'м. Київ, вул. Хрещатик, 1' : 'Kyiv, Khreshchatyk St., 1'}</a></li>
-            </ul>
-          </div>
+          {/* Контакти — лише реальні дані з SiteSettings; порожні поля не показуються. */}
+          {(contacts?.phones?.length || contacts?.email || contacts?.address) ? (
+            <div className="footer-col">
+              <h4>{d.contactInfo}</h4>
+              <ul>
+                {(contacts?.phones || []).map((p, i) =>
+                  p.number ? (
+                    <li key={i}>
+                      <a href={`tel:${p.number.replace(/[^+\d]/g, '')}`}>{p.number}</a>
+                    </li>
+                  ) : null,
+                )}
+                {contacts?.email && (
+                  <li><a href={`mailto:${contacts.email}`}>{contacts.email}</a></li>
+                )}
+                {contacts?.address && (
+                  <li><a href={`/${locale}#contacts`}>{contacts.address.split('\n')[0]}</a></li>
+                )}
+              </ul>
+            </div>
+          ) : null}
         </div>
 
         <div className="footer-bottom">
@@ -101,6 +127,17 @@ export default function Footer({ locale = 'uk', dict, socials }: FooterProps) {
             <Link href="/privacy" style={{ marginRight: '24px' }}>{d.privacy}</Link>
           </div>
         </div>
+
+        {/* Реквізити організації (вимога ТЗ: реквізити в підвалі) — з вкладки SiteSettings «Реквізити». */}
+        {(requisites?.legalName || requisites?.edrpou) && (
+          <div style={{ textAlign: 'center', paddingBottom: '8px' }}>
+            <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.3px' }}>
+              {requisites?.legalName}
+              {requisites?.legalName && requisites?.edrpou ? ' · ' : ''}
+              {requisites?.edrpou ? `${isUk ? 'Код ЄДРПОУ' : 'EDRPOU'}: ${requisites.edrpou}` : ''}
+            </p>
+          </div>
+        )}
 
         <div style={{ textAlign: 'center', paddingBottom: '16px', marginTop: '-8px' }}>
           <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.25)', letterSpacing: '0.5px' }}>

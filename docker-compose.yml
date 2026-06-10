@@ -1,0 +1,45 @@
+# Производственный/локальный запуск: Next.js + Payload CMS + Postgres.
+# Перед запуском создайте .env по образцу .env.example.
+#   docker compose up -d --build
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-veterany}
+      POSTGRES_USER: ${POSTGRES_USER:-veterany}
+      # Пароль обязателен — compose откажется стартовать без него.
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: .
+      args:
+        # NEXT_PUBLIC_* инлайнятся при сборке (sitemap, robots, canonical).
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - '${WEB_PORT:-3000}:3000'
+    environment:
+      # Секрет обязателен — приложение откажется стартовать без него.
+      PAYLOAD_SECRET: ${PAYLOAD_SECRET:?Set PAYLOAD_SECRET in .env}
+      DATABASE_URI: postgres://${POSTGRES_USER:-veterany}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-veterany}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+      CRM_WEBHOOK_URL: ${CRM_WEBHOOK_URL:-}
+    volumes:
+      # Загруженные через CMS файлы должны переживать пересборку образа.
+      - media-files:/app/public/media
+
+volumes:
+  postgres-data:
+  media-files:

@@ -74,7 +74,7 @@ export default function Footer({ locale = 'uk', dict }: FooterProps) {
         <div className="footer-bottom">
           <p>{d.copyright}</p>
           <div>
-            <Link href={`/${locale}/privacy`} style={{ marginRight: '24px' }}>{d.privacy}</Link>
+            <Link href="/privacy" style={{ marginRight: '24px' }}>{d.privacy}</Link>
           </div>
         </div>
 

@@ -6,9 +6,12 @@ import { CloseIcon, PhoneIcon, SendIcon } from '@/components/icons'
 interface HelpModalProps {
   isOpen: boolean
   onClose: () => void
+  /** Реальний номер із SiteSettings; без нього блок телефону не показується. */
+  phone?: string
 }
 
-export default function HelpModal({ isOpen, onClose }: HelpModalProps) {
+export default function HelpModal({ isOpen, onClose, phone }: HelpModalProps) {
+  const telHref = phone ? `tel:${phone.replace(/[^+\d]/g, '')}` : null
   const [formState, setFormState] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [formData, setFormData] = useState({ name: '', phone: '', message: '' })
 
@@ -83,11 +86,13 @@ export default function HelpModal({ isOpen, onClose }: HelpModalProps) {
           <div className="help-modal-success">
             <div className="help-modal-success-icon">✅</div>
             <h3>Дякуємо за звернення!</h3>
-            <p>Наш спеціаліст зв&apos;яжеться з вами найближчим часом. Якщо питання термінове — телефонуйте:</p>
-            <a href="tel:+380441234567" className="help-modal-phone">
-              <PhoneIcon size={18} />
-              +38 (044) 123-45-67
-            </a>
+            <p>Наш спеціаліст зв&apos;яжеться з вами найближчим часом.{telHref ? ' Якщо питання термінове — телефонуйте:' : ''}</p>
+            {telHref && (
+              <a href={telHref} className="help-modal-phone">
+                <PhoneIcon size={18} />
+                {phone}
+              </a>
+            )}
             <button className="btn-outline" onClick={resetAndClose} style={{ marginTop: '16px' }}>
               Закрити
             </button>
@@ -154,13 +159,15 @@ export default function HelpModal({ isOpen, onClose }: HelpModalProps) {
               </button>
             </form>
 
-            <div className="help-modal-footer">
-              <p>Або зателефонуйте прямо зараз:</p>
-              <a href="tel:+380441234567" className="help-modal-phone">
-                <PhoneIcon size={16} />
-                +38 (044) 123-45-67
-              </a>
-            </div>
+            {telHref && (
+              <div className="help-modal-footer">
+                <p>Або зателефонуйте прямо зараз:</p>
+                <a href={telHref} className="help-modal-phone">
+                  <PhoneIcon size={16} />
+                  {phone}
+                </a>
+              </div>
+            )}
           </>
         )}
       </div>

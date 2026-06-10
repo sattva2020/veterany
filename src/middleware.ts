@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { locales, defaultLocale } from '@/lib/i18n'
 
 const PUBLIC_FILE = /\.(.*)$/
-const SKIP_PATHS = ['/admin', '/api', '/_next', '/media', '/favicon', '/robots.txt', '/sitemap.xml', '/llms.txt']
+// /cabinet, /booking, /privacy — нелокалізовані розділи поза [locale], їх не префіксуємо.
+const SKIP_PATHS = ['/admin', '/api', '/_next', '/media', '/favicon', '/robots.txt', '/sitemap.xml', '/llms.txt', '/cabinet', '/booking', '/privacy']
 
 function getLocaleFromRequest(request: NextRequest): string {
   // 1. Check cookie
@@ -60,5 +61,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next|admin|api|media|favicon|.*\\..*).*)'],
+  matcher: ['/((?!_next|admin|api|media|favicon|cabinet|booking|privacy|.*\\..*).*)'],
 }

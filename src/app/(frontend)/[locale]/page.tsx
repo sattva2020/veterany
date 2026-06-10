@@ -112,7 +112,7 @@ export default async function HomePage({ params }: Props) {
 
   return (
     <>
-      <Header isLanding cabinetLink={`/${locale}/cabinet`} locale={locale} dict={dict.header} />
+      <Header isLanding cabinetLink="/cabinet" locale={locale} dict={dict.header} helpPhone={settings?.phones?.[0]?.number || ''} />
       <HeroSection locale={locale} dict={dict.hero} stories={cmsHeroStories} defaultPhoto={cmsHeroPortrait} />
       <SectionFade>
         <AboutSection locale={locale} dict={dict.about} cmsStats={cmsStats} />
@@ -145,7 +145,7 @@ export default async function HomePage({ params }: Props) {
         }} />
       </SectionFade>
       <Footer locale={locale} dict={dict.footer} />
-      <ChatWidget locale={locale} dict={dict.chat} />
+      <ChatWidget locale={locale} dict={dict.chat} phone={settings?.phones?.[0]?.number || ''} />
     </>
   )
 }

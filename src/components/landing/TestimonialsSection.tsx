@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react'
-import { makeWaveform } from '@/lib/waveform'
 
 export interface Testimonial {
   name: string
@@ -9,7 +8,9 @@ export interface Testimonial {
   date: string
   quote: string
   photo?: string | null
-  hasAudio: boolean
+  // hasAudio/duration залишені для сумісності з мапінгом CMS-даних,
+  // але плеєр прибрано: реальних аудіофайлів у CMS немає.
+  hasAudio?: boolean
   duration?: string | null
 }
 
@@ -46,20 +47,14 @@ const defaultByLocale: Record<string, Testimonial[]> = {
   ],
 }
 
-function parseDuration(d?: string | null): number {
-  if (!d) return 0
-  const [mm, ss] = d.split(':').map(Number)
-  return (mm || 0) * 60 + (ss || 0)
-}
-
 export default function TestimonialsSection({ locale = 'uk', dict, cmsData }: Props) {
   const data = (cmsData && cmsData.length > 0) ? cmsData : (defaultByLocale[locale] || defaultByLocale.uk)
   const d = dict || {
     label: locale === 'en' ? 'Community voices' : 'Голоси спільноти',
     title: locale === 'en' ? 'What those who walked the road say' : 'Що кажуть ті, хто пройшов дорогу',
     subtitle: locale === 'en'
-      ? 'Real stories, real names, real voices. Hear those who were where you are now.'
-      : 'Реальні історії, реальні імена, реальні голоси. Послухайте тих, хто був на вашому місці.',
+      ? 'Stories of those who walked this road before you.'
+      : 'Історії тих, хто пройшов цю дорогу до вас.',
     counter: locale === 'en' ? 'Veteran stories' : 'Історії ветеранів',
     story: locale === 'en' ? 'Story' : 'Історія',
     recorded: locale === 'en' ? 'Recorded' : 'Записано',
@@ -67,27 +62,14 @@ export default function TestimonialsSection({ locale = 'uk', dict, cmsData }: Pr
   }
 
   const [current, setCurrent] = useState(0)
-  const [playingIdx, setPlayingIdx] = useState<number | null>(null)
-  const [playedPct, setPlayedPct] = useState(0)
-  const [elapsed, setElapsed] = useState(0)
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const sectionRef = useRef<HTMLElement>(null)
   const thumbsRef = useRef<HTMLDivElement>(null)
 
   const total = data.length
-  const cur = data[current]
-
-  const stopPlayback = () => {
-    if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null }
-    setPlayingIdx(null)
-    setPlayedPct(0)
-    setElapsed(0)
-  }
 
   const goTo = (i: number) => {
     const next = ((i % total) + total) % total
     setCurrent(next)
-    stopPlayback()
   }
 
   useEffect(() => {
@@ -102,6 +84,9 @@ export default function TestimonialsSection({ locale = 'uk', dict, cmsData }: Pr
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      // Не перехоплювати стрілки під час набору тексту в полях форм.
+      const target = e.target as HTMLElement | null
+      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return
       const el = sectionRef.current
       if (!el) return
       const r = el.getBoundingClientRect()
@@ -113,30 +98,6 @@ export default function TestimonialsSection({ locale = 'uk', dict, cmsData }: Pr
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [current, total])
-
-  useEffect(() => () => { if (timerRef.current) clearInterval(timerRef.current) }, [])
-
-  const togglePlay = (i: number) => {
-    const slide = data[i]
-    if (!slide.hasAudio || !slide.duration) return
-    if (playingIdx === i) { stopPlayback(); return }
-    stopPlayback()
-    setPlayingIdx(i)
-    const totalSec = parseDuration(slide.duration)
-    let cur = 0
-    timerRef.current = setInterval(() => {
-      cur += 0.1
-      if (cur >= totalSec) { stopPlayback(); return }
-      setElapsed(cur)
-      setPlayedPct((cur / totalSec) * 100)
-    }, 100)
-  }
-
-  const formatTime = (sec: number) => {
-    const m = Math.floor(sec / 60)
-    const s = Math.floor(sec % 60)
-    return `${m}:${String(s).padStart(2, '0')}`
-  }
 
   return (
     <section className="rd-sec -dark test-sec" id="testimonials" ref={sectionRef as any}>
@@ -179,38 +140,7 @@ export default function TestimonialsSection({ locale = 'uk', dict, cmsData }: Pr
                       {d.recorded}
                     </div>
                   </div>
-                  {t.hasAudio && t.duration ? (
-                    <div className="test-audio">
-                      <button
-                        type="button"
-                        className={`test-audio-btn ${playingIdx === i ? 'playing' : ''}`}
-                        onClick={(e) => { e.stopPropagation(); togglePlay(i) }}
-                        aria-label={playingIdx === i ? 'Pause' : 'Play'}
-                      >
-                        {playingIdx === i ? (
-                          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h4v16H6zm8 0h4v16h-4z"/></svg>
-                        ) : (
-                          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                        )}
-                      </button>
-                      <div className="test-audio-wave">
-                        <div dangerouslySetInnerHTML={{ __html: makeWaveform(60, i + 7) }} />
-                        <div
-                          className="played"
-                          style={{
-                            ['--played' as any]: playingIdx === i ? `${playedPct}%` : '0%',
-                            width: playingIdx === i ? `${playedPct}%` : '0%',
-                          }}
-                          dangerouslySetInnerHTML={{ __html: makeWaveform(60, i + 7) }}
-                        />
-                      </div>
-                      <div className="test-audio-time">
-                        {playingIdx === i ? formatTime(elapsed) : '0:00'} / {t.duration}
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="test-no-audio">{d.noAudio}</div>
-                  )}
+                  {/* Аудіоплеєр прибрано: у CMS немає аудіофайлів, імітація відтворення вводила в оману. */}
                 </div>
               </div>
             ))}

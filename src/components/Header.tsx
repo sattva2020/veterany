@@ -21,9 +21,10 @@ interface HeaderProps {
   cabinetLink?: string
   locale?: string
   dict?: HeaderDict
+  helpPhone?: string
 }
 
-export default function Header({ isLanding = false, cabinetLink, locale = 'uk', dict }: HeaderProps) {
+export default function Header({ isLanding = false, cabinetLink, locale = 'uk', dict, helpPhone }: HeaderProps) {
   const [scrolled, setScrolled] = useState(!isLanding)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [helpOpen, setHelpOpen] = useState(false)
@@ -59,15 +60,15 @@ export default function Header({ isLanding = false, cabinetLink, locale = 'uk', 
     { href: `${prefix}#contacts`, label: d.contacts },
   ]
 
-  const toggleMobile = () => {
-    setMobileOpen(!mobileOpen)
-    document.body.style.overflow = !mobileOpen ? 'hidden' : ''
-  }
+  const toggleMobile = () => setMobileOpen(!mobileOpen)
 
-  const closeMobile = () => {
-    setMobileOpen(false)
-    document.body.style.overflow = ''
-  }
+  const closeMobile = () => setMobileOpen(false)
+
+  // Блокування скролу прив'язане до стану меню і завжди знімається при розмонтуванні.
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [mobileOpen])
 
   const handleLangSwitch = () => {
     document.cookie = `NEXT_LOCALE=${altLocale};path=/;max-age=31536000`
@@ -100,9 +101,16 @@ export default function Header({ isLanding = false, cabinetLink, locale = 'uk', 
             </button>
           </nav>
 
-          <div className={`hamburger${mobileOpen ? ' active' : ''}`} onClick={toggleMobile}>
+          <button
+            type="button"
+            className={`hamburger${mobileOpen ? ' active' : ''}`}
+            onClick={toggleMobile}
+            aria-label={locale === 'uk' ? 'Меню' : 'Menu'}
+            aria-expanded={mobileOpen}
+            style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+          >
             <span /><span /><span />
-          </div>
+          </button>
         </div>
       </header>
 
@@ -133,7 +141,7 @@ export default function Header({ isLanding = false, cabinetLink, locale = 'uk', 
         </div>
       </nav>
 
-      <HelpModal isOpen={helpOpen} onClose={() => setHelpOpen(false)} />
+      <HelpModal isOpen={helpOpen} onClose={() => setHelpOpen(false)} phone={helpPhone} />
     </>
   )
 }

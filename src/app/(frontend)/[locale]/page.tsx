@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { isValidLocale, type Locale } from '@/lib/i18n'
 import { getDictionary } from '@/lib/dictionaries'
 import { getLandingData } from '@/lib/landing-data'
+import { lexicalToParagraphs } from '@/lib/richtext'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ChatWidget from '@/components/ChatWidget'
@@ -110,24 +111,44 @@ export default async function HomePage({ params }: Props) {
     label: s.label || '',
   })) || []
 
+  // Текст «Про нас» з CMS (richText → абзаци). Якщо порожньо — секція бере дефолт зі словника.
+  const cmsAboutParagraphs = lexicalToParagraphs(settings?.aboutText)
+  const cmsAboutImage = settings?.aboutImage?.url || null
+
+  // Словники секцій із підстановкою значень із адмінки (CMS перекриває статичний словник).
+  // Так правки менеджера в SiteSettings одразу застосовуються на сайті.
+  const heroDict = {
+    ...dict.hero,
+    ...(settings?.ctaButtonText ? { ctaPrimary: settings.ctaButtonText } : {}),
+  }
+  const howWeWorkDict = {
+    ...(dict.howWeWork as any),
+    ...(settings?.howWeWorkTitle ? { title: settings.howWeWorkTitle } : {}),
+    ...(settings?.howWeWorkSubtitle ? { description: settings.howWeWorkSubtitle } : {}),
+  }
+  const testimonialsDict = {
+    ...(dict.testimonials as any),
+    ...(settings?.testimonialsTitle ? { title: settings.testimonialsTitle } : {}),
+  }
+
   return (
     <>
       <Header isLanding cabinetLink="/cabinet" locale={locale} dict={dict.header} helpPhone={settings?.phones?.[0]?.number || ''} />
-      <HeroSection locale={locale} dict={dict.hero} stories={cmsHeroStories} defaultPhoto={cmsHeroPortrait} />
+      <HeroSection locale={locale} dict={heroDict} stories={cmsHeroStories} defaultPhoto={cmsHeroPortrait} />
       <SectionFade>
-        <AboutSection locale={locale} dict={dict.about} cmsStats={cmsStats} />
+        <AboutSection locale={locale} dict={dict.about} cmsStats={cmsStats} cmsParagraphs={cmsAboutParagraphs} cmsImage={cmsAboutImage} />
       </SectionFade>
       <SectionFade>
         <ActivitiesSection locale={locale} dict={dict.activities} cmsData={cmsActivities} />
       </SectionFade>
       <SectionFade>
-        <HowWeWorkSection locale={locale} dict={dict.howWeWork as any} cmsSteps={cmsSteps} />
+        <HowWeWorkSection locale={locale} dict={howWeWorkDict as any} cmsSteps={cmsSteps} />
       </SectionFade>
       <SectionFade>
         <NewsSection locale={locale} dict={dict.news} cmsData={cmsNews} />
       </SectionFade>
       <SectionFade>
-        <TestimonialsSection locale={locale} dict={dict.testimonials as any} cmsData={cmsTestimonials} />
+        <TestimonialsSection locale={locale} dict={testimonialsDict as any} cmsData={cmsTestimonials} />
       </SectionFade>
       <SectionFade>
         <PartnersSection locale={locale} dict={dict.partners} cmsData={cmsPartners} />

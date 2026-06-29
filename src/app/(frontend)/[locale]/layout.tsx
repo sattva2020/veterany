@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { isValidLocale, locales } from '@/lib/i18n'
 import { getDictionary } from '@/lib/dictionaries'
+import { getPayloadClient } from '@/lib/payload-client'
 import Analytics from '@/components/Analytics'
 import JsonLd from '@/components/JsonLd'
 import '@/styles/globals.css'
@@ -18,12 +19,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const dict = await getDictionary(locale)
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://veteran-road.org.ua'
 
+  // SEO-поля з адмінки (вкладка SEO) перекривають статичні значення зі словника.
+  let settings: any = null
+  try {
+    const payload = await getPayloadClient()
+    settings = await payload.findGlobal({ slug: 'site-settings', locale: locale as any })
+  } catch {
+    settings = null
+  }
+
+  const title = settings?.seoTitle || dict.meta.title
+  const description = settings?.seoDescription || settings?.description || dict.meta.description
+  const keywords = settings?.seoKeywords || undefined
+  const ogImage = settings?.ogImage?.url || undefined
+
   return {
     title: {
-      default: dict.meta.title,
+      default: title,
       template: `%s | ${locale === 'uk' ? 'Ветеран' : 'Veteran'}`,
     },
-    description: dict.meta.description,
+    description,
+    keywords,
     metadataBase: new URL(baseUrl),
     alternates: {
       canonical: `${baseUrl}/${locale}`,
@@ -33,11 +49,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       },
     },
     openGraph: {
-      title: dict.meta.title,
-      description: dict.meta.description,
+      title,
+      description,
       locale: locale === 'uk' ? 'uk_UA' : 'en_US',
       alternateLocale: locale === 'uk' ? 'en_US' : 'uk_UA',
       type: 'website',
+      ...(ogImage ? { images: [{ url: ogImage }] } : {}),
     },
   }
 }

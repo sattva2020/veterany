@@ -6,9 +6,11 @@ interface AboutProps {
   locale?: string
   dict?: Record<string, string>
   cmsStats?: Array<{ number: string; label: string }>
+  cmsParagraphs?: string[]
+  cmsImage?: string | null
 }
 
-export default function AboutSection({ locale = 'uk', dict, cmsStats }: AboutProps) {
+export default function AboutSection({ locale = 'uk', dict, cmsStats, cmsParagraphs, cmsImage }: AboutProps) {
   const d = dict || {
     label: 'Про організацію', title: 'Ми поруч, коли це найбільш потрібно',
     text1: 'ГО «Ветеран. Дорога до нового життя» — це громадська організація, що створена для комплексної підтримки ветеранів та їхніх родин у процесі повернення до мирного життя.',
@@ -28,7 +30,12 @@ export default function AboutSection({ locale = 'uk', dict, cmsStats }: AboutPro
           <ScrollReveal delay={1}>
             <div style={{ position: 'relative' }}>
               <div className="about-image">
-                <div className="about-image-placeholder">{d.photoAlt}</div>
+                {cmsImage ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={cmsImage} alt={d.photoAlt} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                ) : (
+                  <div className="about-image-placeholder">{d.photoAlt}</div>
+                )}
               </div>
               <div style={{ position: 'absolute', bottom: '-12px', right: '-12px', width: '55%', height: '55%', border: '2px solid var(--c-gold)', borderRadius: '16px' }} />
             </div>
@@ -36,9 +43,15 @@ export default function AboutSection({ locale = 'uk', dict, cmsStats }: AboutPro
 
           <ScrollReveal delay={2}>
             <div className="about-text">
-              <p>{d.text1}</p>
-              <p>{d.text2}</p>
-              <p>{d.text3}</p>
+              {cmsParagraphs && cmsParagraphs.length > 0
+                ? cmsParagraphs.map((p, i) => <p key={i}>{p}</p>)
+                : (
+                  <>
+                    <p>{d.text1}</p>
+                    <p>{d.text2}</p>
+                    <p>{d.text3}</p>
+                  </>
+                )}
 
               <div className="about-stats">
                 {(cmsStats && cmsStats.length > 0 ? cmsStats : [

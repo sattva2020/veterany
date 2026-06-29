@@ -121,14 +121,47 @@ export default async function HomePage({ params }: Props) {
     ...dict.hero,
     ...(settings?.ctaButtonText ? { ctaPrimary: settings.ctaButtonText } : {}),
   }
+  const aboutDict = {
+    ...dict.about,
+    ...(settings?.aboutSectionLabel ? { label: settings.aboutSectionLabel } : {}),
+    ...(settings?.aboutSectionTitle ? { title: settings.aboutSectionTitle } : {}),
+  }
+  const activitiesDict = {
+    ...dict.activities,
+    ...(settings?.activitiesSectionLabel ? { label: settings.activitiesSectionLabel } : {}),
+    ...(settings?.activitiesSectionTitle ? { title: settings.activitiesSectionTitle } : {}),
+    ...(settings?.activitiesSectionDesc ? { description: settings.activitiesSectionDesc } : {}),
+  }
   const howWeWorkDict = {
     ...(dict.howWeWork as any),
     ...(settings?.howWeWorkTitle ? { title: settings.howWeWorkTitle } : {}),
     ...(settings?.howWeWorkSubtitle ? { description: settings.howWeWorkSubtitle } : {}),
   }
+  const newsDict = {
+    ...dict.news,
+    ...(settings?.newsSectionLabel ? { label: settings.newsSectionLabel } : {}),
+    ...(settings?.newsSectionTitle ? { title: settings.newsSectionTitle } : {}),
+  }
   const testimonialsDict = {
     ...(dict.testimonials as any),
     ...(settings?.testimonialsTitle ? { title: settings.testimonialsTitle } : {}),
+  }
+  const partnersDict = {
+    ...dict.partners,
+    ...(settings?.partnersSectionLabel ? { label: settings.partnersSectionLabel } : {}),
+    ...(settings?.partnersSectionTitle ? { title: settings.partnersSectionTitle } : {}),
+    ...(settings?.partnersSectionDesc ? { description: settings.partnersSectionDesc } : {}),
+  }
+  const joinDict = {
+    ...dict.join,
+    ...(settings?.joinSectionLabel ? { label: settings.joinSectionLabel } : {}),
+    ...(settings?.joinSectionTitle ? { title: settings.joinSectionTitle } : {}),
+    ...(settings?.joinSectionDesc ? { description: settings.joinSectionDesc } : {}),
+  }
+  const contactsDict = {
+    ...dict.contacts,
+    ...(settings?.contactsSectionLabel ? { label: settings.contactsSectionLabel } : {}),
+    ...(settings?.contactsSectionTitle ? { title: settings.contactsSectionTitle } : {}),
   }
 
   return (
@@ -136,28 +169,28 @@ export default async function HomePage({ params }: Props) {
       <Header isLanding cabinetLink="/cabinet" locale={locale} dict={dict.header} helpPhone={settings?.phones?.[0]?.number || ''} />
       <HeroSection locale={locale} dict={heroDict} stories={cmsHeroStories} defaultPhoto={cmsHeroPortrait} />
       <SectionFade>
-        <AboutSection locale={locale} dict={dict.about} cmsStats={cmsStats} cmsParagraphs={cmsAboutParagraphs} cmsImage={cmsAboutImage} />
+        <AboutSection locale={locale} dict={aboutDict} cmsStats={cmsStats} cmsParagraphs={cmsAboutParagraphs} cmsImage={cmsAboutImage} />
       </SectionFade>
       <SectionFade>
-        <ActivitiesSection locale={locale} dict={dict.activities} cmsData={cmsActivities} />
+        <ActivitiesSection locale={locale} dict={activitiesDict} cmsData={cmsActivities} />
       </SectionFade>
       <SectionFade>
         <HowWeWorkSection locale={locale} dict={howWeWorkDict as any} cmsSteps={cmsSteps} />
       </SectionFade>
       <SectionFade>
-        <NewsSection locale={locale} dict={dict.news} cmsData={cmsNews} />
+        <NewsSection locale={locale} dict={newsDict} cmsData={cmsNews} />
       </SectionFade>
       <SectionFade>
         <TestimonialsSection locale={locale} dict={testimonialsDict as any} cmsData={cmsTestimonials} />
       </SectionFade>
       <SectionFade>
-        <PartnersSection locale={locale} dict={dict.partners} cmsData={cmsPartners} />
+        <PartnersSection locale={locale} dict={partnersDict} cmsData={cmsPartners} />
       </SectionFade>
       <SectionFade>
-        <JoinSection locale={locale} dict={dict.join} cmsData={cmsJoinOptions} />
+        <JoinSection locale={locale} dict={joinDict} cmsData={cmsJoinOptions} />
       </SectionFade>
       <SectionFade>
-        <ContactsSection locale={locale} dict={dict.contacts} cmsContacts={{
+        <ContactsSection locale={locale} dict={contactsDict} cmsContacts={{
           address: settings?.address || '',
           phones: settings?.phones || [],
           email: settings?.email || '',

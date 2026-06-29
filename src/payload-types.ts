@@ -794,14 +794,33 @@ export interface SiteSetting {
    * Для SEO мета-опису
    */
   description?: string | null;
+  aboutSectionLabel?: string | null;
+  aboutSectionTitle?: string | null;
+  activitiesSectionLabel?: string | null;
+  activitiesSectionTitle?: string | null;
+  activitiesSectionDesc?: string | null;
+  newsSectionLabel?: string | null;
+  newsSectionTitle?: string | null;
+  partnersSectionLabel?: string | null;
+  partnersSectionTitle?: string | null;
+  partnersSectionDesc?: string | null;
+  joinSectionLabel?: string | null;
+  joinSectionTitle?: string | null;
+  joinSectionDesc?: string | null;
+  contactsSectionLabel?: string | null;
+  contactsSectionTitle?: string | null;
   heroTitle?: string | null;
   heroSubtitle?: string | null;
   heroDescription?: string | null;
   heroBackground?: (number | null) | Media;
   /**
-   * Показується у Hero справа, якщо в конкретної історії немає свого фото. Замінити: Site Settings → Hero → Hero Portrait.
+   * Показується у Hero справа, якщо в конкретної історії немає свого фото.
    */
   heroPortrait?: (number | null) | Media;
+  heroStory1Photo?: (number | null) | Media;
+  heroStory2Photo?: (number | null) | Media;
+  heroStory3Photo?: (number | null) | Media;
+  heroStory4Photo?: (number | null) | Media;
   ctaButtonText?: string | null;
   ctaButtonLink?: string | null;
   /**
@@ -816,7 +835,6 @@ export interface SiteSetting {
          * Перший символ автоматично стає drop-cap
          */
         body?: string | null;
-        photo?: (number | null) | Media;
         name?: string | null;
         meta?: string | null;
         id?: string | null;
@@ -987,11 +1005,30 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   logo?: T;
   tagline?: T;
   description?: T;
+  aboutSectionLabel?: T;
+  aboutSectionTitle?: T;
+  activitiesSectionLabel?: T;
+  activitiesSectionTitle?: T;
+  activitiesSectionDesc?: T;
+  newsSectionLabel?: T;
+  newsSectionTitle?: T;
+  partnersSectionLabel?: T;
+  partnersSectionTitle?: T;
+  partnersSectionDesc?: T;
+  joinSectionLabel?: T;
+  joinSectionTitle?: T;
+  joinSectionDesc?: T;
+  contactsSectionLabel?: T;
+  contactsSectionTitle?: T;
   heroTitle?: T;
   heroSubtitle?: T;
   heroDescription?: T;
   heroBackground?: T;
   heroPortrait?: T;
+  heroStory1Photo?: T;
+  heroStory2Photo?: T;
+  heroStory3Photo?: T;
+  heroStory4Photo?: T;
   ctaButtonText?: T;
   ctaButtonLink?: T;
   heroStories?:
@@ -1001,7 +1038,6 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         title1?: T;
         title2?: T;
         body?: T;
-        photo?: T;
         name?: T;
         meta?: T;
         id?: T;

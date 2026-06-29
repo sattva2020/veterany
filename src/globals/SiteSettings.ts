@@ -49,14 +49,75 @@ export const SiteSettings: GlobalConfig = {
           ],
         },
         {
+          label: { uk: 'Заголовки секцій', en: 'Section Headings' },
+          description: 'Підписи та заголовки секцій головної сторінки. Якщо поле порожнє — показується стандартний текст.',
+          fields: [
+            {
+              type: 'collapsible',
+              label: { uk: 'Про нас', en: 'About' },
+              fields: [
+                { name: 'aboutSectionLabel', type: 'text', localized: true, label: { uk: 'Підпис секції', en: 'Section label' }, admin: { placeholder: 'Про організацію' } },
+                { name: 'aboutSectionTitle', type: 'text', localized: true, label: { uk: 'Заголовок секції', en: 'Section title' }, admin: { placeholder: 'Ми поруч, коли це найбільш потрібно' } },
+              ],
+            },
+            {
+              type: 'collapsible',
+              label: { uk: 'Напрями діяльності', en: 'Activities' },
+              fields: [
+                { name: 'activitiesSectionLabel', type: 'text', localized: true, label: { uk: 'Підпис секції', en: 'Section label' }, admin: { placeholder: 'Напрями діяльності' } },
+                { name: 'activitiesSectionTitle', type: 'text', localized: true, label: { uk: 'Заголовок секції', en: 'Section title' }, admin: { placeholder: 'Комплексна підтримка на кожному етапі' } },
+                { name: 'activitiesSectionDesc', type: 'textarea', localized: true, label: { uk: 'Опис секції', en: 'Section description' } },
+              ],
+            },
+            {
+              type: 'collapsible',
+              label: { uk: 'Новини', en: 'News' },
+              fields: [
+                { name: 'newsSectionLabel', type: 'text', localized: true, label: { uk: 'Підпис секції', en: 'Section label' }, admin: { placeholder: 'Останні новини' } },
+                { name: 'newsSectionTitle', type: 'text', localized: true, label: { uk: 'Заголовок секції', en: 'Section title' }, admin: { placeholder: 'Що відбувається' } },
+              ],
+            },
+            {
+              type: 'collapsible',
+              label: { uk: 'Партнери', en: 'Partners' },
+              fields: [
+                { name: 'partnersSectionLabel', type: 'text', localized: true, label: { uk: 'Підпис секції', en: 'Section label' }, admin: { placeholder: 'Партнери' } },
+                { name: 'partnersSectionTitle', type: 'text', localized: true, label: { uk: 'Заголовок секції', en: 'Section title' }, admin: { placeholder: 'Разом ми сильніші' } },
+                { name: 'partnersSectionDesc', type: 'textarea', localized: true, label: { uk: 'Опис секції', en: 'Section description' } },
+              ],
+            },
+            {
+              type: 'collapsible',
+              label: { uk: 'Долучитися', en: 'Join' },
+              fields: [
+                { name: 'joinSectionLabel', type: 'text', localized: true, label: { uk: 'Підпис секції', en: 'Section label' }, admin: { placeholder: 'Долучитися' } },
+                { name: 'joinSectionTitle', type: 'text', localized: true, label: { uk: 'Заголовок секції', en: 'Section title' }, admin: { placeholder: 'Станьте частиною змін' } },
+                { name: 'joinSectionDesc', type: 'textarea', localized: true, label: { uk: 'Опис секції', en: 'Section description' } },
+              ],
+            },
+            {
+              type: 'collapsible',
+              label: { uk: 'Контакти', en: 'Contacts' },
+              fields: [
+                { name: 'contactsSectionLabel', type: 'text', localized: true, label: { uk: 'Підпис секції', en: 'Section label' }, admin: { placeholder: 'Контакти' } },
+                { name: 'contactsSectionTitle', type: 'text', localized: true, label: { uk: 'Заголовок секції', en: 'Section title' }, admin: { placeholder: "Зв'яжіться з нами" } },
+              ],
+            },
+          ],
+        },
+        {
           label: { uk: 'Герой', en: 'Hero' },
           fields: [
+            // Рудименти до редизайну Variant C: поточний Hero рендерить «Історії героя»
+            // (heroStories) + портрет, а ці поля нічого не змінюють. Приховано з адмінки,
+            // щоб не вводити менеджера в оману. Колонки в БД лишаються (без міграції).
             {
               name: 'heroTitle',
               type: 'text',
               label: { uk: 'Заголовок', en: 'Hero Title' },
               defaultValue: 'Ветеран. Дорога до нового життя',
               localized: true,
+              admin: { hidden: true },
             },
             {
               name: 'heroSubtitle',
@@ -64,18 +125,21 @@ export const SiteSettings: GlobalConfig = {
               label: { uk: 'Підзаголовок', en: 'Hero Subtitle' },
               defaultValue: 'Підтримка. Відновлення. Нові можливості.',
               localized: true,
+              admin: { hidden: true },
             },
             {
               name: 'heroDescription',
               type: 'textarea',
               label: { uk: 'Опис на героі', en: 'Hero Description' },
               localized: true,
+              admin: { hidden: true },
             },
             {
               name: 'heroBackground',
               type: 'upload',
               relationTo: 'media',
               label: { uk: 'Фонове зображення', en: 'Hero Background' },
+              admin: { hidden: true },
             },
             {
               name: 'heroPortrait',
@@ -150,6 +214,7 @@ export const SiteSettings: GlobalConfig = {
                 { name: 'meta', type: 'text', label: { uk: 'Підпис (підрозділ · рік · місто)', en: 'Caption (unit · year · city)' } },
               ],
             },
+            // Рудименти Variant C: прогрес-бар у поточному Hero відсутній. Приховано.
             {
               type: 'row',
               fields: [
@@ -158,14 +223,14 @@ export const SiteSettings: GlobalConfig = {
                   type: 'number',
                   label: { uk: 'Прогрес: поточне число', en: 'Progress: Current' },
                   defaultValue: 500,
-                  admin: { width: '25%', description: 'Скільки вже допомогли' },
+                  admin: { width: '25%', description: 'Скільки вже допомогли', hidden: true },
                 },
                 {
                   name: 'progressGoal',
                   type: 'number',
                   label: { uk: 'Прогрес: мета', en: 'Progress: Goal' },
                   defaultValue: 1000,
-                  admin: { width: '25%', description: 'Цільове число' },
+                  admin: { width: '25%', description: 'Цільове число', hidden: true },
                 },
               ],
             },
@@ -177,14 +242,14 @@ export const SiteSettings: GlobalConfig = {
                   type: 'text',
                   label: { uk: 'Лейбл "Допомогли"', en: 'Label "Helped"' },
                   defaultValue: 'Допомогли ветеранам',
-                  admin: { width: '50%' },
+                  admin: { width: '50%', hidden: true },
                 },
                 {
                   name: 'progressLabelGoal',
                   type: 'text',
                   label: { uk: 'Лейбл "Мета"', en: 'Label "Goal"' },
                   defaultValue: 'Мета',
-                  admin: { width: '50%' },
+                  admin: { width: '50%', hidden: true },
                 },
               ],
             },

@@ -69,7 +69,16 @@ export default function NewsSection({ locale = 'uk', dict, cmsData }: { locale?:
           <div className="news-grid">
             {news.map((item) => (
               <div key={item.id} className="news-card">
-                <div className="news-thumb">
+                <div className={`news-thumb${item.images[0] ? ' news-thumb--has-image' : ''}`}>
+                  {item.images[0] ? (
+                    <img
+                      className="news-thumb-backdrop"
+                      src={item.images[0].url}
+                      alt=""
+                      aria-hidden="true"
+                      loading="lazy"
+                    />
+                  ) : null}
                   {item.images[0] ? (
                     <img
                       className="news-image"

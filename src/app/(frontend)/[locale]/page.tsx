@@ -51,7 +51,15 @@ export default async function HomePage({ params }: Props) {
     tag: n.tag || 'event',
     excerpt: n.excerpt || '',
     date: n.publishDate || '',
-    image: n.featuredImage?.url || null,
+    images: [
+      n.featuredImage,
+      ...(Array.isArray(n.gallery) ? n.gallery.map((item: any) => item?.image) : []),
+    ]
+      .filter((image: any) => image?.url)
+      .map((image: any) => ({
+        url: image.url,
+        alt: image.alt || n.title || '',
+      })),
   }))
 
   const cmsPartners = data.partners.map((p: any) => ({

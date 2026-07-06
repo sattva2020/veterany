@@ -66,6 +66,28 @@ export const News: CollectionConfig = {
       type: 'upload',
       relationTo: 'media',
       label: { uk: 'Головне зображення', en: 'Featured Image' },
+      admin: {
+        description:
+          'Рекомендовано горизонтальне фото 16:9 (1600x900 або 1920x1080). На сайті фото показується повністю, без обрізання; вертикальні фото теж можна використовувати.',
+      },
+    },
+    {
+      name: 'gallery',
+      type: 'array',
+      label: { uk: 'Додаткові фото', en: 'Additional Photos' },
+      admin: {
+        description:
+          'Можна додати кілька фото до новини. На головній сторінці показується головне фото або перше фото з галереї.',
+      },
+      fields: [
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          label: { uk: 'Фото', en: 'Photo' },
+          required: true,
+        },
+      ],
     },
     {
       name: 'publishDate',

@@ -299,7 +299,19 @@ export interface News {
     };
     [k: string]: unknown;
   };
+  /**
+   * Рекомендовано горизонтальне фото 16:9 (1600x900 або 1920x1080). На сайті фото показується повністю, без обрізання; вертикальні фото теж можна використовувати.
+   */
   featuredImage?: (number | null) | Media;
+  /**
+   * Можна додати кілька фото до новини. На головній сторінці показується головне фото або перше фото з галереї.
+   */
+  gallery?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
   publishDate: string;
   status?: ('draft' | 'published') | null;
   updatedAt: string;
@@ -646,6 +658,12 @@ export interface NewsSelect<T extends boolean = true> {
   excerpt?: T;
   content?: T;
   featuredImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
   publishDate?: T;
   status?: T;
   updatedAt?: T;

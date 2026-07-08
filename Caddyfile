@@ -1,0 +1,20 @@
+{
+    email ruslan.griban@gmail.com
+}
+
+www.veteransroad2newlife.org {
+    redir https://veteransroad2newlife.org{uri} permanent
+}
+
+veteransroad2newlife.org {
+    encode gzip
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "SAMEORIGIN"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        -X-Powered-By
+        -Server
+    }
+    reverse_proxy web:3000
+}

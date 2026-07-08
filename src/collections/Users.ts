@@ -1,5 +1,10 @@
 import type { CollectionConfig } from 'payload'
 import type { Access, FieldAccess } from 'payload'
+import { sendSecurityAlert } from '../lib/notify'
+
+// Джерело IP запиту (Caddy проксіює → X-Forwarded-For).
+const reqIp = (req: any): string =>
+  req?.headers?.get?.('x-forwarded-for') || req?.headers?.get?.('x-real-ip') || ''
 
 const hasAdminRole = (user: unknown): boolean =>
   Boolean(user && (user as { collection?: string }).collection === 'users' && (user as { role?: string }).role === 'admin')
@@ -23,6 +28,36 @@ export const Users: CollectionConfig = {
   auth: true,
   admin: {
     useAsTitle: 'email',
+  },
+  hooks: {
+    // Сповіщення безпеки: зміна пароля, створення користувача, вхід в адмінку.
+    afterChange: [
+      async ({ operation, doc, req }) => {
+        const when = new Date().toISOString()
+        if (operation === 'create') {
+          await sendSecurityAlert({
+            subject: 'Створено нового користувача',
+            lines: { Email: doc.email, Роль: doc.role || '', Хто: req?.user?.email || '—', IP: reqIp(req), Коли: when },
+          })
+          return
+        }
+        // Пароль змінюють, якщо у payload запиту прийшло поле password.
+        if (operation === 'update' && (req?.data as any)?.password) {
+          await sendSecurityAlert({
+            subject: 'Змінено пароль користувача',
+            lines: { Акаунт: doc.email, Хто: req?.user?.email || '—', IP: reqIp(req), Коли: when },
+          })
+        }
+      },
+    ],
+    afterLogin: [
+      async ({ user, req }) => {
+        await sendSecurityAlert({
+          subject: 'Вхід в адмін-панель',
+          lines: { Акаунт: user.email, IP: reqIp(req), Коли: new Date().toISOString() },
+        })
+      },
+    ],
   },
   access: {
     // Редактор бачить і редагує лише себе; керування користувачами — тільки адмін.

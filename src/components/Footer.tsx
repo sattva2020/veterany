@@ -16,6 +16,7 @@ export interface FooterContacts {
 export interface FooterRequisites {
   legalName?: string
   edrpou?: string
+  bankDetails?: string[]
 }
 
 interface FooterProps {
@@ -136,6 +137,17 @@ export default function Footer({ locale = 'uk', dict, socials, contacts, requisi
               {requisites?.legalName && requisites?.edrpou ? ' · ' : ''}
               {requisites?.edrpou ? `${isUk ? 'Код ЄДРПОУ' : 'EDRPOU'}: ${requisites.edrpou}` : ''}
             </p>
+          </div>
+        )}
+
+        {/* Банківські реквізити (вкладка SiteSettings «Реквізити» → bankDetails). */}
+        {requisites?.bankDetails && requisites.bankDetails.length > 0 && (
+          <div style={{ textAlign: 'center', paddingBottom: '12px' }}>
+            {requisites.bankDetails.map((line, i) => (
+              <p key={i} style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.3px', margin: '2px 0' }}>
+                {line}
+              </p>
+            ))}
           </div>
         )}
 

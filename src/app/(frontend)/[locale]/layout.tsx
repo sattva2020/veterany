@@ -17,7 +17,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   if (!isValidLocale(locale)) return {}
   const dict = await getDictionary(locale)
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://veteran-road.org.ua'
 
   // SEO-поля з адмінки (вкладка SEO) перекривають статичні значення зі словника.
   let settings: any = null
@@ -27,6 +26,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   } catch {
     settings = null
   }
+
+  // Базовий URL: canonical з адмінки (якщо валідний) → env → дефолт.
+  // Нормалізуємо, щоб некоректне значення в полі не ламало рендер сторінки.
+  const normalizeUrl = (u?: string): string | null => {
+    if (!u) return null
+    const s = u.trim().replace(/\/+$/, '')
+    try {
+      return new URL(/^https?:\/\//.test(s) ? s : `https://${s}`).toString().replace(/\/$/, '')
+    } catch {
+      return null
+    }
+  }
+  const baseUrl = normalizeUrl(settings?.canonicalUrl) || process.env.NEXT_PUBLIC_SITE_URL || 'https://veteran-road.org.ua'
 
   const title = settings?.seoTitle || dict.meta.title
   const description = settings?.seoDescription || settings?.description || dict.meta.description
@@ -56,6 +68,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'website',
       ...(ogImage ? { images: [{ url: ogImage }] } : {}),
     },
+    // Код підтвердження Google Search Console (вкладка SEO) → мета-тег у <head>.
+    ...(settings?.googleVerification ? { verification: { google: settings.googleVerification } } : {}),
   }
 }
 

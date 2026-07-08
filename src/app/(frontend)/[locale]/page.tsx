@@ -219,6 +219,7 @@ export default async function HomePage({ params }: Props) {
         requisites={{
           legalName: settings?.legalName || '',
           edrpou: settings?.edrpou || '',
+          bankDetails: lexicalToParagraphs(settings?.bankDetails),
         }}
       />
       <ChatWidget locale={locale} dict={dict.chat} phone={settings?.phones?.[0]?.number || ''} />

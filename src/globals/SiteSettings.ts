@@ -16,6 +16,8 @@ export const SiteSettings: GlobalConfig = {
         {
           label: { uk: 'Загальне', en: 'General' },
           fields: [
+            // Бренд-ідентика захардкоджена в дизайні (Header: монограма «В»/«V» + назва).
+            // Ці поля нічого не змінюють на сайті — приховані, щоб не вводити менеджера в оману.
             {
               name: 'organizationName',
               type: 'text',
@@ -23,12 +25,14 @@ export const SiteSettings: GlobalConfig = {
               defaultValue: 'ГО «Ветеран. Дорога до нового життя»',
               required: true,
               localized: true,
+              admin: { hidden: true },
             },
             {
               name: 'logo',
               type: 'upload',
               relationTo: 'media',
               label: { uk: 'Логотип', en: 'Logo' },
+              admin: { hidden: true },
             },
             {
               name: 'tagline',
@@ -36,6 +40,7 @@ export const SiteSettings: GlobalConfig = {
               label: { uk: 'Слоган', en: 'Tagline' },
               defaultValue: 'Підтримка. Відновлення. Нові можливості.',
               localized: true,
+              admin: { hidden: true },
             },
             {
               name: 'description',
@@ -192,10 +197,13 @@ export const SiteSettings: GlobalConfig = {
               localized: true,
             },
             {
+              // Кнопка CTA у Hero відкриває модалку допомоги (не посилання) —
+              // тож це поле не використовується. Приховано.
               name: 'ctaButtonLink',
               type: 'text',
               label: { uk: 'Посилання кнопки CTA', en: 'CTA Button Link' },
               defaultValue: '#contacts',
+              admin: { hidden: true },
             },
             {
               name: 'heroStories',

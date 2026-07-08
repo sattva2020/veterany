@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import ScrollReveal from '@/components/ScrollReveal'
 import { ChevronRightIcon } from '@/components/icons'
 
@@ -18,12 +19,14 @@ type NewsItem = {
   tag: string
   excerpt: string
   date: string
+  slug?: string | null
   image?: string | null
   images?: NewsImage[]
 }
 
 type RenderedNewsItem = {
   id: number
+  slug: string | null
   date: string
   tag: string
   title: string
@@ -31,13 +34,14 @@ type RenderedNewsItem = {
   images: NewsImage[]
 }
 
-export default function NewsSection({ locale = 'uk', dict, cmsData }: { locale?: string; dict?: Record<string, string>; cmsData?: NewsItem[] }) {
+export default function NewsSection({ locale = 'uk', dict, cmsData }: { locale?: string; dict?: Record<string, any>; cmsData?: NewsItem[] }) {
   const news: RenderedNewsItem[] = (cmsData && cmsData.length > 0)
     ? cmsData.map((n, i) => {
         const images = n.images?.length ? n.images : n.image ? [{ url: n.image, alt: n.title }] : []
 
         return {
           id: i + 1,
+          slug: n.slug || null,
           date: n.date ? new Date(n.date).toLocaleDateString(locale === 'uk' ? 'uk-UA' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' }) : '',
           tag: n.tag,
           title: n.title,
@@ -45,7 +49,7 @@ export default function NewsSection({ locale = 'uk', dict, cmsData }: { locale?:
           images,
         }
       })
-    : defaultNews.map((n) => ({ ...n, images: [] }))
+    : defaultNews.map((n) => ({ ...n, slug: null, images: [] }))
   const d = dict || { label: 'Останні новини', title: 'Що відбувається', viewAll: 'Усі новини', readMore: 'Читати далі' }
   return (
     <section className="section news" id="news">
@@ -58,17 +62,20 @@ export default function NewsSection({ locale = 'uk', dict, cmsData }: { locale?:
             </div>
           </ScrollReveal>
           <ScrollReveal>
-            <button className="btn-outline">
+            <Link href={`/${locale}/news`} className="btn-outline">
               {d.viewAll}
               <ChevronRightIcon size={14} />
-            </button>
+            </Link>
           </ScrollReveal>
         </div>
 
         <ScrollReveal>
           <div className="news-grid">
-            {news.map((item) => (
-              <div key={item.id} className="news-card">
+            {news.map((item) => {
+              const CardTag: any = item.slug ? Link : 'div'
+              const cardProps = item.slug ? { href: `/${locale}/news/${item.slug}` } : {}
+              return (
+              <CardTag key={item.id} className="news-card" {...cardProps}>
                 <div className={`news-thumb${item.images[0] ? ' news-thumb--has-image' : ''}`}>
                   {item.images[0] ? (
                     <img
@@ -93,12 +100,13 @@ export default function NewsSection({ locale = 'uk', dict, cmsData }: { locale?:
                   ) : null}
                 </div>
                 <div className="news-body">
-                  <span className="news-tag">{item.tag}</span>
+                  <span className="news-tag">{d.tags?.[item.tag] || item.tag}</span>
                   <h3>{item.title}</h3>
                   <p>{item.description}</p>
                 </div>
-              </div>
-            ))}
+              </CardTag>
+              )
+            })}
           </div>
         </ScrollReveal>
       </div>

@@ -44,7 +44,20 @@
     "label": "Latest News",
     "title": "What's Happening",
     "viewAll": "All News",
-    "readMore": "Read more"
+    "readMore": "Read more",
+    "pageLabel": "News",
+    "pageTitle": "All News & Initiatives",
+    "empty": "No news yet. Please check back later.",
+    "back": "Back",
+    "backToNews": "All news",
+    "backHome": "Home",
+    "tags": {
+      "event": "Event",
+      "program": "Program",
+      "partnership": "Partnership",
+      "achievement": "Achievement",
+      "announcement": "Announcement"
+    }
   },
   "testimonials": {
     "label": "Testimonials",

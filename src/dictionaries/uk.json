@@ -44,7 +44,20 @@
     "label": "Останні новини",
     "title": "Що відбувається",
     "viewAll": "Усі новини",
-    "readMore": "Читати далі"
+    "readMore": "Читати далі",
+    "pageLabel": "Новини",
+    "pageTitle": "Усі новини та ініціативи",
+    "empty": "Наразі новин немає. Завітайте пізніше.",
+    "back": "Назад",
+    "backToNews": "Усі новини",
+    "backHome": "На головну",
+    "tags": {
+      "event": "Подія",
+      "program": "Програма",
+      "partnership": "Партнерство",
+      "achievement": "Досягнення",
+      "announcement": "Анонс"
+    }
   },
   "testimonials": {
     "label": "Відгуки",

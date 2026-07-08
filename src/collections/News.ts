@@ -1,10 +1,49 @@
 import type { CollectionConfig } from 'payload'
 
+// Транслітерація + очищення для slug: кирилиця → латиниця, пробіли → дефіси.
+// Потрібно, бо менеджер зазвичай не заповнює поле Slug вручну,
+// а без slug неможливо побудувати URL сторінки новини.
+const translitMap: Record<string, string> = {
+  а: 'a', б: 'b', в: 'v', г: 'h', ґ: 'g', д: 'd', е: 'e', є: 'ie', ж: 'zh',
+  з: 'z', и: 'y', і: 'i', ї: 'i', й: 'i', к: 'k', л: 'l', м: 'm', н: 'n',
+  о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'kh', ц: 'ts',
+  ч: 'ch', ш: 'sh', щ: 'shch', ь: '', ю: 'iu', я: 'ia', ъ: '', ы: 'y', э: 'e', ё: 'e',
+}
+
+function slugify(input: string): string {
+  return input
+    .toLowerCase()
+    .split('')
+    .map((ch) => (ch in translitMap ? translitMap[ch] : ch))
+    .join('')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 80)
+}
+
 export const News: CollectionConfig = {
   slug: 'news',
   labels: {
     singular: { uk: 'Новина', en: 'News Item' },
     plural: { uk: 'Новини', en: 'News' },
+  },
+  hooks: {
+    // Автоматично формуємо slug із заголовка, якщо його не заповнили вручну.
+    // Гарантує, що у кожної новини є робочий URL для сторінки-деталі.
+    beforeChange: [
+      ({ data }) => {
+        if (!data) return data
+        if (!data.slug || String(data.slug).trim() === '') {
+          const base = typeof data.title === 'string' ? data.title : ''
+          const generated = slugify(base)
+          if (generated) {
+            // Додаємо короткий суфікс часу, щоб уникнути колізій unique-поля.
+            data.slug = `${generated}-${Date.now().toString(36).slice(-4)}`
+          }
+        }
+        return data
+      },
+    ],
   },
   admin: {
     useAsTitle: 'title',

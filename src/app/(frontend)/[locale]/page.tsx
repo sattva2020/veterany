@@ -49,6 +49,7 @@ export default async function HomePage({ params }: Props) {
   const cmsNews = data.news.map((n: any) => ({
     title: n.title || '',
     tag: n.tag || 'event',
+    slug: n.slug || (n.id != null ? String(n.id) : null),
     excerpt: n.excerpt || '',
     date: n.publishDate || '',
     images: [

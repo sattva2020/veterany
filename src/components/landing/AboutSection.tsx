@@ -32,7 +32,7 @@ export default function AboutSection({ locale = 'uk', dict, cmsStats, cmsParagra
               <div className="about-image">
                 {cmsImage ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={cmsImage} alt={d.photoAlt} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <img src={cmsImage} alt={d.photoAlt} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 ) : (
                   <div className="about-image-placeholder">{d.photoAlt}</div>
                 )}

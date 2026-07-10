@@ -1,7 +1,9 @@
 import React from 'react'
 import ScrollReveal from '@/components/ScrollReveal'
 
-const defaultActivities = [
+type Activity = { number: string; icon: string; title: string; description: string; featured?: boolean; image?: string | null }
+
+const defaultActivities: Activity[] = [
   { number: '01', icon: '🧠', title: 'Психологічна підтримка', description: 'Індивідуальні та групові сесії з кваліфікованими психологами.', featured: true },
   { number: '02', icon: '💪', title: 'Реабілітація', description: 'Фізична реабілітація, протезування, відновлювальна терапія.' },
   { number: '03', icon: '⚖️', title: 'Юридична допомога', description: 'Безкоштовні юридичні консультації щодо пільг та соціального захисту.' },
@@ -14,7 +16,7 @@ const defaultActivities = [
 interface ActivitiesProps {
   locale?: string
   dict?: Record<string, string>
-  cmsData?: Array<{ number: string; icon: string; title: string; description: string; featured?: boolean }>
+  cmsData?: Activity[]
 }
 
 export default function ActivitiesSection({ locale = 'uk', dict, cmsData }: ActivitiesProps) {
@@ -36,7 +38,9 @@ export default function ActivitiesSection({ locale = 'uk', dict, cmsData }: Acti
 
         <ScrollReveal>
           <div className="activities-grid">
-            {activities.map((activity) => (
+            {activities.map((activity) => {
+              const hasImage = Boolean(activity.image)
+              return (
               <div key={activity.number} className={`activity-card${activity.featured ? ' featured' : ''}`}>
                 {activity.featured ? (
                   <>
@@ -46,18 +50,29 @@ export default function ActivitiesSection({ locale = 'uk', dict, cmsData }: Acti
                       <h3>{activity.title}</h3>
                       <p>{activity.description}</p>
                     </div>
-                    <div className="featured-image">Фото сесії</div>
+                    <div className="featured-image">
+                      {hasImage
+                        // eslint-disable-next-line @next/next/no-img-element
+                        ? <img src={activity.image as string} alt={activity.title} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
+                        : 'Фото сесії'}
+                    </div>
                   </>
                 ) : (
                   <>
                     <div className="card-number">{activity.number}</div>
-                    <div className="activity-icon">{activity.icon}</div>
+                    {hasImage ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={activity.image as string} alt={activity.title} style={{ width: '100%', height: '160px', objectFit: 'cover', borderRadius: 'var(--radius-md)', marginBottom: '20px', display: 'block' }} />
+                    ) : (
+                      <div className="activity-icon">{activity.icon}</div>
+                    )}
                     <h3>{activity.title}</h3>
                     <p>{activity.description}</p>
                   </>
                 )}
               </div>
-            ))}
+              )
+            })}
           </div>
         </ScrollReveal>
       </div>

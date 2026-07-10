@@ -44,6 +44,7 @@ export default async function HomePage({ params }: Props) {
     title: a.title || '',
     description: a.shortDescription || '',
     featured: a.isFeatured || false,
+    image: (a.image && typeof a.image === 'object' ? a.image.url : null) || null,
   }))
 
   const cmsNews = data.news.map((n: any) => ({

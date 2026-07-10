@@ -37,7 +37,7 @@
 /* ── Shared buttons ──────────────────────────────────────── */
 .rd-btn-primary {
   display: inline-flex; align-items: center; gap: 10px;
-  background: var(--c-red); color: #fff;
+  background: var(--c-red); color: var(--c-navy);
   padding: 15px 28px; border-radius: var(--radius-md);
   font-size: 14px; font-weight: 600; letter-spacing: 0.3px;
   border: none; cursor: pointer;
@@ -46,7 +46,7 @@
 .rd-btn-primary:hover {
   background: var(--c-red-hover);
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(200, 16, 46, 0.45);
+  box-shadow: 0 10px 30px rgba(192, 138, 46, 0.45);
 }
 .rd-btn-ghost {
   display: inline-flex; align-items: center; gap: 10px;
@@ -188,8 +188,8 @@
 }
 .hero-c-badge {
   display: inline-flex; align-items: center; gap: 10px;
-  background: rgba(200, 16, 46, 0.15);
-  border: 1px solid rgba(200, 16, 46, 0.35);
+  background: rgba(192, 138, 46, 0.15);
+  border: 1px solid rgba(192, 138, 46, 0.35);
   padding: 8px 18px; border-radius: var(--radius-pill);
   font-size: 11px; font-weight: 700; letter-spacing: 2px;
   text-transform: uppercase; color: var(--c-gold-light);
@@ -271,9 +271,9 @@
 }
 .tl-step.active .tl-num-ring {
   background: var(--c-red); border-color: var(--c-red);
-  box-shadow: 0 16px 44px rgba(200, 16, 46, 0.35);
+  box-shadow: 0 16px 44px rgba(192, 138, 46, 0.35);
 }
-.tl-step.active .tl-num-inner { color: #fff; }
+.tl-step.active .tl-num-inner { color: var(--c-navy); }
 .tl-step.done .tl-num-ring {
   background: var(--c-navy); border-color: var(--c-navy);
 }
@@ -375,7 +375,7 @@
 .test-sec::before {
   content: ''; position: absolute; top: -100px; right: -100px;
   width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(200, 16, 46, 0.12), transparent 65%);
+  background: radial-gradient(circle, rgba(192, 138, 46, 0.12), transparent 65%);
   pointer-events: none;
 }
 .test-sec::after {
@@ -503,7 +503,7 @@
   color: #fff; border: none; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   transition: all 0.3s;
-  box-shadow: 0 6px 18px rgba(200, 16, 46, 0.4);
+  box-shadow: 0 6px 18px rgba(192, 138, 46, 0.4);
 }
 .test-audio-btn:hover { transform: scale(1.05); background: var(--c-red-hover); }
 .test-audio-btn.playing {
@@ -560,7 +560,7 @@
   background: rgba(212, 168, 67, 0.04);
 }
 .test-thumb.active {
-  background: rgba(200, 16, 46, 0.14);
+  background: rgba(192, 138, 46, 0.14);
   border-color: var(--c-red);
 }
 .test-thumb:focus-visible { outline: 2px solid var(--c-gold); outline-offset: 2px; }

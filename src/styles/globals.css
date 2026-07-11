@@ -756,7 +756,6 @@ ul { list-style: none; }
   position: relative;
   border-radius: var(--radius-xl);
   overflow: hidden;
-  aspect-ratio: 4/3;
   background: var(--c-navy-mid);
 }
 
@@ -770,7 +769,7 @@ ul { list-style: none; }
 
 .about-image-placeholder {
   width: 100%;
-  height: 100%;
+  aspect-ratio: 4/3;
   display: flex;
   align-items: center;
   justify-content: center;
